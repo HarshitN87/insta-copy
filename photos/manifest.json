@@ -1,40 +1,5 @@
 [
  {
-  "file": "p001.jpg",
-  "group": "vangogh",
-  "title": "Algorithmically-generated black and white portrait art of a young Japanese woman in the snow",
-  "artist": "Benlisquare",
-  "desc": "Algorithmically-generated AI portrait artwork in monochrome style, featuring a young Japanese woman at the front of a castle on a snowy day, created using the Stable Diffusion V1-4 AI diffusion model. Procedure/Methodology All artworks created using a single NVIDIA RTX 3090. Fron"
- },
- {
-  "file": "p002.jpg",
-  "group": "vangogh",
-  "title": "X-Y plot of Algorithmically-generated AI art by different deceased painters",
-  "artist": "Benlisquare",
-  "desc": "An X/Y plot of algorithmically-generated AI portrait artworks featuring the painting styles of various different dead artists, created using the Stable Diffusion V1-4 AI diffusion model. The artists used for this experiment are Alphonse Mucha (1860 - 1939), Albert Lynch (1860 - 1"
- },
- {
-  "file": "p003.jpg",
-  "group": "vangogh",
-  "title": "X-Y plot of algorithmically-generated AI art of office worker demonstrating the use of prompt emphasis",
-  "artist": "Benlisquare",
-  "desc": "An X/Y plot of algorithmically-generated AI portrait artworks depicting a female office worker with varying sinister facial expressions, created using a custom merged Stable Diffusion AI diffusion model checkpoint featuring wd-v1-3-full.ckpt merged with F111 and Stable Diffusion "
- },
- {
-  "file": "p004.jpg",
-  "group": "vangogh",
-  "title": "Nine algorithmically-generated anime-style artworks created from a single Stable Diffusion prompt",
-  "artist": "Benlisquare",
-  "desc": "Demonstration of the uniformity of artstyles for algorithmically-generated artworks created using exact same text prompt when using the wd-v1-2-full-ema.ckpt AI diffusion model, which is a fine-tuned adaptation of the Stable Diffusion V1-4 AI model that is specifically conditione"
- },
- {
-  "file": "p005.jpg",
-  "group": "vangogh",
-  "title": "X-Y plot of algorithmically-generated AI art by different science-fiction subgenres",
-  "artist": "Benlisquare",
-  "desc": "An X/Y plot of algorithmically-generated AI portrait artworks depicting the aesthetics of different science-fiction subgenres, created using a custom merged Stable Diffusion AI diffusion model checkpoint featuring wd-v1-3-full.ckpt merged with F111 and Stable Diffusion V1-5 at 0."
- },
- {
   "file": "p006.jpg",
   "group": "monet",
   "title": "Sunrise, Claude Monet, Getty Center, Los Angeles, California (15) (3124965005)",
