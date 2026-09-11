@@ -1006,7 +1006,7 @@ $('#storySend').onclick=()=>{pushToThread(curStory.u,'sent you a story');toast('
 $('#storyReply').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value.trim()){pushToThread(curStory.u,e.target.value.trim());toast('Reply sent');e.target.value=''}});
 $$('#screen-story [data-act]').forEach(b=>{if(b.dataset.act==='storymore')b.onclick=()=>openSheet('more')});
 (function boot(){
- try{if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js')}catch(e){}
+ try{if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0){navigator.serviceWorker.register('sw.js').then(function(r){try{r.update&&r.update()}catch(e){}if(r.waiting)r.waiting.postMessage('SKIP_WAITING')}).catch(function(){});var swReloaded=false;navigator.serviceWorker.addEventListener('controllerchange',function(){if(!swReloaded){swReloaded=true;location.reload()}})}}catch(e){}
  try{
   const s=JSON.parse(localStorage.getItem('ig_user')||'null');
   if(s&&s.u){YOU.u=s.u;YOU.n=s.n||s.u;$('#liUser').value=s.u;enterApp();return}
