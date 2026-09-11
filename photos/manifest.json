@@ -1,0 +1,624 @@
+[
+ {
+  "file": "p001.jpg",
+  "group": "vangogh",
+  "title": "Algorithmically-generated black and white portrait art of a young Japanese woman in the snow",
+  "artist": "Benlisquare",
+  "desc": "Algorithmically-generated AI portrait artwork in monochrome style, featuring a young Japanese woman at the front of a castle on a snowy day, created using the Stable Diffusion V1-4 AI diffusion model. Procedure/Methodology All artworks created using a single NVIDIA RTX 3090. Fron"
+ },
+ {
+  "file": "p002.jpg",
+  "group": "vangogh",
+  "title": "X-Y plot of Algorithmically-generated AI art by different deceased painters",
+  "artist": "Benlisquare",
+  "desc": "An X/Y plot of algorithmically-generated AI portrait artworks featuring the painting styles of various different dead artists, created using the Stable Diffusion V1-4 AI diffusion model. The artists used for this experiment are Alphonse Mucha (1860 - 1939), Albert Lynch (1860 - 1"
+ },
+ {
+  "file": "p003.jpg",
+  "group": "vangogh",
+  "title": "X-Y plot of algorithmically-generated AI art of office worker demonstrating the use of prompt emphasis",
+  "artist": "Benlisquare",
+  "desc": "An X/Y plot of algorithmically-generated AI portrait artworks depicting a female office worker with varying sinister facial expressions, created using a custom merged Stable Diffusion AI diffusion model checkpoint featuring wd-v1-3-full.ckpt merged with F111 and Stable Diffusion "
+ },
+ {
+  "file": "p004.jpg",
+  "group": "vangogh",
+  "title": "Nine algorithmically-generated anime-style artworks created from a single Stable Diffusion prompt",
+  "artist": "Benlisquare",
+  "desc": "Demonstration of the uniformity of artstyles for algorithmically-generated artworks created using exact same text prompt when using the wd-v1-2-full-ema.ckpt AI diffusion model, which is a fine-tuned adaptation of the Stable Diffusion V1-4 AI model that is specifically conditione"
+ },
+ {
+  "file": "p005.jpg",
+  "group": "vangogh",
+  "title": "X-Y plot of algorithmically-generated AI art by different science-fiction subgenres",
+  "artist": "Benlisquare",
+  "desc": "An X/Y plot of algorithmically-generated AI portrait artworks depicting the aesthetics of different science-fiction subgenres, created using a custom merged Stable Diffusion AI diffusion model checkpoint featuring wd-v1-3-full.ckpt merged with F111 and Stable Diffusion V1-5 at 0."
+ },
+ {
+  "file": "p006.jpg",
+  "group": "monet",
+  "title": "Sunrise, Claude Monet, Getty Center, Los Angeles, California (15) (3124965005)",
+  "artist": "Ken Lund from Reno, Nevada, USA",
+  "desc": "Oscar-Claude Monet (14 November 1840 – 5 December 1926) was a founder of French Impressionist painting, and the most consistent and prolific practitioner of the movement's philosophy of expressing one's perceptions before nature, especially as applied to plein-air landscape paint"
+ },
+ {
+  "file": "p007.jpg",
+  "group": "monet",
+  "title": "Claude Monet, Getty Center, Los Angeles, California (3124965155)",
+  "artist": "Ken Lund from Reno, Nevada, USA",
+  "desc": "Oscar-Claude Monet (14 November 1840 – 5 December 1926) was a founder of French Impressionist painting, and the most consistent and prolific practitioner of the movement's philosophy of expressing one's perceptions before nature, especially as applied to plein-air landscape paint"
+ },
+ {
+  "file": "p008.jpg",
+  "group": "monet",
+  "title": "Claude Monet, Getty Center, Los Angeles, California (3125793708)",
+  "artist": "Ken Lund from Reno, Nevada, USA",
+  "desc": "Oscar-Claude Monet (14 November 1840 – 5 December 1926) was a founder of French Impressionist painting, and the most consistent and prolific practitioner of the movement's philosophy of expressing one's perceptions before nature, especially as applied to plein-air landscape paint"
+ },
+ {
+  "file": "p009.jpg",
+  "group": "monet",
+  "title": "Claude Monet, Getty Center, Los Angeles, California (3125793632)",
+  "artist": "Ken Lund from Reno, Nevada, USA",
+  "desc": "Oscar-Claude Monet (14 November 1840 – 5 December 1926) was a founder of French Impressionist painting, and the most consistent and prolific practitioner of the movement's philosophy of expressing one's perceptions before nature, especially as applied to plein-air landscape paint"
+ },
+ {
+  "file": "p010.jpg",
+  "group": "extreme",
+  "title": "Hunga Tonga-Hunga Ha'apai Volcano (MODIS 2021-12-29)",
+  "artist": "MODIS Land Rapid Response Team, NASA GSFC",
+  "desc": "On December 20, 2021, the Hunga Tonga-Hunga Ha’apai volcano erupted, sending a cloud of gas and steam high into the air and bringing a dramatic end to a short period of quiescence. The volcano’s last activity was December 2014-January 2015, when the submarine mount, located betwe"
+ },
+ {
+  "file": "p011.jpg",
+  "group": "extreme",
+  "title": "The first paroxysm of 2022 of Etna volcano (Copernicus)",
+  "artist": "European Union, Copernicus Sentinel-2 imagery",
+  "desc": "The first paroxysm of 2022 occurred on the Etna volcano during the night of 10 to 11 February 2022. Multiple lava fountains and an ash cloud about 10 kilometres high were observed during this intense eruption of Mount Etna. In addition, rare lightning were observed in the volcani"
+ },
+ {
+  "file": "p012.jpg",
+  "group": "extreme",
+  "title": "Calbuco Volcano Erupts April 23, 2015",
+  "artist": "NASA Earth Observatory",
+  "desc": "On April 22, 2015, Calbuco volcano in southern Chile began erupting for the first time since 1972. An ash cloud rose at least 15 kilometers (50,000 feet) above the volcano, menacing the nearby communities of Puerto Montt (Chile) and San Carlos de Bariloche (Argentina). The erupti"
+ },
+ {
+  "file": "p013.jpg",
+  "group": "extreme",
+  "title": "San Francisco's horror of earthquake and fire to which is added graphic accounts of the eruptions of Vesuvius and many other volcanoes, explaining the causes of volcanic eruptions and earthquakes, (14760331186)",
+  "artist": "Internet Archive Book Images",
+  "desc": "Identifier : sanfranciscoshor00wils ( find matches ) Title : San Francisco's horror of earthquake and fire ... to which is added graphic accounts of the eruptions of Vesuvius and many other volcanoes, explaining the causes of volcanic eruptions and earthquakes, comp. from stories"
+ },
+ {
+  "file": "p014.jpg",
+  "group": "extreme",
+  "title": "Mount Vesuvius erupting at night, billowing clouds and flash Wellcome V0025241",
+  "artist": "",
+  "desc": "Mount Vesuvius erupting at night, billowing clouds and flashes of lightning, and with many spectators viewing the event across the bay of Naples. Coloured mezzotint with etching by J.M. Mixelle after A. d'Anna. Iconographic Collections Keywords: Alessandro d' Anna; Volcano; Volca"
+ },
+ {
+  "file": "p015.jpg",
+  "group": "wildlife",
+  "title": "The Ugandan Safari African Elephant",
+  "artist": "Bosco of Enchanted Uganda Safaris",
+  "desc": "Exodus Safaris’ Africa Big Five safaris are designed to immerse travelers in the natural beauty and diversity of the African continent. Whether tracking lions through the Serengeti, observing elephants in Botswana’s Okavango Delta, or encountering rhinos in Namibia’s Etosha Natio"
+ },
+ {
+  "file": "p016.jpg",
+  "group": "wildlife",
+  "title": "Makalali Game Reserve (ZA), Löwen -- 2024 -- 1332",
+  "artist": "Dietmar Rabich",
+  "desc": "Lions on the road in Makalali Game Reserve (Greater Makalali Private Game Reserve), Maruleng , Limpopo , South Africa The Makalali Game Reserve is a private game reserve in Limpopo in northeastern South Africa, west of Kruger National Park . Covering around 25,000 hectares, it fe"
+ },
+ {
+  "file": "p017.jpg",
+  "group": "monet",
+  "title": "Sunrise, Claude Monet, Getty Center, Los Angeles, California (15) (3124965005)",
+  "context": "project which included lily ponds that would become the subjects of his best known works. In 1899 he began painting the water lilies , first in vertical views"
+ },
+ {
+  "file": "p018.jpg",
+  "group": "monet",
+  "title": "Claude Monet, Getty Center, Los Angeles, California (3124965155)",
+  "context": "project which included lily ponds that would become the subjects of his best known works. In 1899 he began painting the water lilies , first in vertical views"
+ },
+ {
+  "file": "p019.jpg",
+  "group": "monet",
+  "title": "Claude Monet, Getty Center, Los Angeles, California (3125793708)",
+  "context": "project which included lily ponds that would become the subjects of his best known works. In 1899 he began painting the water lilies , first in vertical views"
+ },
+ {
+  "file": "p020.jpg",
+  "group": "monet",
+  "title": "Claude Monet, Getty Center, Los Angeles, California (3125793632)",
+  "context": "project which included lily ponds that would become the subjects of his best known works. In 1899 he began painting the water lilies , first in vertical views"
+ },
+ {
+  "file": "p021.jpg",
+  "group": "klimt",
+  "title": "The Kiss - Gustav Klimt - Google Cultural Institute",
+  "context": "Gustav Klimt : The Kiss Artist Gustav Klimt (1862–1918) Alternative names Birth name: Gustav Klimt ; Klimt ; Gust. Klimt ; Gustave Klimt ; G. Klimt Description"
+ },
+ {
+  "file": "p022.jpg",
+  "group": "klimt",
+  "title": "(Venice) Gustav Klimt - Giuditta II (Judith II) - Museo d'arte moderna",
+  "context": "English Gustav Klimt , Judith II, 1909. author name string: Archaeodontosaurus Wikimedia username: Archaeodontosaurus URL: https://commons.wikimedia"
+ },
+ {
+  "file": "p023.jpg",
+  "group": "klimt",
+  "title": "Gustav Klimt 058",
+  "context": "Gustav Klimt : Sonja Knips Artist Gustav Klimt (1862–1918) Alternative names Birth name: Gustav Klimt ; Klimt ; Gust. Klimt ; Gustave Klimt ; G. Klimt Description"
+ },
+ {
+  "file": "p024.jpg",
+  "group": "klimt",
+  "title": "Gustav Klimt - Schloss Kammer am Attersee III - 4318 - Österreichische Galerie Belvedere",
+  "context": "Gustav Klimt : Castle Kammer at Attersee III Artist Gustav Klimt (1862–1918) Alternative names Birth name: Gustav Klimt ; Klimt ; Gust. Klimt ; Gustave"
+ },
+ {
+  "file": "p025.jpg",
+  "group": "klimt",
+  "title": "Gustav Klimt - Hope, II - Google Art Project",
+  "context": "Gustav Klimt : Hope II Artist Gustav Klimt (1862–1918) Alternative names Birth name: Gustav Klimt ; Klimt ; Gust. Klimt ; Gustave Klimt ; G. Klimt Description"
+ },
+ {
+  "file": "p026.jpg",
+  "group": "klimt",
+  "title": "Gustav Klimt 065",
+  "context": "English Schloss Kammer am Attersee III (1910), by Gustav Klimt"
+ },
+ {
+  "file": "p027.jpg",
+  "group": "davinci",
+  "title": "Lady with an Ermine - Leonardo da Vinci - Google Art Project",
+  "context": "Leonardo da Vinci English: Lady with an Ermine by Leonardo da Vinci , who died on this day in 1519. Español: La dama del armiño de Leonardo da Vinci ."
+ },
+ {
+  "file": "p028.jpg",
+  "group": "davinci",
+  "title": "Da Vinci Vitruve Luc Viatour",
+  "context": "Leonardo Davinci. Dutch Vitruviusman van Leonardo da Vinci , ca. 1490. Gallerie dell&#039;Accademia, Venetië (inv. 228) Romanian Omul Vitruvian de Leonardo"
+ },
+ {
+  "file": "p029.jpg",
+  "group": "davinci",
+  "title": "Leonardo da Vinci, Salvator Mundi, c.1500, oil on walnut, 45.4 × 65.6 cm",
+  "context": "English Jesus by da Vinci , reproduction"
+ },
+ {
+  "file": "p030.jpg",
+  "group": "davinci",
+  "title": "Da Vinci Vitruve Luc Viatour Cerchiato",
+  "context": "Permission Painting by Leonardo Da Vinci 1485/90 derivative work: Daniele Pugliesi (talk) |Permission= |other_versions= }} This image is a derivative"
+ },
+ {
+  "file": "p031.jpg",
+  "group": "davinci",
+  "title": "Leonardo da Vinci - Virgin and Child with St Anne C2RMF retouched",
+  "context": "Vierge, l’Enfant Jésus et sainte Anne, tableau de Léonard de Vinci Dutch Leonardo da Vinci : Maria met kind en Sint-Anna, 1510 (Louvre) Portuguese Porque"
+ },
+ {
+  "file": "p032.jpg",
+  "group": "davinci",
+  "title": "Mona Lisa, by Leonardo da Vinci, from C2RMF retouched",
+  "context": "Lisa, Leonardo da Vinci&#039;nin tablosu Dutch Mona Lisa (1503-1506), door Leonardo da Vinci . Louvre, Parijs Spanish La Mona Lisa de Leonardo da Vinci (entre"
+ },
+ {
+  "file": "p033.jpg",
+  "group": "ukiyoe",
+  "title": "Hiroshige Hokusai Monet",
+  "context": "English object of statement has role: ukiyo - e artist object of statement has role: ukiyo - e artist"
+ },
+ {
+  "file": "p034.jpg",
+  "group": "ukiyoe",
+  "title": "Utagawa Hiroshige-Chushingura Act XI-IMG 9283",
+  "context": "English object of statement has role: ukiyo - e artist determination method or standard: SHA-1"
+ },
+ {
+  "file": "p035.jpg",
+  "group": "ukiyoe",
+  "title": "Utagawa Hiroshige-Chushingura Act VIII-IMG 9281",
+  "context": "English object of statement has role: ukiyo - e artist determination method or standard: SHA-1"
+ },
+ {
+  "file": "p036.jpg",
+  "group": "ukiyoe",
+  "title": "Utagawa Hiroshige-Chushingura Act III-IMG 9279",
+  "context": "English object of statement has role: ukiyo - e artist determination method or standard: SHA-1"
+ },
+ {
+  "file": "p037.jpg",
+  "group": "ukiyoe",
+  "title": "Utagawa Hiroshige-Chushingura Act V-IMG 9280",
+  "context": "English object of statement has role: ukiyo - e artist determination method or standard: SHA-1"
+ },
+ {
+  "file": "p038.jpg",
+  "group": "ukiyoe",
+  "title": "Utagawa Hiroshige-Chushingura Act IX-IMG 9282",
+  "context": "English object of statement has role: ukiyo - e artist"
+ },
+ {
+  "file": "p039.jpg",
+  "group": "ukiyoe",
+  "title": "Utagawa Hiroshige-Chushingura Act II-IMG 9278",
+  "context": "English object of statement has role: ukiyo - e artist"
+ },
+ {
+  "file": "p040.jpg",
+  "group": "ukiyoe",
+  "title": "Chiryuh,cetral Japan, hokusai series fifity three stations of Tohkaidoh",
+  "context": "three stations of tokaido than utagawa hiroshige Date 2 January 1805 Source https://art.famsf.org/katsushika- hokusai /chiryu-no-40-series-fifty-three-sta"
+ },
+ {
+  "file": "p041.jpg",
+  "group": "ravivarma",
+  "title": "Raja Ravi Varma, Vasantika (oleographic print)",
+  "context": "English Vasantika, Goddess of spring ( c . 1910), oleographic print. First in a set of 3 paintings depicting various apsaras. Malayalam വാസന്തിക, വസന്ത ദേവത"
+ },
+ {
+  "file": "p042.jpg",
+  "group": "ravivarma",
+  "title": "Murugan by Raja Ravi Varma",
+  "context": "2006-08-12 22:25 Hydkat 303×385× (36433 bytes) This is a picture of a painting of [[ Raja Ravi Verma]] of Lord Murugan. (Rather nice actually) Source:"
+ },
+ {
+  "file": "p043.jpg",
+  "group": "ravivarma",
+  "title": "Raja Ravi Varma, Reclining Woman",
+  "context": "Niharika (6-1-2014). &quot;Private Lives and Interior Spaces: Raja Ravi Varma&#039;s Scholar Paintings &quot;. Boise state University Department of Art: Faculty publications"
+ },
+ {
+  "file": "p044.jpg",
+  "group": "ravivarma",
+  "title": "Raja Ravi Varma, Galaxy of Musicians",
+  "context": "English Galaxy of Musicians, 1889, by Raja Ravi Varma determination method or standard: SHA-1"
+ },
+ {
+  "file": "p045.jpg",
+  "group": "ravivarma",
+  "title": "Raja Ravi Varma - Woman Holding a Fan VA AC 2006AU7185",
+  "context": "Raja Ravi Varma : Woman Holding a Fan Artist Raja Ravi Varma (1848–1906) Alternative names Iravivarmā; Ravi Varma Description painter and creator"
+ },
+ {
+  "file": "p046.jpg",
+  "group": "ravivarma",
+  "title": "Raja Ravi Varma, Mrs. Ramanadha Rao",
+  "context": "English Mrs. Ramanadha Rao and son, by Raja Ravi Varma Wikimedia page-version URL: https://commons.wikimedia.org/w/index.php?oldid=410834432"
+ },
+ {
+  "file": "p047.jpg",
+  "group": "mughal",
+  "title": "Govardhan. Jahangir Visiting the Ascetic Jadrup. ca. 1616-20, Musee Guimet, Paris",
+  "context": "l&#039;ascète Jadrup; &quot;The St. Petersburg Muraqqa&#039;. Album of Indian and Persian Miniatures From the 16th Century and Specimens of Persian Calligraphy by &#039;Imad al-Hasani&quot;"
+ },
+ {
+  "file": "p048.jpg",
+  "group": "mughal",
+  "title": "Angel on a Composite Animal, Mughal Painting circa 16th century, Chandigarh Museum",
+  "context": "Attribution-Share Alike 4.0 truetrue English Angel on a Composite Animal, Mughal Painting circa 16th century, Chandigarh Museum determination method or standard:"
+ },
+ {
+  "file": "p049.jpg",
+  "group": "mughal",
+  "title": "A Mughal Painting showing a Hunting Scene, circa 17th century, Chandigarh Museum",
+  "context": "0 Creative Commons Attribution-Share Alike 4.0 truetrue English A Mughal Painting showing a Hunting Scene, circa 17th century, Chandigarh Museum determination"
+ },
+ {
+  "file": "p050.jpg",
+  "group": "mughal",
+  "title": "Woman holding a sprinkler, Mughal School of Miniature Paintings, circa 1660 (Shahjahan Phase), National Museum, New Delhi",
+  "context": "Attribution-Share Alike 4.0 truetrue English Woman holding a sprinkler, Mughal School of Miniature Paintings , circa 1660 (Shahjahan Phase), National Museum, New Delhi"
+ },
+ {
+  "file": "p051.jpg",
+  "group": "mughal",
+  "title": "Mosque Scene, Based on the Persian Manuscript Tawarikh-i-Alfi, History of the thousand years, circa 1595 CE, Mughal Miniature Painting. National Museum, Delhi.16th century",
+  "context": "Tawarikh-i-Alfi, History of the thousand years, circa 1595 CE, Mughal Miniature Painting . National Museum, Delhi. object of statement has role: photographer"
+ },
+ {
+  "file": "p052.jpg",
+  "group": "mughal",
+  "title": "Mughal painting of Amarnath Shivling",
+  "context": "org/licenses/by/2.5CC BY 2.5 Creative Commons Attribution 2.5 truetrue English Mughal painting depicting the Amarnath Shivling of Kashmir, c. 1600 determination method"
+ },
+ {
+  "file": "p053.jpg",
+  "group": "picasso",
+  "title": "Francisco de Zurbarán - St Margaret - WGA26053",
+  "context": "de Zurbarán, 1598-1664, 207 Zurbarán, 43 100 great paintings : Duccio to Picasso : European paintings from the 14th to the 20th century, 61 Works by the"
+ },
+ {
+  "file": "p054.jpg",
+  "group": "picasso",
+  "title": "Münster, Hötteweg, Korkmännchen -- 2022 -- 4257",
+  "context": "work or name: German made from material: metal color: blue inscription: ← Kunstmuseum Picasso (German) inscription mentions: art museum location: pole"
+ },
+ {
+  "file": "p055.jpg",
+  "group": "picasso",
+  "title": "Francisco de Zurbarán 047",
+  "context": "de Zurbarán, 1598-1664, 207 Zurbarán, 43 100 great paintings : Duccio to Picasso : European paintings from the 14th to the 20th century, 61 Works by the"
+ },
+ {
+  "file": "p056.jpg",
+  "group": "picasso",
+  "title": "Von Dürer bis van Gogh - Sammlung Bührle trifft Wallraf-6889",
+  "context": "Attribution-Share Alike 4.0 truetrue English The paintings &quot;Quodlibet with Letters, Combs and Blue Paper Roll&quot; and &quot;Dead Eagle Owl&quot; in the exhibition"
+ },
+ {
+  "file": "p057.jpg",
+  "group": "picasso",
+  "title": "Title unknown (Clown, Horse, Salamander) (1911) - Amadeu de Souza Cardoso (1887 - 1918) (45089021254)",
+  "context": "guests of honour included Apollinaire, Brancusi, Derain, Max Jacob and Picasso . The original, Handscroll of Horses, is in the British Museum, London."
+ },
+ {
+  "file": "p058.jpg",
+  "group": "picasso",
+  "title": "Relief, Rhythms (1932) - Robert Delaunay (1885 - 1941) (23265087041)",
+  "context": "correspond to movement in nature. Vision becomes the subject of painting . His early paintings are deeply rooted in Neoimpressionism. Night Scene, for example"
+ },
+ {
+  "file": "p059.jpg",
+  "group": "rembrandt",
+  "title": "La ronda de noche, por Rembrandt van Rijn",
+  "context": "korporaalschap van Frans Banning Cocq en luitenant Willem Ruytenburgh (1642). Rijksmuseum Telugu The Night Watch or The Militia Company of Captain Frans Banning Cocq"
+ },
+ {
+  "file": "p060.jpg",
+  "group": "rembrandt",
+  "title": "The Nightwatch by Rembrandt - Rijksmuseum",
+  "context": "DE STELER VAN DE NACHTWACHT ! 6248 5015 1230 1460 14168 11528 Frans Banning Cocq 8209 5495 1269 1364 14168 11528 Willem van Ruytenburch English The Nightwatch"
+ },
+ {
+  "file": "p061.jpg",
+  "group": "rembrandt",
+  "title": "The Night Watch - HD",
+  "context": "Command of Captain Frans Banninck Cocq (1642) French La Ronde de nuit - Rembrandt Dutch De Nachtwacht , of De compagnie van kapitein Frans Banninck Cocq en"
+ },
+ {
+  "file": "p062.jpg",
+  "group": "rembrandt",
+  "title": "The Night Watch undergoing restoration, on exhibit in 2024",
+  "context": "org/licenses/by/4.0CC BY 4.0 Creative Commons Attribution 4.0 truetrue English The Night Watch undergoing restoration, on exhibit in 2024 author name string: Vbena"
+ },
+ {
+  "file": "p063.jpg",
+  "group": "rembrandt",
+  "title": "The Night Watch - cropped",
+  "context": "English The Night Watch , by Rembrandt determination method or standard: SHA-1"
+ },
+ {
+  "file": "p064.jpg",
+  "group": "rembrandt",
+  "title": "Rembrandt Night Watch Girl",
+  "context": "Bytes) {{ Painting | |Artist = {{creator: Rembrandt Harmensz. van Rijn}} |Title = {{nl| De compagnie van Frans Banning Cocq en Willem van Ruytenburch , bekend"
+ },
+ {
+  "file": "p065.jpg",
+  "group": "space",
+  "title": "A New View of the Tarantula Nebula",
+  "context": "Spitzer--has also been created to mark the event. The nebula is located in the neighboring galaxy called the Large Magellanic Cloud, and is one of the"
+ },
+ {
+  "file": "p066.jpg",
+  "group": "space",
+  "title": "NGC 3372a-full",
+  "context": "260 29566 14321 HD 93219 (Q87578962) English Central region of the Carina nebula . Mosaic taken by the Hubble Space Telescope. Russian Центральный участок"
+ },
+ {
+  "file": "p067.jpg",
+  "group": "space",
+  "title": "Tarantula Nebula by JWST",
+  "context": "cluster of stars in the center. The pillars are home to still-forming stars , which will eventually leave their dusty cocoons and help shape the nebula . Fluffy"
+ },
+ {
+  "file": "p068.jpg",
+  "group": "space",
+  "title": "Euclid’s view of the Horsehead Nebula ESA25170866",
+  "context": "Euclid shows us a spectacularly panoramic and detailed view of the Horsehead Nebula , also known as Barnard 33 and part of the constellation Orion. Vietnamese"
+ },
+ {
+  "file": "p069.jpg",
+  "group": "space",
+  "title": "Nursery of New Stars - GPN-2000-000972",
+  "context": "English Hubble Space Telescope image of the NGC 604 nebula . Arabic سديم Hungarian Az NGC 604 extragalaktikus HII zóna/csillagkeletkezési régió a Triangulum-galaxisban"
+ },
+ {
+  "file": "p070.jpg",
+  "group": "space",
+  "title": "30 Doradus, Tarantula Nebula",
+  "context": "star-forming region visible in a neighboring galaxy and home to the most massive stars ever seen. The nebula resides 170,000 light-years away in the Large"
+ },
+ {
+  "file": "p071.jpg",
+  "group": "space",
+  "title": "This NASA-ESA Hubble Space Telescope image reveals clouds of gas and dust near the Tarantula Nebula",
+  "context": "English This NASA /ESA Hubble Space Telescope image reveals clouds of gas and dust near the Tarantula Nebula , located in the Large Magellanic Cloud about"
+ },
+ {
+  "file": "p072.jpg",
+  "group": "space",
+  "title": "Large Magellanic Cloud",
+  "context": "galaxy in infrared light as seen by the Herschel Space Observatory, a European Space Agency-led mission with important NASA contributions, and NASA&#039;s"
+ },
+ {
+  "file": "p073.jpg",
+  "group": "aurora",
+  "title": "Aurora borealis above Storfjorden and the Lyngen Alps in moonlight, 2012 March",
+  "context": "object. Person with cigarete and pocket lamp? 5266 747 56 56 5580 1535 Aurora picture in a dream English Russian Панорама Стур-фьорда (входит в Линген-фьорд)"
+ },
+ {
+  "file": "p074.jpg",
+  "group": "aurora",
+  "title": "Aurora borealis over Bergen, Norway (30990582790)",
+  "context": "Description Aurora borealis over Bergen, Norway (30990582790).jpg Aurora borealis over Bergen, Norway Date Taken on 6 March 2016, 23:08 Source Aurora borealis over"
+ },
+ {
+  "file": "p075.jpg",
+  "group": "aurora",
+  "title": "Aurora Borealis (Northern Light) over Reine, Lofoten, Norway",
+  "context": "Description Aurora Borealis (Northern Light) over Reine, Lofoten, Norway .jpg English: Reine, Lofoten Date Taken on 11 March 2019, 23:40:22 Source https://www"
+ },
+ {
+  "file": "p076.jpg",
+  "group": "aurora",
+  "title": "Aurora Borealis (Northern Light) over Svolvær, Lofoten, Norway",
+  "context": "Description Aurora Borealis (Northern Light) over Svolvær, Lofoten, Norway .jpg English: Svolvær, Lofoten Date Taken on 14 March 2019 21:18:55 Source https://www"
+ },
+ {
+  "file": "p077.jpg",
+  "group": "aurora",
+  "title": "Aurora Borealis (Northern Light) over Svolvær, Lofoten, Norway2",
+  "context": "Description Aurora Borealis (Northern Light) over Svolvær, Lofoten, Norway2.jpg English: Svolvær, Lofoten Date Taken on 16 March 2019 22:37:03 Source https://www"
+ },
+ {
+  "file": "p078.jpg",
+  "group": "aurora",
+  "title": "Aurora Borealis (Northern Light) over Reine, Lofoten, Norway2",
+  "context": "Description Aurora Borealis (Northern Light) over Reine, Lofoten, Norway2.jpg English: Reine, Lofoten Date Taken on 12 March 2019, 00:11:51 Source https://www"
+ },
+ {
+  "file": "p079.jpg",
+  "group": "wonders",
+  "title": "Taj Mahal, Agra, India edit2",
+  "context": "https://creativecommons.org/licenses/by-sa/4.0CC BY-SA 4.0 Creative Commons Attribution-Share Alike 4.0 truetrue English Taj Mahal heading: 0 degree"
+ },
+ {
+  "file": "p080.jpg",
+  "group": "wonders",
+  "title": "Taj Mahal Sunset",
+  "context": "side of Taj Mahal at the golden hour, Agra, India French Côté ouest du Taj Mahal au coucher de soleil, Agra, Inde Spanish Lado occidental del Taj Mahal en"
+ },
+ {
+  "file": "p081.jpg",
+  "group": "wonders",
+  "title": "Taj Mahal in March 2004",
+  "context": "0 truetrue You may select the license of your choice. English Taj Mahal Tamil Taj Mahal Arabic تاج محل Dutch De Taj Mahal , het mausoleum dat keizer Shah"
+ },
+ {
+  "file": "p082.jpg",
+  "group": "wonders",
+  "title": "El Taj Mahal-Agra India0023",
+  "context": "I, the copyright holder of this work, hereby publish it under the following licenses: This file is licensed under the Creative Commons Attribution-Share"
+ },
+ {
+  "file": "p083.jpg",
+  "group": "wildlife",
+  "title": "Callimorpha dominula (27832286690)",
+  "context": "Large Yellow Underwing Latin Latticed Heath Least Carpet Least Carpet Leopard Moth Lesser Broad-bordered Yellow Underwing Lesser Cream Wave Lesser Swallow"
+ },
+ {
+  "file": "p084.jpg",
+  "group": "wildlife",
+  "title": "Callimorpha dominula (27498008424)",
+  "context": "Large Yellow Underwing Latin Latticed Heath Least Carpet Least Carpet Leopard Moth Lesser Broad-bordered Yellow Underwing Lesser Cream Wave Lesser Swallow"
+ },
+ {
+  "file": "p085.jpg",
+  "group": "wildlife",
+  "title": "Arctia villica (28006832422)",
+  "context": "Large Yellow Underwing Latin Latticed Heath Least Carpet Least Carpet Leopard Moth Lesser Broad-bordered Yellow Underwing Lesser Cream Wave Lesser Swallow"
+ },
+ {
+  "file": "p086.jpg",
+  "group": "wildlife",
+  "title": "Periyar National Park 2019",
+  "context": "Periyar Tiger Reserve, is in the mountainous Western Ghats of Kerala, southern India. This wildlife sanctuary is home to tigers and a significant elephant population"
+ },
+ {
+  "file": "p087.jpg",
+  "group": "fjords",
+  "title": "Fucus vesiculosus at Lyngen fjord, Troms, Norway, 2015 September",
+  "context": "vesiculosus at Lyngen fjord , Troms, Norway , 2015 September.jpg English: Fucus vesiculosus seaweed on the coastal rocks by Lyngen fjord , Storfjord municipality"
+ },
+ {
+  "file": "p088.jpg",
+  "group": "fjords",
+  "title": "Mountain massif of Fjølhaugen at Knutevika in Senja, Troms, Norway, 2015 September",
+  "context": "Description Mountain massif of Fjølhaugen at Knutevika in Senja, Troms, Norway , 2015 September.jpg The mountain massif around Fjølhaugen on Senja, Troms, Norway in"
+ },
+ {
+  "file": "p089.jpg",
+  "group": "fjords",
+  "title": "View from a ridge between Segla and Hesten, Senja, Norway, 2014 August",
+  "context": "island of Senja, Troms, Norway in 2014 August. The fjord to the left is Øyfjorden with its sounds Trælvika and Ørnfjorden. The fjord to the right is Mefjorden"
+ },
+ {
+  "file": "p090.jpg",
+  "group": "wonders2",
+  "title": "80 - Machu Picchu - Juin 2009 - edit",
+  "context": "This image is a derivative work of the following images: File:80_-_ Machu _ Picchu _-_Juin_2009.jpg licensed with Cc-by-sa-3.0 2009-09-02T20:03:23Z S23678"
+ },
+ {
+  "file": "p091.jpg",
+  "group": "wonders2",
+  "title": "Machu Picchu, Perú, 2015-07-30, DD 47",
+  "context": "Attribution-Share Alike 4.0 truetrue English Machu Picchu , Perú Spanish Vista de las antiguas casas de Machu Picchu , Provincia de Urubamba, Departamento del"
+ },
+ {
+  "file": "p092.jpg",
+  "group": "wonders2",
+  "title": "Machu Picchu",
+  "context": "Photograph of Machu Picchu taken by Hiram Bingham III in 1912, after significant clearing work had been carried out. Spanish Fotografía de Machu Picchu tomada"
+ },
+ {
+  "file": "p093.jpg",
+  "group": "wonders2",
+  "title": "Peru Machu Picchu Sunrise",
+  "context": "413 137 638 512 1536 2048 Le Huayna Picchu . wayna pikchu. 瓦伊納皮克丘山 English Polish Views of Machu Picchu with Huayna Picchu in the background Vietnamese"
+ },
+ {
+  "file": "p094.jpg",
+  "group": "wonders3",
+  "title": "New7Wonders",
+  "context": "2007-01-28T04:19:26Z Abrivio 800x600 (100803 Bytes) Foto do Cristo Redentor File: Colosseum _in_ Rome ,_Italy_-_April_2007.jpg licensed with Cc-by-sa-2.5 2007-05-06T20:29:35Z"
+ },
+ {
+  "file": "p095.jpg",
+  "group": "ocean",
+  "title": "Sea fans coral reef Pagan 2022",
+  "context": "NOAA Fisheries/Andrew Gray English Sea fans surrounded by reef fish on a coral reef off the southwest coast of Pagan. applies to jurisdiction: United States"
+ },
+ {
+  "file": "p096.jpg",
+  "group": "ocean",
+  "title": "Elkhorn coral Horseshoe Reef with diver",
+  "context": "NOAA caption: Healthy elkhorn coral at Horseshoe Reef in the upper Florida Keys before last summer’s [2023] mass bleaching event. Credit: Ananda Ellis/NOAA"
+ },
+ {
+  "file": "p097.jpg",
+  "group": "ocean",
+  "title": "NOAA divers coral reef Pagan 2022",
+  "context": "Atmospheric Administration survey ship NOAAS Rainier (S 221) examine a coral reef off the southeast coast of Pagan. applies to jurisdiction: United States"
+ },
+ {
+  "file": "p098.jpg",
+  "group": "ocean",
+  "title": "Mimic goatfish coral reef Howland Island 2023",
+  "context": "mimicus) and yellowfin goatfish (Mulloidichthys vanicolensis) swims over a coral reef off the east coast of Howland Island. applies to jurisdiction: United"
+ },
+ {
+  "file": "p099.jpg",
+  "group": "ocean2",
+  "title": "039 Northern lights over Mývatn (Iceland) Photo by Giles Laurent",
+  "context": "Attribution-Share Alike 4.0 truetrue 5769 796 128 154 6837 4560 Vega English Northern lights over Mývatn (Iceland) Traditional Chinese 於冰島米湖上方記錄到的極光 author name"
+ },
+ {
+  "file": "p100.jpg",
+  "group": "ocean2",
+  "title": "Aurora australis dancing over an LED illuminated igloo",
+  "context": "Creative Commons Attribution 2.0 truetrue 18 October 2017 English Aurora australis dancing over an LED illuminated igloo Hindi ऑरोरा ऑस्ट्रेलियाई एक एलईडी"
+ },
+ {
+  "file": "p101.jpg",
+  "group": "ocean2",
+  "title": "Aurora borealis over Eielson Air Force Base, Alaska",
+  "context": "Deneb דנב 天津四 デネブ हंस तारा Денеб 데네브 ذنب الدجاجة English The aurora borealis, or northern lights , above Bear Lake, Alaska. Japanese アメリカ空軍のアイルソン空軍基地上空のオーロラ"
+ }
+]
