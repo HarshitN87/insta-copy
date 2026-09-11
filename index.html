@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#000000">
+<title>Instagram</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--blue:#0095F6;--red:#FF3040;--line:#262626;--sheet:#1e1e1e;--muted:#a8a8a8;--input:#1c1c1e}
+html,body{height:100%;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;overscroll-behavior:none}
+body{display:flex;align-items:center;justify-content:center;min-height:100dvh;background:#050507}
+#phone{position:relative;width:100%;max-width:430px;height:100dvh;max-height:932px;background:#000;overflow:hidden;isolation:isolate}
+@media(min-width:500px){#phone{border-radius:38px;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 120px rgba(0,0,0,.6),0 0 0 10px #111,0 0 0 11px rgba(255,255,255,.12);height:min(880px,94vh)}}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;background:#000}
+[hidden]{display:none!important}
+button{font-family:inherit}
+svg{display:block}
+/* ---------- LOGIN ---------- */
+#screen-login{z-index:45;padding:0 26px;overflow-y:auto}
+.login-sp{flex:1;min-height:60px}
+.ig-script{font-family:'Segoe Script','Brush Script MT','Snell Roundhand',cursive;font-size:46px;text-align:center;letter-spacing:.5px}
+.login-form{display:flex;flex-direction:column;gap:12px;margin-top:26px}
+.login-form input{background:var(--input);border:1px solid #333;border-radius:12px;padding:15px 14px;color:#fff;font-size:15px;outline:none;width:100%}
+.login-form input:focus{border-color:#555}
+#loginBtn{border:0;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:var(--blue);cursor:pointer;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:8px}
+#loginBtn:disabled{opacity:.5}
+#loginBtn .spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.login-forgot{text-align:center;font-size:13px;margin-top:14px;color:#e0f1ff;cursor:pointer;background:none;border:0;width:100%}
+.login-or{display:flex;align-items:center;gap:12px;margin:22px 0;color:var(--muted);font-size:13px;font-weight:600}
+.login-or::before,.login-or::after{content:"";flex:1;height:1px;background:#333}
+.login-fb{display:flex;align-items:center;justify-content:center;gap:8px;background:none;border:0;color:var(--blue);font-weight:700;font-size:15px;cursor:pointer}
+.login-signup{border-top:1px solid var(--line);margin:0 -26px;padding:16px;text-align:center;font-size:14px;color:var(--muted);margin-top:auto}
+.login-signup button{background:none;border:0;color:var(--blue);font-weight:700;font-size:14px;cursor:pointer}
+.meta-foot{text-align:center;color:#737373;font-size:12px;padding:10px 0 calc(16px + env(safe-area-inset-bottom))}
+/* ---------- generic ---------- */
+.topbar{display:flex;align-items:center;gap:12px;padding:calc(12px + env(safe-area-inset-top)) 14px 10px;background:#000;z-index:20}
+.topbar h2{font-size:21px;font-weight:800;letter-spacing:-.3px}
+.topbar .sp{flex:1}
+.ibtn{background:none;border:0;color:#fff;cursor:pointer;position:relative;padding:2px}
+.ibtn svg{width:26px;height:26px}
+.badge{position:absolute;top:-4px;right:-6px;background:var(--red);color:#fff;font-size:10.5px;font-weight:700;min-width:18px;height:18px;border-radius:99px;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid #000}
+.ava{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;flex:none}
+.fbtn{background:var(--blue);border:0;color:#fff;border-radius:9px;padding:7px 16px;font-size:13.5px;font-weight:700;cursor:pointer}
+.fbtn.ing{background:#2b2b2b;color:#fff}
+#tabbar{position:absolute;left:0;right:0;bottom:0;z-index:40;display:flex;background:#000;border-top:1px solid var(--line);padding:9px 6px calc(11px + env(safe-area-inset-bottom))}
+.tab{flex:1;background:none;border:0;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:3px}
+.tab svg{width:27px;height:27px}
+.tab .me{width:27px;height:27px;border-radius:50%;background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7);padding:2px}
+.tab .me b{width:100%;height:100%;border-radius:50%;background:#333;display:flex;align-items:center;justify-content:center;font-size:13px;border:2px solid #000}
+.tab.on .me{box-shadow:0 0 0 1.5px #fff}
+/* ---------- reels ---------- */
+#reelHeader{position:absolute;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;gap:6px;padding:calc(12px + env(safe-area-inset-top)) 14px 26px;background:linear-gradient(180deg,rgba(0,0,0,.65),transparent);pointer-events:none}
+#reelHeader>*{pointer-events:auto}
+#reelHeader h2{font-size:21px;font-weight:800}
+#friendPill{margin-left:auto;display:flex;align-items:center;background:rgba(255,255,255,.16);border-radius:99px;padding:3px 8px 3px 3px;backdrop-filter:blur(6px);border:0;cursor:pointer}
+#friendPill .pa{width:24px;height:24px;border-radius:50%;border:1.5px solid rgba(255,255,255,.9);margin-left:-8px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:800}
+#friendPill .pa:first-child{margin-left:0}
+#friendPill span.chev{color:#fff;font-size:13px;margin:0 2px 0 5px}
+#feed{flex:1;height:100%;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;background:#000}
+#feed::-webkit-scrollbar{display:none}
+.reel{position:relative;height:100%;width:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden;background:#0a0a0a;flex:none}
+.visual{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:90px 26px 180px;overflow:hidden}
+.scene{position:absolute;inset:-6%;animation:kb 14s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.12)}}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.14;z-index:1;background-image:radial-gradient(rgba(255,255,255,.55) 1px,transparent 1px);background-size:13px 13px}
+.shade{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,transparent 24%,transparent 52%,rgba(0,0,0,.82) 100%)}
+.big-emoji{font-size:64px;z-index:2;filter:drop-shadow(0 12px 30px rgba(0,0,0,.5))}
+.q-topic{display:inline-block;z-index:2;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:5px 12px;border-radius:99px;margin-bottom:12px;backdrop-filter:blur(4px)}
+.q-text{font-size:23px;line-height:1.35;font-weight:700;letter-spacing:-.2px;max-width:330px;z-index:2;text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.q-num{margin-top:12px;font-size:12.5px;opacity:.75;z-index:2}
+.ans-btn{position:relative;z-index:3;margin-top:14px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:99px;padding:10px 20px;font-size:13.5px;font-weight:700;cursor:pointer;backdrop-filter:blur(4px)}
+.ans-text{position:relative;z-index:2;margin-top:10px;max-width:330px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:12px 14px;font-size:15.5px;line-height:1.45}
+.big-text{font-size:30px;line-height:1.16;font-weight:800;letter-spacing:-.4px;max-width:320px;z-index:2;text-shadow:0 2px 14px rgba(0,0,0,.5)}
+.small-text{margin-top:10px;font-size:14px;opacity:.8;max-width:300px;z-index:2;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.orbit{position:relative;width:210px;height:210px;z-index:2}
+.orbit .sun{position:absolute;inset:66px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffe58a,#ee2a7b);box-shadow:0 0 60px rgba(238,42,123,.5)}
+.orbit .ring{position:absolute;inset:0;border:1px solid rgba(255,255,255,.3);border-radius:50%;animation:spin 6s linear infinite}
+.orbit .planet{position:absolute;top:-11px;left:50%;width:22px;height:22px;margin-left:-11px;border-radius:50%;background:#fff;box-shadow:0 0 18px #fff}
+.breathe-circle{width:160px;height:160px;border-radius:50%;z-index:2;background:radial-gradient(circle at 30% 30%,#fff,#a3e635 60%,#166534);display:flex;align-items:center;justify-content:center;font-weight:800;color:#06130d;font-size:17px}
+.marquee{overflow:hidden;white-space:nowrap;width:100%;z-index:2;border-top:1px solid rgba(255,255,255,.25);border-bottom:1px solid rgba(255,255,255,.25);padding:11px 0;margin-top:16px}
+.marquee span{display:inline-block;padding-right:40px;font-weight:800;font-size:20px;animation:marq 9s linear infinite}
+@keyframes marq{to{transform:translateX(-50%)}}
+.clock{width:170px;height:170px;border-radius:50%;border:3px solid rgba(255,255,255,.85);position:relative;z-index:2;background:rgba(255,255,255,.06)}
+.hand{position:absolute;left:50%;bottom:50%;transform-origin:bottom center;background:#fff;border-radius:4px}
+.rain-drop{position:absolute;top:-40px;width:2px;height:60px;background:linear-gradient(transparent,rgba(255,255,255,.7));animation:rain linear infinite;z-index:1}
+@keyframes rain{to{transform:translateY(110vh)}}
+.progressbar{position:absolute;bottom:64px;left:0;right:0;height:2px;background:rgba(255,255,255,.25);z-index:25}
+.progressbar i{display:block;height:100%;width:0;background:#fff}
+.rail{position:absolute;right:6px;bottom:190px;z-index:20;display:flex;flex-direction:column;gap:19px;align-items:center}
+.rbtn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;color:#fff;cursor:pointer;min-width:48px}
+.rbtn svg{width:28px;height:28px;filter:drop-shadow(0 1px 6px rgba(0,0,0,.6))}
+.rbtn span{font-size:12px;font-weight:600}
+.rbtn.liked svg{fill:var(--red);stroke:var(--red)}
+.caption{position:absolute;left:12px;right:74px;bottom:74px;z-index:20}
+.cap-user{display:flex;align-items:center;gap:7px}
+.cap-user .uname{font-weight:600;font-size:14px}
+.vbadge{width:14px;height:14px;flex:none}
+.follow-pill{background:none;border:1px solid rgba(255,255,255,.75);color:#fff;border-radius:8px;padding:4px 11px;font-size:12.5px;font-weight:600;cursor:pointer}
+.follow-pill.ing{border-color:transparent;color:var(--muted)}
+.cap-text{font-size:13.5px;line-height:1.4;margin-top:7px}
+.audio-row{margin-top:7px;display:flex;gap:6px;align-items:center;font-size:12.5px;cursor:pointer}
+.audio-row .cov{width:16px;height:16px;border-radius:4px;flex:none;display:flex;align-items:center;justify-content:center;font-size:10px}
+.audio-row .marq2{overflow:hidden;white-space:nowrap;flex:1;max-width:210px}
+.audio-row .marq2 span{display:inline-block;animation:marq 10s linear infinite}
+.bigheart{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) scale(0);z-index:40;pointer-events:none;transition:transform .22s cubic-bezier(.2,1.6,.4,1),opacity .3s;opacity:0}
+.bigheart.show{transform:translate(-50%,-50%) scale(1);opacity:1}
+.bigheart svg{width:100px;height:100px;fill:#fff;filter:drop-shadow(0 8px 26px rgba(0,0,0,.6))}
+#muteFlash{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);z-index:40;background:rgba(0,0,0,.65);border-radius:50%;width:72px;height:72px;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+#muteFlash.show{opacity:1}
+#muteFlash svg{width:34px;height:34px}
+/* ---------- home ---------- */
+#screen-home{padding-bottom:64px}
+#homeScroll{flex:1;overflow-y:auto}
+#stories{display:flex;gap:13px;overflow-x:auto;padding:10px 12px 12px;scrollbar-width:none}
+#stories::-webkit-scrollbar{display:none}
+.story{background:none;border:0;color:#fff;font-size:11.5px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;min-width:64px}
+.story .ring{width:62px;height:62px;border-radius:50%;padding:2.5px;background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7)}
+.story.seen .ring{background:#333}
+.story .ring b{width:100%;height:100%;border-radius:50%;background:#222;display:flex;align-items:center;justify-content:center;font-size:24px;border:2.5px solid #000;overflow:hidden}
+.post{margin-bottom:6px}
+.post-head{display:flex;align-items:center;gap:10px;padding:9px 12px}
+.post-head .who{flex:1;min-width:0}
+.post-head .who b{font-size:13.5px}
+.post-head .who small{display:block;color:var(--muted);font-size:11.5px}
+.post-img{width:100%;aspect-ratio:4/5;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.post-img .big-emoji{font-size:110px}
+.post-actions{display:flex;align-items:center;gap:16px;padding:9px 12px 2px}
+.post-actions .ibtn svg{width:27px;height:27px}
+.post-actions .save{margin-left:auto}
+.ibtn.liked svg{fill:var(--red);stroke:var(--red)}
+.ibtn.saved svg{fill:#fff}
+.post-likes{padding:6px 12px 0;font-size:13.5px;font-weight:700;cursor:pointer}
+.post-cap{padding:3px 12px;font-size:13.5px;line-height:1.4}
+.post-time{padding:2px 12px 10px;color:var(--muted);font-size:11px;letter-spacing:.3px}
+.post-comments{padding:3px 12px 2px;color:var(--muted);font-size:13.5px;cursor:pointer}
+/* ---------- search/explore ---------- */
+#searchBar{margin:2px 12px 8px;background:var(--input);border-radius:10px;padding:9px 12px;font-size:15px;color:var(--muted);display:flex;gap:8px;align-items:center}
+#searchBar input{flex:1;background:none;border:0;outline:none;color:#fff;font-size:15px}
+#screen-search{padding-bottom:64px}
+#searchScroll{flex:1;overflow-y:auto}
+.person-row{display:flex;align-items:center;gap:11px;padding:8px 14px;width:100%;background:none;border:0;color:#fff;text-align:left;cursor:pointer}
+.person-row .who{flex:1;min-width:0}
+.person-row .who b{font-size:14px;display:block}
+.person-row .who small{color:var(--muted);font-size:12.5px}
+#expGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;padding-bottom:8px}
+.tile{aspect-ratio:3/4.1;position:relative;display:flex;align-items:center;justify-content:center;font-size:40px;overflow:hidden;cursor:pointer;border:0;padding:0;color:#fff}
+.tile .vw{position:absolute;left:6px;bottom:6px;font-size:12px;font-weight:700;display:flex;gap:4px;align-items:center;text-shadow:0 1px 6px #000;color:#fff}
+.tile .multi{position:absolute;top:6px;right:6px;color:#fff;font-size:15px;text-shadow:0 1px 6px #000}
+.tile .qq{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:10px;font-size:12.5px;font-weight:700;line-height:1.35;text-align:center;text-shadow:0 1px 8px #000}
+/* ---------- activity ---------- */
+#screen-activity{padding-bottom:64px}
+#actScroll{flex:1;overflow-y:auto;padding-bottom:10px}
+.act-sec{padding:12px 14px 4px;font-size:15px;font-weight:700}
+.act-row{display:flex;align-items:center;gap:11px;padding:8px 14px}
+.act-row .tx{flex:1;font-size:13.5px;line-height:1.35;min-width:0}
+.act-row .tx small{color:var(--muted)}
+.act-thumb{width:44px;height:44px;border-radius:6px;flex:none;display:flex;align-items:center;justify-content:center;font-size:22px}
+/* ---------- profile ---------- */
+#screen-profile{padding-bottom:64px}
+#pfScroll{flex:1;overflow-y:auto}
+.pf-head{display:flex;align-items:center;gap:4px;padding:calc(12px + env(safe-area-inset-top)) 8px 4px 14px}
+.pf-head b{font-size:20px}
+.pf-head .sp{flex:1}
+.pf-row{display:flex;align-items:center;gap:16px;padding:6px 16px}
+.pf-ava{width:78px;height:78px;border-radius:50%;background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7);padding:3px;flex:none;cursor:pointer;border:0}
+.pf-ava b{width:100%;height:100%;border-radius:50%;background:#333;display:flex;align-items:center;justify-content:center;font-size:34px;border:3px solid #000}
+.pf-stats{display:flex;flex:1;justify-content:space-around;text-align:center;font-size:12.5px;background:none;border:0;color:#fff;cursor:pointer;padding:0}
+.pf-stats b{display:block;font-size:17.5px}
+.pf-bio{padding:2px 16px 10px;font-size:13.5px;line-height:1.45;white-space:pre-line}
+.pf-bio small{color:#e0f1ff}
+.pf-btns{display:flex;gap:8px;padding:0 16px 12px}
+.pf-btns button{flex:1;background:#2b2b2b;color:#fff;border:0;border-radius:10px;padding:9px;font-weight:600;font-size:13.5px;cursor:pointer}
+#highlights{display:flex;gap:14px;overflow-x:auto;padding:2px 16px 12px;scrollbar-width:none}
+#highlights::-webkit-scrollbar{display:none}
+.hl{background:none;border:0;color:#fff;font-size:11.5px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
+.hl .c{width:58px;height:58px;border-radius:50%;border:1px solid #444;display:flex;align-items:center;justify-content:center;font-size:26px;background:#151515}
+.pf-tabs{display:flex;border-top:1px solid var(--line)}
+.pf-tabs button{flex:1;background:none;border:0;border-bottom:1px solid transparent;color:#8e8e8e;cursor:pointer;padding:9px;display:flex;justify-content:center}
+.pf-tabs button.on{color:#fff;border-bottom-color:#fff}
+.pf-tabs svg{width:23px;height:23px}
+.pf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;padding-bottom:10px}
+/* ---------- user profile ---------- */
+#screen-user{padding-bottom:20px}
+#userScroll{flex:1;overflow-y:auto}
+/* ---------- inbox/thread ---------- */
+#notesRow{display:flex;gap:12px;overflow-x:auto;padding:10px 14px;scrollbar-width:none}
+#notesRow::-webkit-scrollbar{display:none}
+.note{background:none;border:0;color:#fff;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:66px;cursor:pointer}
+.note .bub{background:#2b2b2b;border-radius:14px;padding:6px 9px;font-size:11px;max-width:76px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.threadRow{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;color:#fff;text-align:left;padding:9px 14px;cursor:pointer}
+.threadRow .who{flex:1;min-width:0}
+.threadRow .who b{font-size:14px;display:block}
+.threadRow .who small{color:var(--muted);font-size:13px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.threadRow.unread .who b,.threadRow.unread .who small{font-weight:700;color:#fff}
+#chatScroll{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:7px}
+.msg{max-width:72%;padding:9px 13px;border-radius:20px;font-size:14.5px;line-height:1.4;width:fit-content}
+.msg.them{background:#2b2b2b;align-self:flex-start;border-bottom-left-radius:6px}
+.msg.me{background:linear-gradient(45deg,#7b2ff7,#0095F6);align-self:flex-end;border-bottom-right-radius:6px}
+#chatInput{display:flex;gap:8px;align-items:center;padding:8px 12px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+#chatInput .field{flex:1;background:var(--input);border-radius:22px;display:flex;align-items:center;padding:0 6px 0 14px}
+#chatInput input{flex:1;background:none;border:0;outline:none;color:#fff;font-size:15px;padding:10px 0;min-width:0}
+#chatInput .send{background:none;border:0;color:var(--blue);font-weight:700;font-size:15px;cursor:pointer;padding:8px}
+.typing{align-self:flex-start;background:#2b2b2b;border-radius:18px;padding:10px 14px;font-size:14px;color:var(--muted)}
+/* ---------- story ---------- */
+#screen-story{background:#000;z-index:70}
+#storyBars{display:flex;gap:5px;padding:calc(10px + env(safe-area-inset-top)) 10px 0}
+#storyBars i{flex:1;height:2.5px;border-radius:99px;background:rgba(255,255,255,.35);overflow:hidden;display:block}
+#storyBars i b{display:block;height:100%;width:0;background:#fff}
+#storyHead{display:flex;align-items:center;gap:9px;padding:10px 12px;z-index:2}
+#storyHead .who{flex:1;font-size:14px}
+#storyHead .who small{color:#ddd}
+#storyArt{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#storyArt .big-emoji{font-size:130px}
+#storyFoot{display:flex;gap:10px;align-items:center;padding:10px 12px calc(14px + env(safe-area-inset-bottom))}
+#storyFoot .rep{flex:1;background:none;border:1px solid rgba(255,255,255,.7);border-radius:99px;padding:11px 16px;color:#fff;font-size:14px;outline:none;min-width:0}
+#storyFoot .rep::placeholder{color:#eee}
+/* ---------- sheets ---------- */
+#scrim{position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:55;opacity:0;pointer-events:none;transition:opacity .25s}
+#scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:60;background:var(--sheet);border-radius:16px 16px 0 0;max-height:72%;display:flex;flex-direction:column;transform:translateY(105%);transition:transform .28s ease}
+.sheet.open{transform:translateY(0)}
+.sheet.tall{max-height:88%}
+.grab{width:36px;height:4px;border-radius:99px;background:#555;margin:10px auto 2px;flex:none}
+.sheet header{padding:8px 16px 12px;display:flex;align-items:center;justify-content:center;position:relative;border-bottom:1px solid #333;flex:none}
+.sheet header b{font-size:15.5px}
+.sheet header button{position:absolute;right:12px;background:none;border:0;color:#fff;font-size:20px;cursor:pointer}
+.sheet .body{overflow-y:auto;padding:6px 0 calc(16px + env(safe-area-inset-bottom))}
+.comment{display:flex;gap:10px;padding:9px 16px;align-items:flex-start}
+.cavatar{width:34px;height:34px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.comment .ctext{flex:1;font-size:13.5px;line-height:1.38;min-width:0}
+.comment .ctext small{color:var(--muted);font-size:12px}
+.clike{background:none;border:0;color:var(--muted);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;flex:none}
+.clike svg{width:14px;height:14px}
+.clike.on{color:var(--red)}
+.clike.on svg{fill:var(--red);stroke:var(--red)}
+.cinput{display:flex;gap:8px;margin:8px 12px 0;align-items:center}
+.cinput input{flex:1;background:var(--input);border-radius:99px;border:0;padding:11px 15px;color:#fff;outline:none;font-size:14px;min-width:0}
+.cinput button{background:none;border:0;color:var(--blue);font-weight:700;font-size:14px;cursor:pointer}
+.share-search{margin:8px 16px;background:#2b2b2b;border-radius:10px;padding:9px 12px;font-size:14px;color:var(--muted)}
+.contacts{display:flex;gap:13px;overflow-x:auto;padding:8px 16px;scrollbar-width:none}
+.contacts::-webkit-scrollbar{display:none}
+.contact{background:none;border:0;color:#fff;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;min-width:60px}
+.contact .ring{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7);padding:2.5px}
+.contact .ring b{width:100%;height:100%;border-radius:50%;background:#333;display:flex;align-items:center;justify-content:center;border:2.5px solid #1e1e1e}
+.srow{display:flex;align-items:center;gap:14px;width:100%;background:none;border:0;border-top:1px solid #333;color:#fff;padding:13px 16px;font-size:14.5px;cursor:pointer;text-align:left}
+.srow svg{width:23px;height:23px;flex:none}
+.mrow{display:block;width:calc(100% - 24px);margin:0 12px;background:#2b2b2b;border:0;color:#fff;padding:14px;font-size:14.5px;cursor:pointer;text-align:center}
+.mrow.first{border-radius:14px 14px 0 0}.mrow.mid{border-radius:0;border-top:1px solid #3d3d3d}.mrow.last{border-radius:0 0 14px 14px;border-top:1px solid #3d3d3d}
+.mrow.cancel{border-radius:14px;margin-top:8px;font-weight:700}
+.mrow.danger{color:#ff5c5c}
+.likerow{display:flex;align-items:center;gap:11px;padding:8px 16px}
+.likerow .who{flex:1;min-width:0}.likerow .who b{font-size:14px;display:block}.likerow .who small{color:var(--muted);font-size:12.5px}
+.finput{margin:4px 16px 8px;background:var(--input);border-radius:10px;padding:9px 12px;font-size:14px}
+.finput input{width:100%;background:none;border:0;outline:none;color:#fff;font-size:14px}
+.tinput{margin:8px 16px}
+.tinput label{display:block;font-size:12.5px;color:var(--muted);margin:10px 0 4px}
+.tinput input,.tinput textarea{width:100%;background:var(--input);border:0;border-radius:10px;padding:11px 13px;color:#fff;font-size:14.5px;outline:none;font-family:inherit}
+.savebtn{margin:12px 16px 4px;background:var(--blue);border:0;color:#fff;border-radius:12px;padding:13px;font-weight:700;font-size:15px;cursor:pointer;width:calc(100% - 32px)}
+.setrow{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;color:#fff;padding:14px 16px;font-size:15px;cursor:pointer;text-align:left}
+.setrow .tg{margin-left:auto;width:46px;height:27px;border-radius:99px;background:#333;position:relative;flex:none;transition:background .2s}
+.setrow .tg::after{content:"";position:absolute;top:2.5px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .2s}
+.setrow.on .tg{background:var(--blue)}
+.setrow.on .tg::after{left:21px}
+/* audio */
+#audioPage{padding:calc(12px + env(safe-area-inset-top)) 16px 76px;overflow-y:auto}
+.ap-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.ap-head b{font-size:17px}
+.ap-cover{width:110px;height:110px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:52px;margin:6px auto 12px}
+.ap-title{text-align:center;font-weight:700;font-size:16px}
+.ap-artist{text-align:center;color:var(--muted);font-size:13px;margin:4px 0 14px}
+.ap-btns{display:flex;gap:10px;margin-bottom:16px}
+.ap-btns button{flex:1;border-radius:12px;padding:12px;font-weight:700;font-size:14px;cursor:pointer;border:0}
+.ap-use{background:var(--blue);color:#fff}.ap-save{background:#2b2b2b;color:#fff}
+.ap-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px}
+#toast{position:absolute;left:50%;bottom:96px;transform:translateX(-50%) translateY(16px);z-index:90;background:#2b2b2b;border:1px solid #3d3d3d;color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:12px;opacity:0;transition:all .25s;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+#composerBg{display:flex;gap:10px;padding:4px 16px;flex-wrap:wrap}
+#composerBg button{width:52px;height:52px;border-radius:14px;border:2px solid transparent;cursor:pointer;font-size:22px}
+#composerBg button.on{border-color:var(--blue)}
+#composerPrev{margin:10px 16px;border-radius:14px;min-height:220px;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;font-size:22px;font-weight:800}
+</style>
+</head>
+<body>
+<div id="phone">
+
+  <!-- LOGIN -->
+  <section id="screen-login" class="screen">
+    <div class="login-sp"></div>
+    <div class="ig-script">Instagram</div>
+    <div class="login-form" id="loginForm">
+      <input id="liUser" placeholder="Phone number, username or email" autocomplete="username">
+      <input id="liPass" type="password" placeholder="Password" autocomplete="current-password">
+      <button id="loginBtn" disabled>Log in</button>
+    </div>
+    <button class="login-forgot" id="forgotBtn">Forgotten your login details? <b>Get help with logging in.</b></button>
+    <div class="login-or">OR</div>
+    <button class="login-fb" id="fbBtn"><svg viewBox="0 0 24 24" fill="#0095F6" style="width:20px;height:20px"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg>Continue with Facebook</button>
+    <div style="flex:1;min-height:30px"></div>
+    <div class="login-signup"><span id="suPrompt">Don't have an account?</span> <button id="suBtn">Sign up</button></div>
+    <div class="meta-foot">from<br><b style="font-size:15px">M e t a</b></div>
+  </section>
+
+  <!-- HOME -->
+  <section id="screen-home" class="screen" hidden>
+    <div class="topbar"><h2 class="ig-script" style="font-size:27px">Instagram</h2><span class="sp"></span>
+      <button class="ibtn" data-act="likes" aria-label="notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="badge" id="notifBadge">3</span></button>
+      <button class="ibtn" data-act="inbox" aria-label="messages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.5c-5 0-9 3.6-9 8 0 1.5.5 3 1.4 4.1L3.5 20.5l4.7-1.2c1.1.5 2.4.7 3.8.7 5 0 9-3.6 9-8s-4-8.5-9-8.5z"/><path d="m8.5 11 2.5 2.5 4.5-4.5" stroke-width="1.6"/></svg><span class="badge" id="dmBadge">3</span></button>
+    </div>
+    <div id="homeScroll"><div id="stories"></div><div id="posts"></div></div>
+  </section>
+
+  <!-- SEARCH -->
+  <section id="screen-search" class="screen" hidden>
+    <div class="topbar"><h2>Explore</h2></div>
+    <div id="searchBar">🔍 <input id="searchInput" placeholder="Search"></div>
+    <div id="searchScroll" style="flex:1;overflow-y:auto"><div id="peopleRes"></div><div id="expGrid"></div></div>
+  </section>
+
+  <!-- REELS -->
+  <section id="screen-reels" class="screen" hidden>
+    <div id="reelHeader"><h2>Reels ⌄</h2><button id="friendPill"><span class="pa" style="background:#7b2ff7">A</span><span class="pa" style="background:#0095F6">M</span><span class="pa" style="background:#ee2a7b">K</span><span class="chev">›</span></button></div>
+    <div id="feed" style="flex:1;height:100%;overflow-y:auto"></div>
+    <div id="muteFlash"></div>
+  </section>
+
+  <!-- ACTIVITY -->
+  <section id="screen-activity" class="screen" hidden>
+    <div class="topbar"><h2>Notifications</h2></div>
+    <div id="actScroll" style="flex:1;overflow-y:auto;padding-bottom:74px"></div>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="screen-profile" class="screen" hidden>
+    <div id="pfScroll" style="flex:1;overflow-y:auto;padding-bottom:70px">
+      <div class="pf-head"><b id="pfUser">harshit.exe ⌄</b><span class="sp"></span>
+        <button class="ibtn" id="pfCreate" aria-label="create"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></svg></button>
+        <button class="ibtn" id="pfMenu" aria-label="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      </div>
+      <div class="pf-row">
+        <button class="pf-ava" id="myStoryBtn"><b style="background:url(portraits/you.jpg) center/cover"></b></button>
+        <button class="pf-stats" id="statPosts"><div><b id="cPosts">12</b>posts</div></button>
+        <button class="pf-stats" id="statFollowers"><div><b id="cFollowers">248</b>followers</div></button>
+        <button class="pf-stats" id="statFollowing"><div><b id="cFollowing">312</b>following</div></button>
+      </div>
+      <div class="pf-bio" id="pfBio"></div>
+      <div class="pf-btns"><button id="pfEdit">Edit profile</button><button id="pfShareBtn">Share profile</button></div>
+      <div id="highlights"></div>
+      <div class="pf-tabs">
+        <button data-pt="posts" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="1"/><path d="M3.5 9.5h17M9.5 3.5v17"/></svg></button>
+        <button data-pt="reels"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M9.5 9.5l5 2.5-5 2.5z" fill="currentColor"/></svg></button>
+        <button data-pt="tagged"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.5-3.5 4-5 7-5s5.5 1.5 7 5"/></svg></button>
+      </div>
+      <div class="pf-grid" id="pfGrid"></div>
+    </div>
+  </section>
+
+  <!-- USER PROFILE -->
+  <section id="screen-user" class="screen" hidden>
+    <div id="userScroll" style="flex:1;overflow-y:auto;padding-bottom:20px">
+      <div class="topbar"><button class="ibtn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 5l-7 7 7 7"/></svg></button><b id="upUser" style="font-size:18px">user</b><span class="sp"></span></div>
+      <div class="pf-row"><span class="pf-ava" id="upAva"><b>A</b></span>
+        <div class="pf-stats"><div><b id="upPosts">24</b>posts</div><div><b id="upFollowers">12.4K</b>followers</div><div><b id="upFollowing">312</b>following</div></div></div>
+      <div class="pf-bio" id="upBio"></div>
+      <div class="pf-btns"><button class="fbtn" id="upFollow" style="flex:1">Follow</button><button id="upMsg">Message</button></div>
+      <div class="pf-grid" id="upGrid"></div>
+    </div>
+  </section>
+
+  <!-- INBOX -->
+  <section id="screen-inbox" class="screen" hidden>
+    <div class="topbar"><button class="ibtn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 5l-7 7 7 7"/></svg></button><b style="font-size:17px" id="inboxUser">harshit.exe ⌄</b><span class="sp"></span><button class="ibtn" data-act="compose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button></div>
+    <div id="notesRow"></div>
+    <div style="padding:4px 14px 8px"><div class="share-search" style="margin:0">🔍&nbsp; Search</div></div>
+    <div id="threadList" style="flex:1;overflow-y:auto"></div>
+  </section>
+
+  <!-- THREAD -->
+  <section id="screen-thread" class="screen" hidden>
+    <div class="topbar"><button class="ibtn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ava" id="thAva" style="width:32px;height:32px;font-size:14px">A</span><div style="flex:1"><b id="thName" style="font-size:15.5px">aarav</b><div id="thActive" style="font-size:11.5px;color:var(--muted)">Active now</div></div>
+    <button class="ibtn" data-act="call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></button></div>
+    <div id="chatScroll"></div>
+    <div id="chatInput"><div class="field"><input id="chatText" placeholder="Message..."><button class="send" id="chatSend" hidden>Send</button><button class="ibtn" id="chatHeart" aria-label="like"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:26px;height:26px"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button></div></div>
+  </section>
+
+  <!-- STORY -->
+  <section id="screen-story" class="screen" hidden>
+    <div id="storyBars"></div>
+    <div id="storyHead"><span class="ava" id="stAva" style="width:34px;height:34px">A</span><div class="who"><b id="stUser">aarav</b> <small id="stTime">2h</small></div>
+      <button class="ibtn" data-act="storymore"><svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button>
+      <button class="ibtn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:24px;height:24px"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div id="storyArt" style="flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"></div>
+    <div id="storyFoot"><input class="rep" id="storyReply" placeholder="Reply..."><button class="ibtn" id="storyLike"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:28px;height:28px"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button><button class="ibtn" id="storySend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:28px;height:28px"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></button></div>
+  </section>
+
+  <!-- AUDIO -->
+  <section id="screen-audio" class="screen" hidden>
+    <div id="audioPage" style="padding:calc(12px + env(safe-area-inset-top)) 16px 76px;overflow-y:auto">
+      <div class="ap-head"><button class="ibtn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 5l-7 7 7 7"/></svg></button><b>Audio</b></div>
+      <div class="ap-cover" id="apCover">🎵</div>
+      <div class="ap-title" id="apTitle">track</div>
+      <div class="ap-artist" id="apArtist">artist</div>
+      <div class="ap-btns"><button class="ap-use" id="apUse">Use audio</button><button class="ap-save" id="apSave">Save audio</button></div>
+      <div style="font-weight:700;margin:4px 0 8px" id="apCount">reels</div>
+      <div class="ap-grid" id="apGrid"></div>
+    </div>
+  </section>
+
+  <!-- SAVED -->
+  <section id="screen-saved" class="screen" hidden>
+    <div class="topbar"><button class="ibtn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 5l-7 7 7 7"/></svg></button><b style="font-size:17px">Saved</b></div>
+    <div id="savedGrid" class="pf-grid" style="flex:1;overflow-y:auto"></div>
+  </section>
+
+  <div id="tabbar" hidden>
+    <button class="tab" data-t="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></button>
+    <button class="tab" data-t="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg></button>
+    <button class="tab" data-t="create"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></svg></button>
+    <button class="tab on" data-t="reels"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="m10 8.5 5 2.5-5 2.5z" fill="#000"/><path d="m4 3 1.8-1 1.8 1 1.8-1 1.8 1 1.8-1 1.8 1 1.8-1 1.8 1 1.8-1V5H4z"/></svg></button>
+    <button class="tab" data-t="profile"><span class="me"><b style="background:url(portraits/you.jpg) center/cover"></b></span></button>
+  </div>
+
+  <div id="scrim"></div>
+
+  <div id="commentSheet" class="sheet tall"><div class="grab"></div>
+    <header><b id="csTitle">Comments</b><button data-close>✕</button></header>
+    <div class="body"><div id="csList"></div>
+      <div class="cinput"><input id="csInput" placeholder="Add a comment..."><button id="csSend">Post</button></div></div>
+  </div>
+
+  <div id="shareSheet" class="sheet"><div class="grab"></div>
+    <header><b>Share</b><button data-close>✕</button></header>
+    <div class="body"><div class="share-search">🔍&nbsp; Search...</div><div class="contacts" id="shareContacts"></div>
+      <button class="srow" data-s="copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>Copy link</button>
+      <button class="srow" data-s="story"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/></svg>Share to story</button>
+      <button class="srow" data-s="dm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>Send in chat with Aarav</button>
+      <button class="srow" data-s="wa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 0 1-13.2 8L3 21l1-4.6A9 9 0 1 1 21 12z"/><circle cx="12" cy="12" r="2.5"/></svg>Share on WhatsApp</button>
+    </div>
+  </div>
+
+  <div id="moreSheet" class="sheet"><div class="grab"></div>
+    <div class="body" style="padding-top:10px">
+      <button class="mrow first" data-m="save">Save</button>
+      <button class="mrow mid" data-m="remix">Remix</button>
+      <button class="mrow mid" data-m="not">Not interested</button>
+      <button class="mrow mid" data-m="copy">Copy link</button>
+      <button class="mrow mid" data-m="why">Why you're seeing this post</button>
+      <button class="mrow last danger" data-m="report">Report</button>
+      <button class="mrow cancel" data-close>Cancel</button>
+    </div>
+  </div>
+
+  <div id="likesSheet" class="sheet"><div class="grab"></div>
+    <header><b>Likes</b><button data-close>✕</button></header>
+    <div class="body" id="likesList"></div>
+  </div>
+
+  <div id="followSheet" class="sheet tall"><div class="grab"></div>
+    <header><b id="fsTitle">Followers</b><button data-close>✕</button></header>
+    <div class="body"><div class="finput"><input id="fsSearch" placeholder="Search"></div><div id="fsList"></div></div>
+  </div>
+
+  <div id="menuSheet" class="sheet"><div class="grab"></div>
+    <div class="body" style="padding-top:10px">
+      <button class="mrow first" data-m="saved">Saved</button>
+      <button class="mrow mid" data-m="archive">Archive</button>
+      <button class="mrow mid" data-m="settings">Settings and privacy</button>
+      <button class="mrow last" data-m="logout">Log out</button>
+      <button class="mrow cancel" data-close>Cancel</button>
+    </div>
+  </div>
+
+  <div id="settingsSheet" class="sheet"><div class="grab"></div>
+    <header><b>Settings and privacy</b><button data-close>✕</button></header>
+    <div class="body" style="padding-top:6px">
+      <button class="setrow" data-set="private">Private account<span class="tg"></span></button>
+      <button class="setrow" data-set="notif">Push notifications<span class="tg"></span></button>
+      <button class="setrow" data-set="sound">Sounds in app<span class="tg"></span></button>
+    </div>
+  </div>
+
+  <div id="editSheet" class="sheet tall"><div class="grab"></div>
+    <header><b>Edit profile</b><button data-close>✕</button></header>
+    <div class="body"><div class="tinput">
+      <label>Name</label><input id="eName" value="Harshit">
+      <label>Username</label><input id="eUser" value="harshit.exe">
+      <label>Bio</label><textarea id="eBio" rows="3">🎓 BTech CSE '26 | placements&#10;📚 revising 500 interview Qs&#10;📍 delhi</textarea>
+      <button class="savebtn" id="eSave">Done</button></div></div>
+  </div>
+
+  <div id="createSheet" class="sheet"><div class="grab"></div>
+    <div class="body" style="padding-top:10px">
+      <button class="mrow first" data-c="reel">Reel</button>
+      <button class="mrow mid" data-c="post">Post</button>
+      <button class="mrow mid" data-c="story">Story</button>
+      <button class="mrow last" data-c="live">Live</button>
+      <button class="mrow cancel" data-close>Cancel</button>
+    </div>
+  </div>
+
+  <div id="composerSheet" class="sheet tall"><div class="grab"></div>
+    <header><b id="cpTitle">New post</b><button data-close>✕</button></header>
+    <div class="body">
+      <div class="tinput" style="margin-top:0"><label>Caption</label><textarea id="cpText" rows="2" placeholder="Write a caption..."></textarea></div>
+      <div class="tinput"><label>Background</label></div><div id="composerBg"></div>
+      <div id="composerPrev">preview ✨</div>
+      <button class="savebtn" id="cpShare">Share</button>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const SVG={
+ heart:f=>`<svg viewBox="0 0 24 24" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="1.8"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>`,
+ comment:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.5c-5 0-9 3.6-9 8 0 1.5.5 3 1.4 4.1L3.5 20.5l4.7-1.2c1.1.5 2.4.7 3.8.7 5 0 9-3.6 9-8s-4-8.5-9-8.5z"/></svg>',
+ send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>',
+ save:f=>`<svg viewBox="0 0 24 24" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="1.8"><path d="M19 21 12 16 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`,
+ more:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>',
+ badge:'<svg class="vbadge" viewBox="0 0 24 24" fill="#0095F6"><circle cx="12" cy="12" r="10"/><path d="m8.5 12.2 2.4 2.4 4.6-5" stroke="#000" stroke-width="2" fill="none"/></svg>'};
+/* ================= DATA ================= */
+const YOU={u:'harshit.exe',n:'Harshit',e:'🙂',img:'portraits/you.jpg'};
+const PEOPLE=[
+ {u:'aarav.mehta',n:'Aarav Mehta',e:'😎',v:0,h:'#7b2ff7,#ee2a7b',img:'portraits/aarav.jpg'},
+ {u:'meera.kapoor',n:'Meera Kapoor',e:'🌸',v:1,h:'#0095F6,#00e5ff',img:'portraits/meera.jpg'},
+ {u:'kabir.jpeg',n:'Kabir',e:'📸',v:0,h:'#f9ce34,#ee2a7b',img:'portraits/kabir.jpg'},
+ {u:'zoya.exe',n:'Zoya',e:'🎧',v:1,h:'#6228d7,#ee2a7b',img:'portraits/zoya.jpg'},
+ {u:'arjun.wav',n:'Arjun',e:'⚽',v:0,h:'#22c55e,#0095F6',img:'portraits/arjun.jpg'},
+ {u:'ira.jpg',n:'Ira',e:'🎨',v:0,h:'#ee2a7b,#ff5c5c',img:'portraits/ira.jpg'},
+ {u:'dev.builds',n:'Dev',e:'💻',v:0,h:'#333,#888',img:'portraits/dev.jpg'},
+ {u:'noor.jpg',n:'Noor',e:'🌙',v:0,h:'#1a1a40,#6228d7',img:'portraits/noor.jpg'},
+ {u:'chai.sutta',n:'Chai Sutta',e:'☕',v:1,h:'#8B5A2B,#f9ce34',img:'portraits/chai.jpg'},
+ {u:'delhi.foodie',n:'Delhi Foodie',e:'🍜',v:1,h:'#ff5c5c,#f9ce34',img:'portraits/foodie.jpg'},
+ {u:'rohan.jpeg',n:'Rohan',e:'🏏',v:0,h:'#0095F6,#22c55e',img:'portraits/rohan.jpg'},
+ {u:'sneha.jpg',n:'Sneha',e:'💃',v:0,h:'#ee2a7b,#f9ce34',img:'portraits/sneha.jpg'}];
+const PERSONA={
+ 'os.concepts':{u:'os.concepts',n:'OS Concepts',e:'⚙️',v:0,h:'#0095F6,#6228d7',img:'portraits/os.jpg'},
+ 'oops.decoded':{u:'oops.decoded',n:'OOPS Decoded',e:'🧬',v:0,h:'#7b2ff7,#ee2a7b',img:'portraits/oops.jpg'},
+ 'dbms.simplified':{u:'dbms.simplified',n:'DBMS Simplified',e:'🗄️',v:0,h:'#22c55e,#0b3d2e',img:'portraits/dbms.jpg'},
+ 'networks.ninja':{u:'networks.ninja',n:'Networks Ninja',e:'🌐',v:0,h:'#00e5ff,#0095F6',img:'portraits/networks.jpg'},
+ 'ml.interview':{u:'ml.interview',n:'ML Interview',e:'🤖',v:0,h:'#f9ce34,#ee2a7b',img:'portraits/ml.jpg'},
+ 'system.design':{u:'system.design',n:'System Design',e:'🏗️',v:0,h:'#ee2a7b,#6228d7',img:'portraits/sd.jpg'}};
+const P=u=>u===YOU.u?YOU:PEOPLE.find(p=>p.u===u)||PERSONA[u]||{u,n:u,e:'🙂',v:0,h:'#555,#999'};
+const ava=(p,s)=>p.img?`<span class="ava" style="width:${s}px;height:${s}px;background:url(${p.img}) center/cover"></span>`:`<span class="ava" style="width:${s}px;height:${s}px;font-size:${Math.round(s*.45)}px;background:linear-gradient(135deg,${p.h||'#555,#999'})">${p.e||'🙂'}</span>`;
+function scene(h1,h2){return `<div class="scene" style="background:radial-gradient(700px 500px at 20% 15%,${h1}55,transparent 60%),radial-gradient(700px 500px at 85% 80%,${h2}66,transparent 62%),linear-gradient(180deg,#0b0b12,#050508)"></div>`}
+/* ---- 500 interview reels (filled by generator; aesthetic fallback below) ---- */
+const QUESTIONS=[{"t":"os","q":"What is an operating system and what are its main functions in a computer","a":"OS is system software managing CPU, memory, I/O and providing interface between user and hardware"},{"t":"oops","q":"What is object oriented programming and why is it used in software development","a":"OOP models software as interacting objects to improve modularity, reuse, and maintainability."},{"t":"dbms","q":"What is DBMS and how does it differ from traditional file system storage?","a":"DBMS manages structured data with integrity, sharing, security unlike flat file storage."},{"t":"cn","q":"What are the seven layers of OSI model and their main functions","a":"Physical to Application: bits, frames, routing, segments, sessions, encryption-format, user services."},{"t":"ml","q":"What is difference between supervised and unsupervised learning with examples","a":"Supervised learns from labeled data like spam detection; unsupervised finds patterns in unlabeled data like clustering."},{"t":"sd","q":"What is a load balancer and why is it needed in large systems","a":"Distributes traffic across servers to avoid overload and ensure availability and fault tolerance."},{"t":"os","q":"Explain difference between process and program with suitable example","a":"Program is passive code on disk; process is active executing instance with PCB and resources"},{"t":"oops","q":"Explain class and object with a real life example from daily life","a":"A class is a blueprint like Car design; an object is instance like my red Honda."},{"t":"dbms","q":"Explain primary key with a real example from student database tables.","a":"Student ID uniquely identifies each student row and prevents duplicate or null entries."},{"t":"cn","q":"How does the TCP IP model differ from the OSI model in layers","a":"TCP/IP has 4 layers merging OSI top three and bottom two for practical implementation."},{"t":"ml","q":"When would you prefer regression over classification for a business problem","a":"Choose regression when predicting continuous values like price; classification when predicting categories like churn."},{"t":"sd","q":"Explain round robin versus least connections load balancing algorithms","a":"Round robin cycles evenly; least connections sends to least busy server for uneven workloads."},{"t":"os","q":"What is a thread and how is it different from a process","a":"Thread is lightweight unit of execution sharing process memory but with own stack and registers"},{"t":"oops","q":"What is encapsulation and how does it protect data in a class","a":"Encapsulation bundles data and methods and restricts access to protect internal state."},{"t":"dbms","q":"What is foreign key and how does it enforce referential integrity?","a":"Foreign key links tables and blocks orphan rows by enforcing valid referenced values."},{"t":"cn","q":"Why is OSI called a reference model while TCP IP is practical","a":"OSI is theoretical reference for concepts; TCP/IP is practical stack actually powering internet."},{"t":"ml","q":"Explain linear regression and its key assumptions in simple terms","a":"Linear regression fits a straight line; assumes linearity, independence, homoscedasticity, normal residuals."},{"t":"sd","q":"How does a Layer 4 load balancer differ from a Layer 7 load balancer","a":"Layer 4 routes by IP and port; Layer 7 routes by content like URL and headers."},{"t":"os","q":"Explain different states of a process with neat state diagram","a":"States are new, ready, running, waiting, terminated; scheduler moves process among them"},{"t":"oops","q":"How is data hiding achieved using private and public access specifiers","a":"Data hiding uses private for internals and public methods as controlled access gateway."},{"t":"dbms","q":"Differentiate primary key, unique key and candidate key in DBMS.","a":"Primary key is unique not-null; unique allows nulls; candidate keys are eligible primaries."},{"t":"cn","q":"Which OSI layer handles encryption compression and data formatting","a":"Presentation layer handles encryption, compression, and data formatting-translation."},{"t":"ml","q":"What does mean squared error measure in regression models","a":"MSE averages squared prediction errors; penalizes large errors heavily, lower means closer predictions."},{"t":"sd","q":"What is sticky session and when should you avoid using it","a":"Sticky sessions pin users to one server; avoid it when you need stateless scale and failover."},{"t":"os","q":"What is process control block and what information does it store","a":"PCB stores PID, state, registers, PC, scheduling, memory and I/O info for a process"},{"t":"oops","q":"What are access modifiers and how do public private protected differ","a":"Public is open access, private is class-only, protected adds derived-class access."},{"t":"dbms","q":"What is composite key and when would you use it in design?","a":"Composite key combines columns to uniquely identify rows when one column is insufficient."},{"t":"cn","q":"At which OSI layer do routers switches and hubs operate respectively","a":"Hub-Physical, Switch-DataLink, Router-Network layer operates respectively."},{"t":"ml","q":"How does R squared score help evaluate regression performance","a":"R-squared is fraction of variance explained by model; 1 is perfect, 0 means no better than mean."},{"t":"sd","q":"How would you eliminate single point of failure in load balancers","a":"Deploy load balancers in active-active pairs across zones with floating IP failover."},{"t":"os","q":"Explain context switching and its overhead in multiprogramming systems","a":"Context switching saves and restores process state to share CPU; overhead is no useful work done"},{"t":"oops","q":"Explain single inheritance with a suitable code example in any language","a":"Single inheritance: one child inherits one parent, e.g., Dog extends Animal."},{"t":"dbms","q":"Explain super key with example in relational database tables.","a":"Super key is any column set uniquely identifying a row, including extra attributes."},{"t":"cn","q":"Explain encapsulation and decapsulation across OSI layers with example","a":"Each layer adds header on send and strips it on receive, e.g., TCP segment to IP packet."},{"t":"ml","q":"What is difference between classification and regression tasks","a":"Classification predicts discrete labels; regression predicts continuous numbers."},{"t":"sd","q":"Explain health checks performed by load balancers for backend servers","a":"Load balancer probes server health via ping or HTTP checks and removes failed nodes."},{"t":"os","q":"What is a system call and explain its types with examples","a":"System call is interface to kernel services like process, file, device, info and communication control"},{"t":"oops","q":"What is multiple inheritance and which languages support it directly","a":"Multiple inheritance inherits from many parents; supported by C++, Python, not Java/C#."},{"t":"dbms","q":"What is ER model and what are its main components?","a":"ER model represents entities, attributes and relationships to design database structure."},{"t":"cn","q":"What happens to data as it moves down TCP IP layers from application","a":"App data becomes segment/datagram, then packet, frame, bits down TCP/IP stack."},{"t":"ml","q":"Explain logistic regression despite its name suggesting regression","a":"Logistic regression is classification; it applies sigmoid to linear output to predict class probabilities."},{"t":"sd","q":"How does consistent hashing help in distributed load balancing","a":"Consistent hashing maps nodes on a ring to minimize remapping when nodes join or leave."},{"t":"os","q":"Difference between user mode and kernel mode in operating system","a":"User mode restricts hardware access; kernel mode allows privileged instructions and direct hardware control"},{"t":"oops","q":"Explain multilevel inheritance with a real world example like vehicles","a":"Multilevel inheritance chains classes, e.g., Vehicle -> Car -> ElectricCar."},{"t":"dbms","q":"Explain entity, attribute and relationship with placement example.","a":"Entity is object, attribute is property, relationship links entities like Student enrolls Course."},{"t":"cn","q":"Differentiate between TCP and UDP in terms of reliability and speed","a":"TCP is reliable ordered connection-based; UDP is fast unordered connectionless."},{"t":"ml","q":"What is confusion matrix and why is it useful","a":"Confusion matrix tabulates TP, TN, FP, FN to reveal exactly where a classifier succeeds or fails."},{"t":"sd","q":"What is caching and how does it improve application performance","a":"Caching stores hot data in fast memory to cut latency and reduce database load."},{"t":"os","q":"What is CPU scheduling and why is it needed in multiprogramming","a":"CPU scheduling selects ready process for CPU to maximize utilization and minimize waiting time"},{"t":"oops","q":"What is hierarchical inheritance and where is it useful in design","a":"Hierarchical inheritance: many children share one parent, e.g., Animal -> Dog, Cat."},{"t":"dbms","q":"What are weak and strong entities in ER diagram design?","a":"Strong entity has own key; weak entity depends on strong entity for identity."},{"t":"cn","q":"When would you prefer UDP over TCP for real time applications","a":"UDP for real-time voice, video, gaming, DNS where low latency beats loss."},{"t":"ml","q":"Define accuracy and when can it be misleading","a":"Accuracy is correct share of predictions; misleading on imbalanced data where majority class dominates."},{"t":"sd","q":"Differentiate between browser cache CDN cache and application cache","a":"Browser caches per user, CDN caches globally at edge, app cache caches DB results server-side."},{"t":"os","q":"Explain FCFS scheduling algorithm with example and its drawbacks","a":"FCFS runs jobs in arrival order; simple but causes convoy effect and high average waiting"},{"t":"oops","q":"What is hybrid inheritance and why does it cause diamond problem","a":"Hybrid combines inheritance types; diamond problem is duplicate base via two paths."},{"t":"dbms","q":"Explain one to many relationship with college database example.","a":"One department has many students but each student belongs to only one department."},{"t":"cn","q":"Why is TCP slower than UDP despite providing reliable delivery","a":"TCP slower due to handshake, ACKs, retransmission, ordering and congestion control overhead."},{"t":"ml","q":"What is precision and when is it more important","a":"Precision is true positives over predicted positives; vital when false alarms are costly like spam filtering."},{"t":"sd","q":"Explain cache hit cache miss and cache eviction policies briefly","a":"Hit serves from cache, miss fetches from source; eviction removes stale items via LRU or TTL."},{"t":"os","q":"Explain SJF scheduling and why it is optimal for average waiting time","a":"SJF runs shortest burst first; optimal for average wait but needs burst prediction and may starve"},{"t":"oops","q":"Explain diamond problem in inheritance and how to resolve it","a":"Diamond problem is ambiguous base copy; resolved by virtual inheritance or interfaces."},{"t":"dbms","q":"What is many to many relationship and how to implement it?","a":"Many students take many courses; implement via junction table with both foreign keys."},{"t":"cn","q":"Explain TCP header and UDP header fields and their sizes","a":"TCP header 20B with seq/ack/flags/window; UDP header 8B with ports/length/checksum only."},{"t":"ml","q":"What is recall and when should you prioritize it","a":"Recall is true positives over actual positives; prioritize when missing cases is costly like cancer screening."},{"t":"sd","q":"How does LRU cache work and where is it commonly used","a":"LRU evicts least recently used items; used in memory caches like Redis and CDNs."},{"t":"os","q":"What is round robin scheduling and how does time quantum affect it","a":"Round robin gives each process fixed time quantum cyclically; quantum balances response and switches"},{"t":"oops","q":"What is polymorphism and what are its two main types in OOP","a":"Polymorphism lets one interface act many ways; types are compile-time and runtime."},{"t":"dbms","q":"What is self referential relationship in ER model with example?","a":"Self relationship links same table rows, e.g., employee reports to manager employee."},{"t":"cn","q":"How does TCP ensure ordered delivery while UDP does not guarantee order","a":"TCP uses sequence numbers and ACKs to reorder; UDP has no sequencing or retransmission."},{"t":"ml","q":"Explain F1 score and when to use it over accuracy","a":"F1 is harmonic mean of precision and recall; use on imbalanced data instead of accuracy."},{"t":"sd","q":"What is cache stampede and how do you prevent it in production","a":"Stampede is mass cache misses overloading DB; prevent with locks, jittered TTL and warming."},{"t":"os","q":"Explain priority scheduling and how starvation occurs in it","a":"Priority scheduling runs highest priority first; low priority may starve without aging"},{"t":"oops","q":"Explain compile time polymorphism with function overloading example","a":"Compile-time polymorphism via overloading: same method name, different parameters."},{"t":"dbms","q":"Explain cardinality and participation constraints in ER diagrams.","a":"Cardinality is relationship count ratio; participation defines mandatory or optional involvement."},{"t":"cn","q":"Can UDP provide reliable transmission and if so how is it achieved","a":"Yes, app-layer ACKs, sequence, retries over UDP, e.g., QUIC, can ensure reliability."},{"t":"ml","q":"What is ROC AUC curve and what does it indicate","a":"ROC-AUC plots true vs false positive rates; AUC 1 is perfect, 0.5 is random guessing."},{"t":"sd","q":"Explain write through write behind and write around caching strategies","a":"Write-through writes cache and DB together; behind writes cache first; around bypasses cache."},{"t":"os","q":"What is multilevel queue scheduling in operating systems","a":"Multilevel queue groups processes into queues with own scheduling and priority among queues"},{"t":"oops","q":"Explain runtime polymorphism with method overriding example","a":"Runtime polymorphism via overriding: subclass redefines base method, resolved dynamically."},{"t":"dbms","q":"How do you convert ER diagram into relational tables?","a":"Map entities to tables, attributes to columns, relationships to keys or junction tables."},{"t":"cn","q":"Why is TCP used for file transfer while UDP suits video streaming","a":"TCP ensures lossless file integrity; UDP tolerates loss for continuous streaming speed."},{"t":"ml","q":"What is overfitting and how can you detect it","a":"Overfitting memorizes training noise; detect by high train but low validation performance."},{"t":"sd","q":"How would you design a distributed cache for millions of users","a":"Use sharded Redis cluster with consistent hashing, replication, TTL and eviction for scale."},{"t":"os","q":"Difference between preemptive and nonpreemptive CPU scheduling","a":"Preemptive allows CPU forcible takeover; nonpreemptive holds CPU until completion or block"},{"t":"oops","q":"Difference between method overloading and method overriding in OOP","a":"Overloading is same scope, different signature; overriding is subclass redefinition."},{"t":"dbms","q":"What is normalization and why is it important in database design?","a":"Normalization removes redundancy and anomalies by organizing tables into normal forms."},{"t":"cn","q":"What are the port numbers used by TCP and UDP for common services","a":"HTTP 80, HTTPS 443, FTP 21, SMTP 25, DNS 53, DHCP 67/68, Telnet 23, SSH 22."},{"t":"ml","q":"List three common techniques to prevent overfitting in models","a":"Prevent overfitting with cross-validation, regularization, pruning, dropout, and more data."},{"t":"sd","q":"What is Redis and why is it preferred for caching sessions","a":"Redis is in-memory store with sub-millisecond reads, ideal for sessions and hot cache."},{"t":"os","q":"Explain turnaround time waiting time and response time with formulas","a":"TAT=Completion-Arrival, Wait=TAT-Burst, Response=First run-Arrival for scheduling metrics"},{"t":"oops","q":"Can we overload constructors in a class and how does it work","a":"Yes, constructors can be overloaded with different parameter lists for flexible creation."},{"t":"dbms","q":"Explain First Normal Form with example of repeating groups.","a":"1NF requires atomic values with no repeating groups or multivalued columns."},{"t":"cn","q":"Explain TCP three way handshake process with SYN ACK sequence numbers","a":"SYN, SYN-ACK, ACK with ISNs synchronizes sequence numbers to open TCP connection."},{"t":"ml","q":"What is underfitting and how do you fix it","a":"Underfitting misses patterns from too-simple model; fix with more complex model, features, or longer training."},{"t":"sd","q":"What is a CDN and how does it reduce latency for global users","a":"CDN caches content at global edge servers to serve users from nearest location fast."},{"t":"os","q":"What is Belady anomaly and in which page replacement it occurs","a":"Belady anomaly is more frames increasing faults; occurs in FIFO but not in stack algorithms"},{"t":"oops","q":"Can we override static methods in Java or C++ explain why","a":"No, static methods cannot be overridden as they belong to class, not instance."},{"t":"dbms","q":"What is Second Normal Form and how to handle partial dependency?","a":"2NF removes partial dependency by making non-keys fully depend on whole primary key."},{"t":"cn","q":"Why does TCP need a three way handshake instead of two way","a":"Three-way prevents duplicate stale connections and confirms both sides can send-receive."},{"t":"ml","q":"Explain bias variance tradeoff with a simple example","a":"High bias underfits, high variance overfits; tradeoff is balancing simplicity versus sensitivity to data."},{"t":"sd","q":"How does CDN handle static versus dynamic content delivery","a":"CDN caches static at edge long-term; dynamic via short TTL or bypass to origin."},{"t":"os","q":"Explain paging in memory management with suitable example","a":"Paging divides memory into fixed pages and frames to allow noncontiguous allocation without external gaps"},{"t":"oops","q":"What is method hiding and how is it different from overriding","a":"Method hiding shadows base method without polymorphism; overriding enables dynamic dispatch."},{"t":"dbms","q":"Explain Third Normal Form with example of transitive dependency.","a":"3NF removes transitive dependency so non-keys depend only on the primary key."},{"t":"cn","q":"What is SYN flood attack and how does it exploit TCP handshake","a":"Attacker floods SYNs with spoofed IPs, filling half-open queue and denying legit connections."},{"t":"ml","q":"What is high bias versus high variance in models","a":"High bias systematically misses signal; high variance swings wildly with different training data."},{"t":"sd","q":"Explain origin server edge server and cache purging in CDNs","a":"Origin holds source content, edge serves copies; purging invalidates stale edge objects."},{"t":"os","q":"What is segmentation and how is it different from paging","a":"Segmentation divides process by logical units like code and stack for protection and sharing"},{"t":"oops","q":"What is abstraction and how is it different from encapsulation","a":"Abstraction hides complexity showing essentials; encapsulation hides data securing implementation."},{"t":"dbms","q":"What is BCNF and how is it stricter than Third Normal Form?","a":"BCNF requires every determinant be a key, stricter than 3NF for overlapping dependencies."},{"t":"cn","q":"Explain TCP connection termination using four way handshake process","a":"FIN-ACK both sides sequentially closes bidirectional TCP connection in four steps."},{"t":"ml","q":"How does cross validation help with model evaluation","a":"Cross-validation averages scores over folds for reliable estimate and better use of limited data."},{"t":"sd","q":"How would you use CDN to handle sudden traffic spikes efficiently","a":"Offload static assets to CDN with autoscaled origins and edge caching to absorb spikes."},{"t":"os","q":"Difference between paging and segmentation in operating systems","a":"Paging uses fixed equal blocks; segmentation uses variable logical blocks with external fragmentation"},{"t":"oops","q":"Explain abstract class with an example and when to use it","a":"Abstract class is partial blueprint, e.g., Animal with sound(); for shared base behavior."},{"t":"dbms","q":"Differentiate 3NF and BCNF with suitable table example.","a":"3NF allows non-key determinants; BCNF mandates all determinants be super keys."},{"t":"cn","q":"What happens if the final ACK is lost during TCP three way handshake","a":"Server retransmits SYN-ACK; connection stays half-open until timeout or retry succeeds."},{"t":"ml","q":"What is train test split and why is it necessary","a":"Train-test split holds out unseen data to honestly measure generalization and catch overfitting."},{"t":"sd","q":"What are the tradeoffs of CDN caching for frequently updated content","a":"CDN speeds reads but risks stale data; use short TTL and invalidation for fresh content."},{"t":"os","q":"What is virtual memory and how is it implemented using paging","a":"Virtual memory extends RAM using disk to run larger programs via paging and demand paging"},{"t":"oops","q":"What is an interface and how does it achieve full abstraction","a":"Interface defines pure contracts; class implements them to achieve full abstraction."},{"t":"dbms","q":"What is denormalization and when should you prefer it?","a":"Denormalization adds redundancy to speed reads when joins hurt performance."},{"t":"cn","q":"How do sequence and acknowledgment numbers work during TCP handshake","a":"ISNs exchanged then seq tracks sent bytes and ack confirms next expected byte."},{"t":"ml","q":"Why is stratified sampling important in train test split","a":"Stratified sampling preserves class ratios in splits so rare classes are fairly represented."},{"t":"sd","q":"What is database sharding and when should you shard a database","a":"Sharding splits data across DBs by key; shard when single node hits storage or throughput limits."},{"t":"os","q":"Explain demand paging and its advantages in memory management","a":"Demand paging loads pages only on reference, saving memory and faster startup with lazy loading"},{"t":"oops","q":"Difference between abstract class and interface in detail","a":"Abstract class allows state and code; interface only contracts with multiple inheritance."},{"t":"dbms","q":"Explain functional dependency with example in student table.","a":"Functional dependency means X determines Y, e.g., StudentID determines StudentName."},{"t":"cn","q":"Differentiate between HTTP and HTTPS in terms of security and ports","a":"HTTP port 80 plaintext; HTTPS port 443 TLS-encrypted authenticated secure."},{"t":"ml","q":"What happens if test data leaks into training data","a":"Leakage lets model memorize test answers, inflating scores and failing in production."},{"t":"sd","q":"Explain horizontal versus vertical scaling with suitable examples","a":"Vertical adds bigger machine; horizontal adds more machines for elastic scalable capacity."},{"t":"os","q":"What is page fault and what steps does OS take on page fault","a":"Page fault is missing page access; OS loads page from disk, updates table and resumes process"},{"t":"oops","q":"When would you prefer interface over abstract class in design","a":"Prefer interface for multiple unrelated abilities; abstract class for shared base code."},{"t":"dbms","q":"What are trivial and nontrivial functional dependencies in DBMS?","a":"Trivial dependency has Y subset of X; nontrivial has Y not contained in X."},{"t":"cn","q":"Explain how HTTPS establishes a secure connection using SSL TLS","a":"TCP handshake then TLS handshake exchanges certs/keys, then encrypted HTTP data flows."},{"t":"ml","q":"Explain decision tree splitting criteria like Gini and entropy","a":"Gini and entropy measure node impurity; splits choose the largest impurity reduction."},{"t":"sd","q":"How do you choose a shard key for evenly distributed data","a":"Pick high-cardinality, uniform, query-aligned key like user_id to balance load evenly."},{"t":"os","q":"Explain FIFO page replacement algorithm with example","a":"FIFO replaces oldest loaded page; simple but may evict needed pages and shows Belady anomaly"},{"t":"oops","q":"Can an interface contain constructors or data members explain","a":"No, interfaces cannot have constructors; only constants and method signatures allowed."},{"t":"dbms","q":"What is multivalued dependency and which normal form handles it?","a":"Multivalued dependency means one value maps to many; handled by Fourth Normal Form."},{"t":"cn","q":"What are HTTP request methods GET POST PUT DELETE used for","a":"GET reads, POST creates, PUT replaces/updates, DELETE removes resource."},{"t":"ml","q":"What is information gain in decision trees","a":"Information gain is impurity drop from a split; higher gain means a more useful feature split."},{"t":"sd","q":"What challenges arise from rebalancing shards as data grows","a":"Rebalancing causes data movement and downtime; use consistent hashing and gradual migration."},{"t":"os","q":"Explain LRU page replacement algorithm and its implementation","a":"LRU replaces least recently used page using stack or counters to exploit temporal locality"},{"t":"oops","q":"Can an abstract class have constructors and concrete methods","a":"Yes, abstract class can have constructors and concrete methods for shared logic."},{"t":"dbms","q":"Explain lossless join decomposition with example.","a":"Lossless join decomposition splits tables so natural join reproduces original without loss."},{"t":"cn","q":"Explain HTTP status codes 200 404 500 with real world examples","a":"200 OK success, 404 not found missing page, 500 server internal error."},{"t":"ml","q":"How do you prune a decision tree to avoid overfitting","a":"Prune by cutting weak branches using validation error or cost-complexity to simplify the tree."},{"t":"sd","q":"Explain hot partition problem and ways to avoid it in sharding","a":"Hot partition is skewed traffic on one shard; fix with better key, salting or splitting."},{"t":"os","q":"Explain optimal page replacement algorithm and why it is theoretical","a":"Optimal replaces farthest future used page; gives lowest faults but needs future knowledge"},{"t":"oops","q":"What is a constructor and what are its main characteristics","a":"Constructor initializes new objects automatically; same name as class, no return type."},{"t":"dbms","q":"What is dependency preservation in normalization process?","a":"Dependency preservation ensures functional dependencies remain enforceable after decomposition."},{"t":"cn","q":"How does a browser load a webpage using HTTP from DNS to rendering","a":"DNS resolve, TCP+TLS connect, HTTP request, response, parse-render HTML/CSS/JS."},{"t":"ml","q":"What are advantages and disadvantages of decision trees","a":"Trees are interpretable and handle mixed data but overfit and are unstable to small changes."},{"t":"sd","q":"How would you handle joins across shards in a sharded database","a":"Avoid cross-shard joins; denormalize, scatter-gather, or use reference tables instead."},{"t":"os","q":"What is thrashing and what causes thrashing in virtual memory","a":"Thrashing is excessive paging where CPU spends more time swapping than executing processes"},{"t":"oops","q":"Explain default constructor and parameterized constructor with example","a":"Default takes no args; parameterized takes values, e.g., Car() vs Car(color)."},{"t":"dbms","q":"Write SQL query to find second highest salary from Employee table.","a":"SELECT MAX(salary) WHERE salary < (SELECT MAX(salary) FROM Employee) gives second highest."},{"t":"cn","q":"What are cookies and sessions and how do they maintain HTTP state","a":"Cookies store client state; sessions store server state via session ID to track user."},{"t":"ml","q":"How does random forest improve over single decision tree","a":"Random forest averages many diverse trees to cut variance and improve accuracy and robustness."},{"t":"sd","q":"What is database replication and why is it essential for availability","a":"Replication copies data to multiple nodes to survive failures and scale reads."},{"t":"os","q":"How does operating system detect and handle thrashing effectively","a":"OS detects high paging and low CPU use, then suspends processes or reduces multiprogramming degree"},{"t":"oops","q":"What is copy constructor and when is it automatically invoked","a":"Copy constructor clones object via Class(const Class&); invoked on pass-by-value."},{"t":"dbms","q":"How to find duplicate records in a table using SQL query?","a":"GROUP BY columns with HAVING COUNT(*)>1 reveals duplicate records in a table."},{"t":"cn","q":"Explain persistent versus non persistent HTTP connections with examples","a":"Persistent reuses TCP for multiple objects; non-persistent opens new per object."},{"t":"ml","q":"What is bagging and how does random forest use it","a":"Bagging trains models on bootstrapped samples and averages them to reduce variance."},{"t":"sd","q":"Differentiate between master slave and master master replication models","a":"Master-slave has one writer; master-master allows multiple writers with conflict handling."},{"t":"os","q":"What is working set model to prevent thrashing in OS","a":"Working set model keeps only recently used pages in RAM to match locality and prevent thrashing"},{"t":"oops","q":"What is constructor overloading and constructor chaining in OOP","a":"Constructor overloading offers variants; chaining calls one constructor from another."},{"t":"dbms","q":"Write query to get department wise employee count in organization.","a":"SELECT department, COUNT(*) FROM Employee GROUP BY department gives department-wise count."},{"t":"cn","q":"Why is HTTPS slower than HTTP and how is performance optimized today","a":"HTTPS adds TLS handshake/crypto overhead, optimized via session resumption, HTTP/2, hardware."},{"t":"ml","q":"Explain out of bag error in random forests","a":"Out-of-bag error tests each tree on unseen samples left out of its bootstrap for free validation."},{"t":"sd","q":"Explain synchronous versus asynchronous replication tradeoffs clearly","a":"Sync is durable but slow; async is fast but risks data loss on failover."},{"t":"os","q":"What is fragmentation and difference between internal external fragmentation","a":"Internal waste inside block, external waste between blocks due to fixed vs variable allocation"},{"t":"oops","q":"What is a destructor and why is it needed in C++","a":"Destructor cleans resources on object death, e.g., ~Car() frees memory in C++."},{"t":"dbms","q":"Explain difference between WHERE and HAVING clause in SQL.","a":"WHERE filters rows before grouping; HAVING filters groups after aggregation."},{"t":"cn","q":"What is the role of TLS handshake in establishing an HTTPS session","a":"TLS handshake authenticates server, negotiates cipher, exchanges keys for encrypted session."},{"t":"ml","q":"How do you tune number of trees in random forest","a":"Increase trees until validation score plateaus; more trees cut variance with diminishing returns."},{"t":"sd","q":"How does replication lag affect user experience in social apps","a":"Lag shows stale posts or likes; use read-your-writes or sticky reads for consistency."},{"t":"os","q":"Explain first fit best fit worst fit in contiguous memory allocation","a":"First fits first hole, best fits smallest hole, worst fits largest hole for allocation speed vs waste"},{"t":"oops","q":"Difference between constructor and destructor in object lifecycle","a":"Constructor creates and initializes; destructor releases resources at end of life."},{"t":"dbms","q":"What is difference between DELETE, TRUNCATE and DROP commands?","a":"DELETE removes rows, TRUNCATE clears all rows, DROP deletes table structure entirely."},{"t":"cn","q":"What is DNS and how does it resolve domain names to IP addresses","a":"DNS translates human domains to IPs via hierarchical distributed resolver system."},{"t":"ml","q":"What is feature importance in random forest models","a":"Feature importance ranks predictive power by average impurity decrease or permutation impact."},{"t":"sd","q":"What happens when a primary database node fails suddenly","a":"Replica is promoted to primary via failover with leader election and traffic rerouting."},{"t":"os","q":"What is compaction and how does it solve external fragmentation","a":"Compaction merges free memory into one block by relocating processes to remove external fragments"},{"t":"oops","q":"What happens if we do not define constructor in a class","a":"Compiler provides default no-arg constructor initializing members to defaults."},{"t":"dbms","q":"Explain GROUP BY with example in SQL queries.","a":"GROUP BY clusters rows sharing values to apply aggregate functions per group."},{"t":"cn","q":"Explain iterative versus recursive DNS resolution with an example","a":"Recursive resolver queries for client; iterative root/TLD/authoritative referrals stepwise."},{"t":"ml","q":"Explain support vector machines and concept of margin","a":"SVM finds max-margin hyperplane separating classes for best generalization to new points."},{"t":"sd","q":"How would you ensure data consistency across replicas in different regions","a":"Use quorum writes, vector clocks, or async replication with conflict resolution across regions."},{"t":"os","q":"Explain buddy system for dynamic memory allocation in OS","a":"Buddy system allocates power-of-two blocks by splitting and merging buddies for fast coalescing"},{"t":"oops","q":"Explain static members and static methods with an example","a":"Static members are shared by all objects; static methods access only static data."},{"t":"dbms","q":"What are aggregate functions in SQL with examples?","a":"COUNT, SUM, AVG, MIN, MAX compute summary values across grouped rows."},{"t":"cn","q":"What are A AAAA CNAME MX and NS records in DNS","a":"A IPv4, AAAA IPv6, CNAME alias, MX mail server, NS authoritative nameserver."},{"t":"ml","q":"What is kernel trick in SVM and why use it","a":"Kernel trick maps data to higher dimensions implicitly to separate nonlinear patterns cheaply."},{"t":"sd","q":"Explain CAP theorem with a real world distributed system example","a":"CAP says under network partition choose consistency or availability, e.g., ZooKeeper vs Dynamo."},{"t":"os","q":"What is swapping and what is its role in memory management","a":"Swapping moves blocked processes between RAM and disk to free memory and improve utilization"},{"t":"oops","q":"What is the use of this keyword and super keyword in OOP","a":"this refers to current object; super calls parent constructor or overridden method."},{"t":"dbms","q":"How to retrieve employees who joined in last six months using SQL?","a":"SELECT * WHERE join_date >= current date minus six months interval."},{"t":"cn","q":"How does DNS caching improve performance and where is it stored","a":"Caches replies at browser/OS/resolver to cut latency and root load with TTL expiry."},{"t":"ml","q":"Difference between linear and RBF kernel in SVM","a":"Linear kernel fits straight boundaries; RBF fits flexible nonlinear blobs via distance similarity."},{"t":"sd","q":"Which two CAP properties does a traditional RDBMS prioritize and why","a":"RDBMS prioritizes consistency and availability via CA, assuming no partitions with single node."},{"t":"os","q":"Difference between logical address and physical address in OS","a":"Logical address is CPU generated virtual view; physical is actual RAM location after MMU mapping"},{"t":"oops","q":"What is final keyword in Java and sealed class in C#","a":"final in Java and sealed in C# block further inheritance or overriding."},{"t":"dbms","q":"Write SQL to display top five highest paid employees details.","a":"SELECT TOP 5 ordered by salary descending shows highest paid employees."},{"t":"cn","q":"What is DNS spoofing and how can it be prevented effectively","a":"Fake DNS replies redirect victims; prevented by DNSSEC, DoH/DoT, cache poisoning defenses."},{"t":"ml","q":"How does C parameter affect SVM decision boundary","a":"Small C allows wider margin with some errors; large C forces strict separation and overfits."},{"t":"sd","q":"How does MongoDB address CAP tradeoffs in partition failures","a":"MongoDB favors CP by default, sacrificing availability during partitions for strong consistency."},{"t":"os","q":"What is memory management unit and its role in address translation","a":"MMU translates logical to physical addresses at runtime using page tables and protection checks"},{"t":"oops","q":"Explain virtual function and how it enables runtime polymorphism","a":"Virtual function is redefinable base method enabling dynamic runtime dispatch."},{"t":"dbms","q":"What is subquery and how does it differ from nested query?","a":"Subquery is query inside another query to supply values for filtering or comparison."},{"t":"cn","q":"Explain forward DNS lookup versus reverse DNS lookup with use cases","a":"Forward domain-to-IP for browsing; reverse IP-to-domain for spam/auth troubleshooting."},{"t":"ml","q":"What are support vectors in SVM classification","a":"Support vectors are boundary-adjacent points that define the margin and decision boundary."},{"t":"sd","q":"Why is perfect consistency availability and partition tolerance impossible together","a":"Network delays force choice between waiting for all nodes or serving possibly stale data."},{"t":"os","q":"Explain multi level paging and need for hierarchical page tables","a":"Multilevel paging splits page table hierarchically to save memory for sparse address spaces"},{"t":"oops","q":"What is pure virtual function and abstract class in C++","a":"Pure virtual function like virtual void f()=0 forces derived override, making class abstract."},{"t":"dbms","q":"Explain correlated subquery with example in SQL.","a":"Correlated subquery references outer query and executes once per outer row."},{"t":"cn","q":"Why does DNS primarily use UDP and when does it switch to TCP","a":"DNS uses fast UDP; switches to TCP for large zone transfers or >512B responses."},{"t":"ml","q":"Explain basic structure of an artificial neural network","a":"ANN stacks input, hidden, and output layers of neurons connected by learned weighted sums."},{"t":"sd","q":"Give an example of AP system and CP system used in industry","a":"Dynamo and Cassandra are AP; HBase and ZooKeeper are CP systems in production."},{"t":"os","q":"What is inverted page table and its advantages over normal table","a":"Inverted page table has one entry per frame, saving memory for large virtual spaces with hashing"},{"t":"oops","q":"Difference between virtual function and pure virtual function","a":"Virtual has default implementation; pure virtual has none and makes class abstract."},{"t":"dbms","q":"What is view in SQL and what are its advantages?","a":"View is virtual saved query simplifying access, security and reuse without storing data."},{"t":"cn","q":"What is DHCP and how does it assign IP addresses dynamically","a":"DHCP auto-assigns IP, mask, gateway, DNS to devices joining network dynamically."},{"t":"ml","q":"What is activation function and why is it needed","a":"Activation adds nonlinearity so networks can learn complex patterns beyond linear functions."},{"t":"sd","q":"What are microservices and how do they differ from monolithic architecture","a":"Microservices are independent deployable services; monolith is single coupled codebase and deploy."},{"t":"os","q":"What is TLB and how does it improve address translation speed","a":"TLB caches recent page translations for fast address lookup without full table walk"},{"t":"oops","q":"What is function overriding using virtual keyword in C++","a":"Overriding with virtual lets derived redefine base method for runtime polymorphic call."},{"t":"dbms","q":"Differentiate clustered and non clustered indexes in database.","a":"Clustered index orders table physically one per table; non-clustered uses separate structure."},{"t":"cn","q":"Explain DHCP DORA process with Discover Offer Request Acknowledge steps","a":"Discover broadcast, Offer IP, Request accept, Acknowledge confirm lease."},{"t":"ml","q":"Difference between sigmoid ReLU and tanh activations","a":"Sigmoid outputs 0-1, tanh outputs -1 to 1, ReLU outputs max(0,x) and trains fastest."},{"t":"sd","q":"When should a startup prefer monolith over microservices architecture","a":"Prefer monolith early for speed and simplicity until team and scaling complexity demand split."},{"t":"os","q":"What is copy on write technique in process creation using fork","a":"Copy on write shares parent pages on fork and copies only on write to save memory"},{"t":"oops","q":"Explain vtable and vptr mechanism behind virtual functions","a":"vtable stores virtual addresses per class; vptr points to it for dynamic dispatch."},{"t":"dbms","q":"What is index and how does it improve query performance?","a":"Index is lookup structure speeding searches and filtering without full table scans."},{"t":"cn","q":"What happens when a DHCP server fails in a large enterprise network","a":"Clients fail to get/renew IPs, fall to APIPA, causing outages unless redundant/failover."},{"t":"ml","q":"What is backpropagation in neural networks briefly","a":"Backpropagation applies chain rule to push output error backward and update all weights."},{"t":"sd","q":"Explain service discovery and API gateway in microservices systems","a":"Discovery locates service instances dynamically; gateway routes, auths and rate-limits requests."},{"t":"os","q":"Explain fork exec and wait system calls with examples","a":"Fork creates child, exec replaces image, wait blocks parent until child finishes execution"},{"t":"oops","q":"What is early binding versus late binding in polymorphism","a":"Early binding resolves at compile time; late binding resolves at runtime via pointers."},{"t":"dbms","q":"Explain composite index and when to create it.","a":"Composite index on multiple columns speeds queries filtering those combined columns."},{"t":"cn","q":"Differentiate between static IP allocation and DHCP based allocation","a":"Static manually fixed; DHCP automatic dynamic leased scalable but variable."},{"t":"ml","q":"Explain gradient descent and its role in training models","a":"Gradient descent steps downhill on loss via gradients to find minimal prediction error."},{"t":"sd","q":"How do microservices communicate synchronously and asynchronously","a":"Sync via REST or gRPC for queries; async via queues or events for decoupled workflows."},{"t":"os","q":"What is zombie process and how is it different from orphan process","a":"Zombie is terminated child awaiting wait; orphan is live child whose parent exited and adopted by init"},{"t":"oops","q":"Can constructors be virtual and can destructors be virtual","a":"Constructors cannot be virtual; destructors should be virtual in base classes."},{"t":"dbms","q":"What are disadvantages of having too many indexes on table?","a":"Excess indexes slow writes, consume storage and increase maintenance overhead."},{"t":"cn","q":"What is DHCP lease time and how does renewal of IP address work","a":"Lease is IP validity period; client renews halfway via request-ack before expiry."},{"t":"ml","q":"Difference between batch stochastic and mini batch gradient descent","a":"Batch uses all data, stochastic uses one sample, mini-batch uses small chunks for speed plus stability."},{"t":"sd","q":"What challenges arise in debugging and monitoring microservices architecture","a":"Distributed tracing is hard; need centralized logs, metrics and correlation IDs across services."},{"t":"os","q":"What is race condition and how does it occur in concurrent processes","a":"Race condition is output depending on unsynchronized access order by concurrent processes to shared data"},{"t":"oops","q":"Why should base class destructor be virtual in polymorphic hierarchy","a":"Virtual base destructor ensures derived cleanup runs when deleting via base pointer."},{"t":"dbms","q":"Explain covering index with example in query optimization.","a":"Covering index includes all query columns so engine answers without table lookup."},{"t":"cn","q":"How does DHCP handle multiple subnets using DHCP relay agents","a":"Relay agents forward broadcasts across subnets to central DHCP server."},{"t":"ml","q":"What is learning rate and what if it is too high","a":"Learning rate sets step size; too high diverges or oscillates and never converges."},{"t":"sd","q":"How would you handle distributed transactions across microservices","a":"Use sagas or two-phase commit with idempotency to coordinate transactions across services."},{"t":"os","q":"What is critical section problem and its requirements for solution","a":"Critical section needs mutual exclusion, progress and bounded waiting for safe shared access"},{"t":"oops","q":"What is object slicing and when does it occur in C++","a":"Object slicing loses derived data when assigning derived object to base value."},{"t":"dbms","q":"What is inner join and how does it work with example?","a":"Inner join returns only rows with matching keys in both tables."},{"t":"cn","q":"Differentiate between IPv4 and IPv6 in address length and format","a":"IPv4 32-bit dotted decimal 4.3B; IPv6 128-bit hex colons for vast space."},{"t":"ml","q":"How do you handle vanishing gradient problem in deep networks","a":"Use ReLU, batch norm, residual links, careful init, and LSTMs to keep gradients flowing."},{"t":"sd","q":"Explain saga pattern for managing data consistency in microservices","a":"Saga splits transaction into local steps with compensating actions on failure for consistency."},{"t":"os","q":"Explain Peterson solution for mutual exclusion in two processes","a":"Peterson solution uses flag and turn variables to ensure mutual exclusion for two processes"},{"t":"oops","q":"Explain upcasting and downcasting with base and derived classes","a":"Upcasting is derived to base, safe; downcasting is base to derived, needs check."},{"t":"dbms","q":"Differentiate left join, right join and full outer join.","a":"Left keeps all left rows, right keeps all right rows, full keeps all unmatched rows."},{"t":"cn","q":"What are Class A B C D E IP addresses and their default masks","a":"A 1-126 /8, B 128-191 /16, C 192-223 /24, D multicast, E experimental."},{"t":"ml","q":"What is epoch batch size and iteration in training","a":"Epoch is one full data pass; batch size is samples per update; iteration is one update step."},{"t":"sd","q":"What is a message queue and why is it used in system design","a":"Message queue buffers async tasks to decouple services and smooth traffic spikes reliably."},{"t":"os","q":"What is semaphore and explain its types with operations","a":"Semaphore is integer sync variable with wait and signal; types are binary and counting semaphores"},{"t":"oops","q":"What is dynamic binding and how is it implemented internally","a":"Dynamic binding selects method at runtime via virtual tables based on actual object."},{"t":"dbms","q":"What is self join and when would you use it in SQL?","a":"Self join joins table to itself to compare rows, e.g., employee-manager hierarchy."},{"t":"cn","q":"Explain public versus private IP addresses with examples of ranges","a":"Public globally routable; private 10/8,172.16/12,192.168/16 reused inside LANs."},{"t":"ml","q":"Explain convolutional neural network layers in brief","a":"CNN stacks convolution, activation, pooling, then fully connected layers to learn spatial hierarchies."},{"t":"sd","q":"Differentiate between RabbitMQ Kafka and SQS for messaging needs","a":"RabbitMQ for routing, Kafka for high-throughput logs, SQS for managed simple queuing."},{"t":"os","q":"Difference between binary semaphore and counting semaphore","a":"Binary holds 0 or 1 for mutual exclusion; counting holds N for managing multiple resource instances"},{"t":"oops","q":"Explain inheritance versus composition and when to use each","a":"Use inheritance for is-a reuse, composition for has-a flexibility and loose coupling."},{"t":"dbms","q":"Explain cross join with example and its output size.","a":"Cross join returns Cartesian product; size equals rows of A multiplied by B."},{"t":"cn","q":"What is loopback address and why is 127 0 0 1 used for testing","a":"127.0.0.1 loops back to self for local network stack testing without wire."},{"t":"ml","q":"What is convolution operation in CNNs for images","a":"Convolution slides filters to detect local patterns like edges by weighted sums."},{"t":"sd","q":"How does Kafka achieve high throughput and fault tolerance","a":"Kafka uses partitioned append-only logs with replication for fast parallel durable throughput."},{"t":"os","q":"Difference between mutex and semaphore with suitable example","a":"Mutex is exclusive lock owned by one thread; semaphore is counter allowing multiple concurrent accesses"},{"t":"oops","q":"What is aggregation versus composition with real life example","a":"Aggregation is weak has-a like Team-Player; composition is strong owns-a like House-Room."},{"t":"dbms","q":"What is natural join and how is it different from inner join?","a":"Natural join auto-matches same-named columns; inner join needs explicit condition."},{"t":"cn","q":"How does NAT allow multiple devices to share a single public IP","a":"NAT rewrites private IPs to one public IP using ports to multiplex sessions."},{"t":"ml","q":"What is pooling layer and why use it in CNN","a":"Pooling downsamples feature maps to cut size, computation, and overfitting while keeping key features."},{"t":"sd","q":"Explain producer consumer and broker roles in message queue systems","a":"Producer sends messages, broker stores and routes, consumer processes them asynchronously."},{"t":"os","q":"What is deadlock and what are its four necessary conditions","a":"Deadlock is circular wait with mutual exclusion, hold-wait, no preemption and circular wait conditions"},{"t":"oops","q":"What is association in OOP and how does it differ from aggregation","a":"Association is general uses-link; aggregation is whole-part with independent lifetime."},{"t":"dbms","q":"Write query using join to get employee and department names together.","a":"JOIN Employee and Department on department ID to show employee and department names."},{"t":"cn","q":"Why is IPv6 needed despite NAT extending the life of IPv4","a":"IPv6 gives vast space, auto-config, no NAT, better routing/security for IoT growth."},{"t":"ml","q":"Difference between max pooling and average pooling","a":"Max pooling keeps strongest signal; average pooling smooths by taking regional mean."},{"t":"sd","q":"How would you ensure message ordering and exactly once delivery","a":"Use single partition ordering plus idempotent consumers and deduplication for exactly-once effect."},{"t":"os","q":"Explain Banker algorithm for deadlock avoidance with example","a":"Banker algorithm grants requests only in safe state by simulating allocation to avoid deadlock"},{"t":"oops","q":"Explain coupling and cohesion and why low coupling is desired","a":"Low coupling reduces dependencies, high cohesion focuses purpose for maintainable design."},{"t":"dbms","q":"What is equi join versus non equi join in SQL?","a":"Equi join uses equality; non-equi join uses range or inequality comparisons."},{"t":"cn","q":"What is APIPA address and when does a device get 169 254 address","a":"APIPA 169.254.x.x self-assigned when DHCP unavailable for link-local connectivity."},{"t":"ml","q":"What is stride and padding in convolutional layers","a":"Stride is filter step size; padding adds borders to control output size and preserve edges."},{"t":"sd","q":"What is dead letter queue and how does it help debugging failures","a":"Dead letter queue isolates failed messages for retry analysis without blocking main flow."},{"t":"os","q":"Difference between deadlock prevention avoidance and detection","a":"Prevention denies conditions, avoidance checks safe state, detection recovers after deadlock occurs"},{"t":"oops","q":"What is SOLID principle and why is it important in OOP design","a":"SOLID is five design principles for maintainable, flexible, clean object-oriented code."},{"t":"dbms","q":"Explain ACID properties in database transactions with examples.","a":"ACID means Atomicity, Consistency, Isolation, Durability guaranteeing reliable transactions."},{"t":"cn","q":"Explain unicast multicast and broadcast transmission with examples","a":"Unicast one-to-one, multicast one-to-group, broadcast one-to-all in domain."},{"t":"ml","q":"How does CNN handle translation invariance in images","a":"Shared filters plus pooling detect features anywhere, making CNNs robust to shifts."},{"t":"sd","q":"How would you use message queues to handle peak order traffic","a":"Buffer orders in queue with autoscaled consumers to absorb peaks and prevent overload."},{"t":"os","q":"What is resource allocation graph and how is deadlock detected","a":"RAG shows processes and resources as graph; cycle indicates deadlock with single-instance resources"},{"t":"oops","q":"Explain Single Responsibility Principle with a code example","a":"SRP: one class one reason to change, e.g., separate Invoice storage from printing."},{"t":"dbms","q":"What is atomicity and how is it ensured in transactions?","a":"Atomicity means all-or-nothing execution ensured by commit or rollback on failure."},{"t":"cn","q":"What is subnetting and why is it important in large networks","a":"Subnetting splits large network into smaller subnets for control, performance, security."},{"t":"ml","q":"What is data augmentation and how does it help CNNs","a":"Data augmentation creates flipped, cropped variants to enlarge data and reduce overfitting."},{"t":"sd","q":"What is rate limiting and why is it needed for public APIs","a":"Rate limiting caps requests per user to ensure fairness and protect backend capacity."},{"t":"os","q":"Explain dining philosophers problem and its solution using semaphores","a":"Philosophers compete for shared forks; solution orders pickup or limits eaters to prevent deadlock"},{"t":"oops","q":"Explain Open Closed Principle with a real project example","a":"OCP: open for extension closed for modification, e.g., add shapes without editing code."},{"t":"dbms","q":"Explain consistency in ACID with banking transaction example.","a":"Consistency keeps database valid, e.g., transfer debits and credits equally always."},{"t":"cn","q":"How do you calculate number of subnets and hosts from subnet mask","a":"Borrow n bits: 2^n subnets, 2^(hostbits)-2 usable hosts per subnet."},{"t":"ml","q":"Explain dropout regularization in neural networks","a":"Dropout randomly disables neurons in training to prevent co-adaptation and overfitting."},{"t":"sd","q":"Explain token bucket versus leaky bucket rate limiting algorithms","a":"Token bucket allows bursts; leaky bucket smooths to constant rate for predictable flow."},{"t":"os","q":"Explain readers writers problem and its solution in synchronization","a":"Readers writers allows concurrent reads but exclusive writes using semaphores and read count"},{"t":"oops","q":"Explain Liskov Substitution Principle with bird flying example","a":"LSP: subclass must substitute base, e.g., Ostrich should not break Bird fly()."},{"t":"dbms","q":"What is isolation in transactions and why is it needed?","a":"Isolation prevents concurrent transactions interfering via controlled visibility of changes."},{"t":"cn","q":"What is CIDR notation and how does it simplify IP address allocation","a":"CIDR /prefix denotes network bits, enabling flexible variable allocation without classes."},{"t":"ml","q":"What is batch normalization and why is it useful","a":"Batch norm normalizes layer inputs to stabilize and speed training and allow higher learning rates."},{"t":"sd","q":"How would you implement rate limiting for millions of API requests","a":"Use distributed Redis counters with sliding window and edge enforcement for global limits."},{"t":"os","q":"Explain producer consumer problem using semaphores with code logic","a":"Producer consumer syncs buffer with empty, full and mutex semaphores to avoid overflow and underflow"},{"t":"oops","q":"Explain Interface Segregation Principle with example of fat interface","a":"ISP: split fat interfaces, e.g., separate Printer from Scanner instead of all-in-one."},{"t":"dbms","q":"Explain durability and how database ensures it after crash.","a":"Durability guarantees committed data survives crashes via logs and persistent storage."},{"t":"cn","q":"Find network and broadcast address for 192 168 1 10 slash 24","a":"Network 192.168.1.0, broadcast 192.168.1.255, usable .1-.254."},{"t":"ml","q":"How would you handle imbalanced dataset in classification","a":"Use resampling, class weights, SMOTE, or F1/AUC metrics instead of plain accuracy."},{"t":"sd","q":"What HTTP response should be returned when rate limit is exceeded","a":"Return 429 Too Many Requests with Retry-After header to signal client backoff."},{"t":"os","q":"What is monitor in OS synchronization and how is it different from semaphore","a":"Monitor is high-level sync object with procedures and condition variables; compiler handles mutual exclusion"},{"t":"oops","q":"Explain Dependency Inversion Principle with high low modules example","a":"DIP: depend on abstractions, e.g., App uses Payment interface not concrete PayPal."},{"t":"dbms","q":"What is transaction and what are its different states?","a":"Transaction is unit of work moving through active, partial, committed, aborted states."},{"t":"cn","q":"Differentiate between subnet mask and wildcard mask with examples","a":"Subnet mask marks network 1s; wildcard inverts it marking host bits for ACLs."},{"t":"ml","q":"What is precision recall tradeoff in binary classification","a":"Raising threshold boosts precision but drops recall; you cannot maximize both at once."},{"t":"sd","q":"How does rate limiting protect against DDoS and brute force attacks","a":"Rate limiting throttles abusive IPs to mitigate floods and credential guessing attacks."},{"t":"os","q":"What is spinlock and when is it preferred over mutex","a":"Spinlock busy-waits on CPU; preferred for short waits on multiprocessors to avoid context switch"},{"t":"oops","q":"What is DRY principle and how does it relate to OOP design","a":"DRY avoids duplication by reusing classes and inheritance for single source of truth."},{"t":"dbms","q":"Explain COMMIT, ROLLBACK and SAVEPOINT in transaction control.","a":"COMMIT saves, ROLLBACK undoes, SAVEPOINT marks partial rollback point in transaction."},{"t":"cn","q":"What is supernetting and how does it differ from subnetting conceptually","a":"Supernetting merges contiguous networks into larger route to shrink routing tables."},{"t":"ml","q":"When would you choose precision over recall in real applications","a":"Choose precision when false positives are costly, like spam blocking or fraud alerts."},{"t":"sd","q":"Design a URL shortener service handling 100 million URLs per month","a":"Use hash IDs, key-value store, cache, and sharded redirect service for massive scale."},{"t":"os","q":"What is convoy effect in FCFS scheduling and how to reduce it","a":"Convoy effect is short jobs stuck behind long FCFS job; reduced by SJF or time-sliced scheduling"},{"t":"oops","q":"Design a class diagram for library management system using OOP","a":"Library uses Book, Member, Loan classes with borrow-return associations and inheritance."},{"t":"dbms","q":"What is schedule in DBMS and what are its types?","a":"Schedule is order of concurrent operations; serial, serializable or non-serializable types."},{"t":"cn","q":"How does subnetting improve network security and reduce broadcast traffic","a":"Subnets isolate traffic, contain broadcasts, enforce ACLs for security and performance."},{"t":"ml","q":"Give example where recall matters more than precision","a":"Recall matters more in disease screening where missing a true case is dangerous."},{"t":"sd","q":"How would you generate unique short codes for a URL shortener","a":"Hash URL with base62 counter or MD5 plus collision check for unique short codes."},{"t":"os","q":"Explain shortest remaining time first scheduling with example","a":"SRTF preemptively runs shortest remaining burst, minimizing average wait but risking starvation"},{"t":"oops","q":"Design classes for parking lot system using inheritance and polymorphism","a":"Parking uses Vehicle hierarchy with Slot, Ticket classes and polymorphic pricing calculation."},{"t":"dbms","q":"Explain serializable schedule with example in concurrency control.","a":"Serializable schedule yields same result as some serial execution preserving correctness."},{"t":"cn","q":"Differentiate between static routing and dynamic routing protocols","a":"Static manually configured small nets; dynamic protocols auto-adapt in large changing nets."},{"t":"ml","q":"What is log loss and when is it used","a":"Log loss penalizes wrong confident probabilities; used for calibrated probabilistic classifiers."},{"t":"sd","q":"What database would you choose for URL shortener and why","a":"Use NoSQL key-value store like Dynamo for fast lookups and massive scalable writes."},{"t":"os","q":"What is aging technique to prevent starvation in priority scheduling","a":"Aging gradually raises waiting process priority to ensure eventual execution and prevent starvation"},{"t":"oops","q":"How would you design ATM system classes using OOP concepts","a":"ATM uses Account, Card, Transaction classes encapsulating auth, withdraw, and balance."},{"t":"dbms","q":"What are conflict serializable and view serializable schedules?","a":"Conflict serializable has conflict-equivalent serial order; view serializable preserves reads."},{"t":"cn","q":"Explain distance vector versus link state routing with examples","a":"Distance-vector shares neighbor vectors e.g., RIP; link-state maps topology e.g., OSPF."},{"t":"ml","q":"Difference between L1 and L2 regularization in models","a":"L1 sparsifies by zeroing weights; L2 shrinks weights smoothly to curb overfitting."},{"t":"sd","q":"How would you handle URL expiration and custom aliases efficiently","a":"Store TTL and alias index with lazy deletion and reserved-key check for expiry handling."},{"t":"os","q":"What is dispatcher and difference between scheduler and dispatcher","a":"Dispatcher switches CPU to selected process; scheduler selects which, dispatcher performs the switch"},{"t":"oops","q":"Explain friend function and friend class with pros and cons","a":"Friend function/class accesses private members; flexible but breaks encapsulation."},{"t":"dbms","q":"Explain dirty read, non repeatable read and phantom read problems.","a":"Dirty read sees uncommitted data; non-repeatable changes rows; phantom adds new rows."},{"t":"cn","q":"How does OSPF work and why is it preferred inside large enterprises","a":"OSPF link-state Dijkstra fastest path, fast convergence, scales via areas in enterprises."},{"t":"ml","q":"How does k fold cross validation work step by step","a":"Split data into k folds, train on k-1, test on one, rotate and average scores."},{"t":"sd","q":"Explain how redirection works in a URL shortener with caching","a":"Lookup short code in cache then DB, return 301 redirect to long URL for speed."},{"t":"os","q":"Difference between short term long term and medium term scheduler","a":"Long-term admits jobs, short-term picks ready CPU job, medium-term swaps jobs to control load"},{"t":"oops","q":"Can we overload operators and give example of plus operator overloading","a":"Yes, operators can be overloaded, e.g., Complex a+b calls operator+ for fields."},{"t":"dbms","q":"What is concurrency control and why is it needed in DBMS?","a":"Concurrency control coordinates simultaneous transactions to preserve consistency and isolation."},{"t":"cn","q":"What is BGP and why is it used for routing between different ISPs","a":"BGP path-vector policy-based inter-AS routing connecting ISPs on internet backbone."},{"t":"ml","q":"What is hyperparameter tuning and name two methods","a":"Hyperparameter tuning searches best settings using grid search and random search or Bayesian methods."},{"t":"sd","q":"How would you design Instagram feed for 500 million daily users","a":"Use fanout service, feed cache, and ranked precomputation to serve personalized feeds fast."},{"t":"os","q":"What is interprocess communication and explain its models","a":"IPC lets processes exchange data via shared memory or message passing using OS services"},{"t":"oops","q":"What is runtime type identification and how is dynamic_cast used","a":"RTTI identifies runtime type; dynamic_cast safely downcasts polymorphic pointers."},{"t":"dbms","q":"Explain Two Phase Locking protocol in concurrency control.","a":"2PL requires growing lock acquisition phase then shrinking release phase for serializability."},{"t":"cn","q":"Explain routing table contents and how longest prefix match works","a":"Table holds network, next-hop, metric, interface; longest prefix match picks specific route."},{"t":"ml","q":"Difference between grid search and random search tuning","a":"Grid tries all combos exhaustively; random samples combos and finds good values faster."},{"t":"sd","q":"Explain how to store and serve billions of images efficiently","a":"Store in object storage like S3 with CDN, thumbnails and lazy loading for scale."},{"t":"os","q":"Difference between shared memory and message passing in IPC","a":"Shared memory is fast direct access; message passing uses kernel send-receive with more overhead"},{"t":"oops","q":"Difference between shallow copy and deep copy in object cloning","a":"Shallow copies pointers only; deep copies duplicate pointed data for independence."},{"t":"dbms","q":"What are shared and exclusive locks in database transactions?","a":"Shared lock allows reads; exclusive lock allows single write blocking all others."},{"t":"cn","q":"What is the difference between a router switch and gateway device","a":"Switch forwards LAN frames, router routes IP across nets, gateway translates different protocols."},{"t":"ml","q":"Explain curse of dimensionality in machine learning","a":"More features make data sparse and distances meaningless, hurting models and needing more data."},{"t":"sd","q":"How would you design Instagram stories with 24 hour expiry","a":"Store stories with TTL expiry and edge caching for fast ephemeral delivery at scale."},{"t":"os","q":"What is pipe and difference between named and unnamed pipe","a":"Pipe is unidirectional IPC channel; unnamed is related-process only, named FIFO works system-wide"},{"t":"oops","q":"What is object cloning and how is clone method implemented","a":"Cloning duplicates object; implement via copy constructor or clone() returning copy."},{"t":"dbms","q":"Differentiate optimistic and pessimistic concurrency control methods.","a":"Optimistic checks conflicts at commit; pessimistic locks data upfront to prevent conflicts."},{"t":"cn","q":"How does traceroute track the path packets take across networks","a":"Traceroute sends increasing TTL probes, using ICMP Time Exceeded to map each hop."},{"t":"ml","q":"Why is feature scaling important for SVM and neural networks","a":"SVMs and neural nets use distances and gradients, so unscaled features distort learning."},{"t":"sd","q":"How would you rank posts for personalized Instagram home feed","a":"Rank by recency, affinity and engagement using ML feed scoring and precomputed timelines."},{"t":"os","q":"What is system call fork and what does it return to parent child","a":"Fork duplicates process; returns child PID to parent and zero to child, negative on failure"},{"t":"oops","q":"Explain namespace and packages in organizing large OOP projects","a":"Namespaces in C++ and packages in Java organize classes to avoid name collisions."},{"t":"dbms","q":"What is timestamp based concurrency control protocol in DBMS?","a":"Timestamp protocol orders transactions by timestamps allowing conflict-free concurrent execution."},{"t":"cn","q":"What are RIP EIGRP and OSPF metrics used to choose best path","a":"RIP hop count, EIGRP composite bandwidth-delay, OSPF cost bandwidth for best path."},{"t":"ml","q":"Difference between normalization and standardization of features","a":"Normalization rescales to 0-1 range; standardization centers to zero mean unit variance."},{"t":"sd","q":"How would you design Twitter timeline for high fanout celebrities","a":"Use hybrid fanout: push for normal users, pull for celebrities to avoid write explosion."},{"t":"os","q":"Explain exec family of system calls in Unix operating systems","a":"Exec family replaces process image with new program, keeping PID but loading new code and data"},{"t":"oops","q":"What is exception handling and how does it fit in OOP design","a":"Exception handling uses try-catch hierarchies to separate errors from normal logic."},{"t":"dbms","q":"What is deadlock in database and how does it occur?","a":"Deadlock is circular wait where transactions block each other holding needed locks."},{"t":"cn","q":"What is congestion control and how does it differ from flow control","a":"Congestion controls network overload; flow controls receiver overflow point-to-point."},{"t":"ml","q":"How do decision trees handle missing values and outliers","a":"Trees split by thresholds so they tolerate missing values via surrogates and ignore outlier scale."},{"t":"sd","q":"Explain push versus pull model for Twitter news feed generation","a":"Push precomputes feeds fast for reads; pull fetches on demand to save writes."},{"t":"os","q":"What is spooling and how is it different from buffering","a":"Spooling queues jobs on disk for devices; buffering holds data temporarily to match speed differences"},{"t":"oops","q":"Explain garbage collection and object lifecycle in Java versus C++","a":"Java GC auto-reclaims objects; C++ needs manual delete or smart pointers."},{"t":"dbms","q":"Explain deadlock detection and recovery methods in DBMS.","a":"Detect via wait-for graph cycles, recover by aborting victim transaction and rollback."},{"t":"cn","q":"Explain slow start congestion avoidance and fast retransmit in TCP","a":"Slow-start exponential grow, avoidance linear grow, fast retransmit on 3 dup ACKs."},{"t":"ml","q":"Why is random forest less prone to overfitting than trees","a":"Averaging many diverse trees cancels individual errors and lowers variance without raising bias much."},{"t":"sd","q":"How would you handle 100k tweets per second during live events","a":"Shard ingestion with Kafka, async fanout, and caching to absorb tweet write spikes."},{"t":"os","q":"What is file system and explain different file allocation methods","a":"File system manages storage via contiguous, linked and indexed methods for access and efficiency"},{"t":"oops","q":"What is memory leak and how do destructors help prevent it","a":"Memory leak is unfreed memory; destructors release it when objects die."},{"t":"dbms","q":"What is wait die and wound wait deadlock prevention scheme?","a":"Wait-die aborts younger requester; wound-wait preempts younger holder to prevent deadlock."},{"t":"cn","q":"How do Tahoe Reno and Cubic TCP variants handle congestion differently","a":"Tahoe resets to slow-start on loss; Reno fast-recovery; Cubic optimized window for high bandwidth."},{"t":"ml","q":"What is entropy in context of decision tree splits","a":"Entropy measures disorder in labels; lower entropy means purer, better-separated nodes."},{"t":"sd","q":"How would you implement search and trending hashtags for Twitter","a":"Use inverted index plus streaming counters and windowed aggregation for trends and search."},{"t":"os","q":"Explain contiguous linked and indexed file allocation strategies","a":"Contiguous is fast sequential, linked allows growth, indexed uses index block for direct access"},{"t":"oops","q":"Explain covariant return types in overriding with an example","a":"Covariant return lets override return derived type, e.g., Animal clone() returns Dog."},{"t":"dbms","q":"How does deadlock in DBMS differ from deadlock in operating system?","a":"DBMS deadlock is transaction lock waits; OS deadlock is process resource waits."},{"t":"cn","q":"What is the role of AIMD algorithm in maintaining network stability","a":"AIMD adds slowly probes bandwidth, halves on loss for fair stable sharing."},{"t":"ml","q":"Explain support vector regression in one sentence conceptually","a":"SVR fits a tube of tolerance around predictions, penalizing only errors outside epsilon margin."},{"t":"sd","q":"How would you design WhatsApp chat system for real time messaging","a":"Use WebSocket gateway, message queue, and sharded storage for reliable real-time delivery."},{"t":"os","q":"What is inode and what information does it store in Unix","a":"Inode stores file metadata like size, permissions, owner and block pointers except name"},{"t":"oops","q":"Can private methods be overridden or overloaded explain rules","a":"Private methods cannot be overridden; they can be overloaded within same class."},{"t":"dbms","q":"What is starvation in locking and how to prevent it?","a":"Starvation is indefinite lock denial; prevent via aging, fair queues or timeouts."},{"t":"cn","q":"How does sliding window mechanism help in TCP flow and congestion control","a":"Sliding window allows multiple unacked packets, adjusting size to receiver and congestion."},{"t":"ml","q":"What is softmax function and where is it used","a":"Softmax turns scores into summing-to-one probabilities for multiclass classification outputs."},{"t":"sd","q":"Explain WebSocket versus long polling for real time notifications","a":"WebSocket keeps persistent bidirectional channel; long polling repeatedly reconnects inefficiently."},{"t":"os","q":"Difference between hard link and soft link in file systems","a":"Hard link shares same inode; soft link is path pointer that breaks if target is deleted"},{"t":"oops","q":"What is sealed class and how does it prevent inheritance","a":"Sealed class cannot be inherited, protecting design and security from extension."},{"t":"dbms","q":"Explain granular locking with multiple granularity in DBMS.","a":"Granular locking locks at database, table, page or row levels for concurrency balance."},{"t":"cn","q":"What is a socket and how do IP address and port combine to form it","a":"Socket is IP+port endpoint enabling process-to-process communication."},{"t":"ml","q":"Explain early stopping as regularization in neural networks","a":"Early stopping halts training when validation loss rises, keeping the best-generalizing weights."},{"t":"sd","q":"How would you scale a video streaming service to millions of viewers","a":"Use CDN, chunked transcoding, adaptive bitrate and edge caching for global streaming scale."},{"t":"os","q":"What is journaling file system and its advantages over traditional","a":"Journaling logs changes before write for fast crash recovery and consistency over traditional FS"},{"t":"oops","q":"Explain abstract methods versus virtual methods with use cases","a":"Abstract must be overridden; virtual may be overridden with default provided."},{"t":"dbms","q":"What is sharding in databases and why is it used?","a":"Sharding splits large database across servers to scale writes and distribute load."},{"t":"cn","q":"Explain TCP socket programming steps for client and server in Java","a":"Server socket-bind-listen-accept, client socket-connect, then send-recv both close."},{"t":"ml","q":"What is learning curve and what does it reveal","a":"Learning curves plot train vs validation score over data or epochs to diagnose bias or variance."},{"t":"sd","q":"How would you design YouTube view counter for concurrent updates","a":"Use sharded counters with batch aggregation and async updates for accurate concurrent counts."},{"t":"os","q":"Explain disk scheduling algorithms FCFS SSTF SCAN C-SCAN","a":"FCFS serves in order, SSTF picks nearest, SCAN sweeps disk, C-SCAN circular sweeps for fairness"},{"t":"oops","q":"What is multiple dispatch and how does it differ from overloading","a":"Multiple dispatch selects by multiple objects' types, unlike single-arg overloading."},{"t":"dbms","q":"Explain horizontal versus vertical sharding with examples.","a":"Horizontal splits rows by key; vertical splits columns by feature across stores."},{"t":"cn","q":"Differentiate between blocking and non blocking sockets with use cases","a":"Blocking waits for I/O; non-blocking polls/selector handles many connections concurrently."},{"t":"ml","q":"How do you choose between random forest and SVM","a":"Choose random forest for tabular robustness; SVM for small high-dimensional margin problems."},{"t":"sd","q":"How would you store chat history for fast retrieval at scale","a":"Partition chats by conversation ID with indexed timestamps for paginated fast retrieval."},{"t":"os","q":"What is RAID and explain different RAID levels briefly","a":"RAID combines disks for speed and redundancy; levels 0,1,5,6 trade striping, mirroring and parity"},{"t":"oops","q":"Design elevator system using classes interfaces and SOLID principles","a":"Elevator uses Request, Controller interfaces with SOLID scheduling and state classes."},{"t":"dbms","q":"What are advantages and challenges of database sharding?","a":"Sharding improves scalability but adds routing, join and management complexity."},{"t":"cn","q":"What system calls are used to create and close TCP and UDP sockets","a":"socket, bind, listen, accept, connect, send/recv, close for TCP; no listen/accept for UDP."},{"t":"ml","q":"What is multiclass classification using one vs rest approach","a":"One-vs-rest trains one classifier per class against all others and picks highest score."},{"t":"sd","q":"What is database indexing and how does it speed up queries","a":"Index creates B-tree lookup to avoid full scans and accelerate query filtering."},{"t":"os","q":"What is bootstrapping and role of bootloader in OS startup","a":"Bootstrapping loads OS from BIOS to bootloader to kernel to initialize system startup"},{"t":"oops","q":"How would you model Employee Manager Engineer hierarchy using inheritance","a":"Employee base with Manager, Engineer subclasses sharing pay, specializing duties."},{"t":"dbms","q":"What is replication in DBMS and what are its types?","a":"Replication copies data across nodes for availability, durability and read scaling."},{"t":"cn","q":"What is load balancing and why is it essential for high traffic servers","a":"Load balancing spreads traffic across servers for availability, scale, fault tolerance."},{"t":"ml","q":"Explain macro versus micro averaging in classification metrics","a":"Macro averages classes equally; micro pools all decisions, favoring frequent classes."},{"t":"sd","q":"Explain SQL versus NoSQL databases for large scale applications","a":"SQL for strong consistency and relations; NoSQL for flexible schema and massive scale."},{"t":"os","q":"Difference between monolithic kernel and microkernel architecture","a":"Monolithic runs all services in kernel for speed; microkernel runs minimal kernel with user services"},{"t":"oops","q":"Explain factory design pattern and its use in object creation","a":"Factory creates objects via interface without exposing new, centralizing creation logic."},{"t":"dbms","q":"Differentiate synchronous and asynchronous replication in databases.","a":"Synchronous waits for replica ack ensuring consistency; asynchronous is faster but risky."},{"t":"cn","q":"Differentiate between Layer 4 and Layer 7 load balancing techniques","a":"L4 routes by IP+port fast; L7 routes by URL/cookie content-aware smarter."},{"t":"ml","q":"What is validation set versus test set purpose","a":"Validation tunes models and hyperparameters; test gives final unbiased generalization estimate."},{"t":"sd","q":"How does consistent hashing minimize remapping in distributed caches","a":"Consistent hashing remaps only neighbors on ring, avoiding full redistribution on changes."},{"t":"os","q":"What is shell and difference between shell and kernel","a":"Shell is user command interpreter; kernel is core OS managing hardware and system resources"},{"t":"oops","q":"Explain singleton pattern and how to make class thread safe","a":"Singleton allows one instance globally; thread-safe via synchronized or static init."},{"t":"dbms","q":"Explain master slave replication with use case example.","a":"Master handles writes and slaves replicate reads, ideal for read-heavy applications."},{"t":"cn","q":"Explain round robin least connections and IP hash load balancing methods","a":"Round-robin cycles, least-connections to emptiest, IP-hash sticks client to same server."},{"t":"ml","q":"How does gradient descent get stuck in local minima","a":"Gradient descent settles in valleys where gradients vanish, especially in non-convex deep losses."},{"t":"sd","q":"What is eventual consistency and where is it acceptable in practice","a":"Eventual consistency converges over time; acceptable for feeds, likes and DNS records."},{"t":"os","q":"What is daemon process in operating system with example","a":"Daemon is background service process like cron or sshd running without user interaction"},{"t":"oops","q":"What is observer pattern and where is it used in real applications","a":"Observer notifies dependents on change, e.g., YouTube subscribers on new video."},{"t":"dbms","q":"What is NoSQL database and when to prefer it over SQL?","a":"NoSQL is flexible schema store ideal for scale, unstructured or rapidly changing data."},{"t":"cn","q":"How do load balancers perform health checks to avoid sending to dead servers","a":"Active health probes remove unhealthy servers from pool until recovered."},{"t":"ml","q":"What is Adam optimizer and why is it popular","a":"Adam adapts per-parameter learning rates with momentum for fast robust convergence."},{"t":"sd","q":"How would you design a parking lot ticket system for high concurrency","a":"Use atomic counters, sharding, and queue-based allocation to prevent double booking spots."},{"t":"os","q":"Explain multithreading models many to one one to one many to many","a":"Many-to-one maps many users to one kernel, one-to-one each to kernel, many-to-many multiplexes them"},{"t":"oops","q":"Explain strategy pattern using payment methods example in e commerce","a":"Strategy swaps algorithms interchangeably, e.g., CreditCard vs PayPal payment classes."},{"t":"dbms","q":"Differentiate SQL and NoSQL databases with examples.","a":"SQL is relational structured; NoSQL is flexible scalable for large unstructured data."},{"t":"cn","q":"What is a CDN and how does it reduce latency for global users","a":"CDN caches content on global edge servers near users to cut latency/load."},{"t":"ml","q":"Why do CNNs use weight sharing across spatial dimensions","a":"Weight sharing reuses filters across positions to cut parameters and learn location-independent features."},{"t":"sd","q":"Explain circuit breaker pattern for preventing cascading microservice failures","a":"Circuit breaker trips on failures to stop retries and allow recovery, preventing cascades."},{"t":"os","q":"What is thread synchronization and why are locks needed in threads","a":"Thread sync controls shared access with locks to prevent races and ensure data consistency"},{"t":"oops","q":"How does polymorphism help in extending code without modifying it","a":"Polymorphism lets new subclasses plug in via base interface without changing client."},{"t":"dbms","q":"What are different types of NoSQL databases with examples?","a":"Key-value, document, column-family and graph are main NoSQL database types."},{"t":"cn","q":"How do CDNs use edge caching and origin servers to serve content","a":"Origin holds master; edges cache and serve nearby, revalidating on expiry."},{"t":"ml","q":"How would you evaluate regression model on unseen data","a":"Evaluate regression on unseen data with RMSE, MAE, and R-squared using cross-validation."},{"t":"sd","q":"How would you monitor and log a system serving ten million users","a":"Use centralized metrics, logs and tracing with alerts on latency, errors and saturation."},{"t":"os","q":"Difference between user level threads and kernel level threads","a":"User threads managed in library fast but blocking; kernel threads OS managed with true parallelism"},{"t":"oops","q":"What are getters and setters and do they break encapsulation","a":"Getters/setters expose controlled access; well-designed they preserve encapsulation."},{"t":"dbms","q":"Explain CAP theorem with example in distributed databases.","a":"CAP states distributed system can guarantee only two of Consistency, Availability, Partition tolerance."},{"t":"cn","q":"Why do video streaming sites rely heavily on CDNs for performance","a":"CDNs absorb bandwidth spikes, cache video at edge for smooth low-latency streaming."},{"t":"ml","q":"What is difference between parametric and nonparametric models","a":"Parametric models have fixed parameters; nonparametric grow with data like trees and kNN."},{"t":"sd","q":"How would you design an e-commerce checkout handling flash sale traffic","a":"Use queue, idempotency, inventory sharding and async payment to survive flash sale surge."},{"t":"os","q":"What is starvation and difference between starvation and deadlock","a":"Starvation is indefinite delay from priority; deadlock is total circular block with no progress"},{"t":"oops","q":"Explain constructor injection versus setter injection in OOP design","a":"Constructor injection sets required deps at creation; setter allows optional changes."},{"t":"dbms","q":"When would you choose MongoDB over MySQL for an application?","a":"Choose MongoDB for flexible schema and scale; MySQL for structured relations and joins."},{"t":"cn","q":"How does CDN handle dynamic content versus static content efficiently","a":"Static cached at edge long; dynamic bypassed or cached briefly with acceleration techniques."},{"t":"ml","q":"How would you explain overfitting to a nontechnical interviewer","a":"Overfitting is memorizing textbook answers instead of learning; it fails on new exam questions."},{"t":"sd","q":"Explain horizontal autoscaling triggers for handling millions of requests","a":"Autoscale on CPU, latency, queue depth and request rate with cooldown to meet demand."},{"t":"os","q":"Why is LRU considered better than FIFO for page replacement performance","a":"LRU uses locality to keep hot pages, cutting faults versus FIFO that evicts blindly by age"},{"t":"oops","q":"How would you refactor procedural code into clean OOP classes","a":"Group related data and behavior into classes, replace globals with objects and interfaces."}]
+const TOPICS={
+ os:{label:'Operating Systems',e:'⚙️',h:['#0095F6','#6228d7'],persona:'os.concepts',tag:'#os #placements #computerscience'},
+ oops:{label:'OOP',e:'🧬',h:['#7b2ff7','#ee2a7b'],persona:'oops.decoded',tag:'#oops #java #placements'},
+ dbms:{label:'DBMS',e:'🗄️',h:['#22c55e','#0b3d2e'],persona:'dbms.simplified',tag:'#dbms #sql #placements'},
+ cn:{label:'Computer Networks',e:'🌐',h:['#00e5ff','#0095F6'],persona:'networks.ninja',tag:'#cn #networking #placements'},
+ ml:{label:'Machine Learning',e:'🤖',h:['#f9ce34','#ee2a7b'],persona:'ml.interview',tag:'#ml #ai #placements'},
+ sd:{label:'System Design',e:'🏗️',h:['#ee2a7b','#6228d7'],persona:'system.design',tag:'#systemdesign #hld #placements'}};
+function questionToReel(qo,i){
+ const t=TOPICS[qo.t]||TOPICS.os;
+ const lc=9000+((i*7919)%380000), cm=120+((i*1049)%9000);
+ return {u:t.persona,n:t.label,e:t.e,v:i%9===0,cap:qo.q+' '+t.tag,audio:'original audio - '+t.persona,
+  likes:fmtN(lc),lc,cm,vw:fmtN(lc*7+3000),emoji:t.e,sc:scene(t.h[0],t.h[1]),tag:t.label.toLowerCase(),
+  q:qo.q,a:qo.a,topic:t.label,num:i+1};
+}
+/* ---- aesthetic fallback reels (used until questions land) ---- */
+const REELS=[
+ {u:'slowmornings',n:'slow mornings',e:'☕',v:1,cap:'POV: you romanticize your 7am chai ☕ #slowliving #morningroutine',audio:'original audio - slowmornings',likes:'128K',lc:128400,cm:2413,vw:'2.1M',emoji:'🫧',sc:scene('#ee2a7b','#6228d7'),tag:'aesthetic',extra:'<div class="big-emoji" style="font-size:80px">🫧</div><div class="big-text">watch the blobs.<br>that\'s it. that\'s the reel.</div>'},
+ {u:'delhi.rains',n:'Delhi Rains',e:'🌧️',v:1,cap:'monsoon over CP hits different 🌧️ sound ON #delhirains #monsoon',audio:'rain on tin roof - loop',likes:'412K',lc:412000,cm:9821,vw:'8.3M',emoji:'🪟',sc:scene('#1a1a40','#0095F6'),tag:'asmr',rain:1},
+ {u:'space.daily',n:'Space Daily',e:'🪐',v:1,cap:'saturn completing one full rotation 🪐 compressed for you #space',audio:'Interstellar Theme - slowed',likes:'967K',lc:967000,cm:12400,vw:'21M',emoji:'🪐',sc:scene('#6228d7','#0a0a18'),tag:'space',orbit:1},
+ {u:'kind.spam',n:'kind spam',e:'🍞',v:0,cap:'affirmations for people who hate affirmations ✨ #wholesome',audio:'original audio - kind.spam',likes:'1.2M',lc:1200000,cm:34200,vw:'18M',emoji:'🍞',sc:scene('#8B5A2B','#3d2b00'),tag:'wholesome',marq:'YOU ARE DOING OKAY · DRINK WATER · '},
+ {u:'pigeon.daily',n:'Pigeon Daily',e:'🐦',v:0,cap:'day 47 of watching this pigeon 🐦 #pigeons #slowtv',audio:'park ambience - distant traffic',likes:'63K',lc:63000,cm:981,vw:'840K',emoji:'🐦',sc:scene('#1a2b1a','#0b100b'),tag:'animals'},
+ {u:'golden.hour',n:'Golden Hour',e:'🌇',v:0,cap:'tag someone you\'d watch this with 🌇 #sunset #goldenhour',audio:'evening crickets - synth',likes:'198K',lc:198000,cm:4410,vw:'3.3M',emoji:'🌇',sc:scene('#ee2a7b','#f9ce34'),tag:'travel'}];
+const CPOOL=[
+ ['aarav.mehta','this is so us 😭','2h',124],['meera.kapoor','okay but why did this make me emotional','5h',89],
+ ['kabir.jpeg','broooo 😂😂','1h',210],['zoya.exe','the algorithm finally did something right','3h',340],
+ ['arjun.wav','sending this to the group rn','4h',56],['ira.jpg','obsessed with this audio 😍','7h',78],
+ ['dev.builds','came from explore, staying forever','9h',45],['noor.jpg','watching this at 2am hits different 🌙','12h',167],
+ ['chai.sutta','certified banger ☕','6h',92],['rohan.jpeg','day 1 of asking for part 2','8h',61],
+ ['sneha.jpg','POV: you needed this today 💛','10h',143],['delhi.foodie','new obsession unlocked 🔓','2d',88]];
+const POSTS=[
+ {u:'aarav.mehta',h:['#ee2a7b','#f9ce34'],e:'🌅',likes:1248,cap:'take me back 🌅 #goa #sunset #throwback',cm:[0,7,3],time:'2 HOURS AGO'},
+ {u:'meera.kapoor',h:['#8B5A2B','#3d2b00'],e:'☕',likes:864,cap:'but first, filter coffee ☕ #coffeeholic #morning',cm:[1,8],time:'5 HOURS AGO'},
+ {u:'kabir.jpeg',h:['#333','#ee2a7b'],e:'👟',likes:2031,cap:'new heat 🔥👟 #sneakerhead #ootd',cm:[2,5,9],time:'9 HOURS AGO'},
+ {u:'zoya.exe',h:['#6228d7','#0095F6'],e:'💻',likes:3412,cap:'desk setup 2026 💻✨ productivity arc loading… #desktour',cm:[4,6,10],time:'1 DAY AGO'}];
+const NOTIFS={
+ today:[
+  {u:'aarav.mehta',t:'liked your reel.',time:'2m',thumb:1,follow:0},
+  {u:'meera.kapoor',t:'started following you.',time:'15m',thumb:0,follow:1},
+  {u:'kabir.jpeg',t:'mentioned you in a comment: <b>@harshit.exe</b> this is so you 😭',time:'1h',thumb:1,follow:0}],
+ week:[
+  {u:'zoya.exe',t:'liked your comment: "real 😭".',time:'2d',thumb:1,follow:0},
+  {u:'arjun.wav',t:'started following you.',time:'3d',thumb:0,follow:1},
+  {u:'chai.sutta',t:'shared a reel with you.',time:'4d',thumb:1,follow:0}],
+ requests:[{u:'rohan.jpeg',t:'wants to follow you.',time:'5d'}],
+ suggested:['sneha.jpg','dev.builds','delhi.foodie']};
+const THREADS=[
+ {u:'aarav.mehta',unread:2,msgs:[{m:0,t:'bro weekend plan??'},{m:0,t:'goa reels dekh ke FOMO ho raha 😭'},{m:1,t:'same. next month pakka?'},{m:0,t:'pakka. tickets dekh raha 👀'}]},
+ {u:'meera.kapoor',unread:1,msgs:[{m:0,t:'sent you a reel 📩'},{m:0,t:'this reminded me of you!!'},{m:1,t:'the pigeon one? 😭'}]},
+ {u:'kabir.jpeg',unread:0,msgs:[{m:1,t:'that sneaker drop is live'},{m:0,t:'LINK. NOW.'},{m:1,t:'check your DMs 👀'},{m:0,t:'ordered ✅'}]},
+ {u:'zoya.exe',unread:0,msgs:[{m:0,t:'your playlist>>> '},{m:1,t:'lofi + rain supremacy 🌧️'},{m:0,t:'drop the link pls'}]}];
+const NOTES=[{u:'aarav.mehta',t:'gym at 7?'},{u:'meera.kapoor',t:'new reel out!!'},{u:'kabir.jpeg',t:'delhi meetup sunday'}];
+const STORIES=[
+ {u:'aarav.mehta',time:'2h',segs:[{e:'🏖️',h:['#0095F6','#f9ce34'],t:'goa dump 🌊'},{e:'🍻',h:['#8B5A2B','#f9ce34'],t:'cheers'}]},
+ {u:'meera.kapoor',time:'5h',segs:[{e:'☕',h:['#3d2b00','#8B5A2B'],t:'slow mornings'}]},
+ {u:'zoya.exe',time:'8h',segs:[{e:'🎧',h:['#6228d7','#ee2a7b'],t:'studio day'},{e:'🌃',h:['#1a1a40','#6228d7'],t:'night drive'}]},
+ {u:'kabir.jpeg',time:'12h',segs:[{e:'👟',h:['#222','#ee2a7b'],t:'new pickups'}]}];
+const HLS=[{t:'OS',e:'⚙️'},{t:'DBMS',e:'🗄️'},{t:'OOPS',e:'🧬'},{t:'HR',e:'💼'}];
+const HLTIPS={
+ OS:[{e:'⚙️',h:['#0095F6','#6228d7'],t:'Deadlock needs 4 conditions: mutual exclusion, hold & wait, no preemption, circular wait'},{e:'📝',h:['#0095F6','#1a1a40'],t:'Paging kills external fragmentation. Segmentation kills internal. Say both, with an example.'}],
+ DBMS:[{e:'🗄️',h:['#22c55e','#0b3d2e'],t:'1NF atomic · 2NF no partial dependency · 3NF no transitive · BCNF every determinant is a key'},{e:'🔑',h:['#22c55e','#123'],t:'WHERE filters rows. HAVING filters groups. Interviewers ask this every single time.'}],
+ OOPS:[{e:'🧬',h:['#7b2ff7','#ee2a7b'],t:'Overloading = compile time. Overriding = runtime. One line, full marks.'},{e:'🏛️',h:['#7b2ff7','#2b0a3d'],t:'Interface = can-do. Abstract class = is-a. Always answer with an example.'}],
+ HR:[{e:'💼',h:['#f9ce34','#ee2a7b'],t:'“Tell me about yourself” = present → past → future, in 90 seconds flat'},{e:'🤝',h:['#f9ce34','#5b3a00'],t:'Strength + weakness + what you are doing about it. Always end positive.'}]};
+const REPLIES=['hahaha exactly 😭','no wayyy','send the reel 👀','on my way 🏃','lololol','trueee 💯','ok done ✅','call after 9?','stoppp 😭😭','fr fr'];
+/* ================= STATE ================= */
+let muted=false,sessionDecoys=[],feedQueue=[],curD=null,curPost=null,curThread=null,curStory=null,curSeg=0,storyTimer=null,myPosts=[],myReels=[],myStory=[],following=new Set(['aarav.mehta','meera.kapoor','kabir.jpeg','arjun.wav','ira.jpg','dev.builds']),savedItems=[],likedComments=new Set(),followersN=248,followingN=312,cpMode='post',cpBg=0,signupMode=false,POOL=[];
+const CPBGS=[['#ee2a7b','#6228d7'],['#0095F6','#6228d7'],['#f9ce34','#ee2a7b'],['#22c55e','#0b3d2e'],['#222','#555'],['#8B5A2B','#f9ce34']];
+function toast(m,ms=2300){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),ms)}
+function buzz(ms=12){try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
+function fmtN(n){return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1000?(n/1000).toFixed(1).replace('.0','')+'K':''+n}
+/* ================= LOGIN ================= */
+function checkLogin(){$('#loginBtn').disabled=!($('#liUser').value.trim()&&$('#liPass').value.length>=1)}
+$('#liUser').addEventListener('input',checkLogin);
+$('#liPass').addEventListener('input',checkLogin);
+$('#suBtn').onclick=()=>{
+ signupMode=!signupMode;
+ $('#suPrompt').textContent=signupMode?'Have an account?':'Don\'t have an account?';
+ $('#suBtn').textContent=signupMode?'Log in':'Sign up';
+ $('#loginBtn').textContent=signupMode?'Sign up':'Log in';
+ $('#fbBtn').style.display=signupMode?'none':'';
+ toast(signupMode?'Create your account to get started':'Welcome back. Log in.')};
+$('#forgotBtn').onclick=()=>toast('Password reset link sent ✓ (check your email)');
+$('#fbBtn').onclick=()=>{doLogin('harshit.exe','Harshit')};
+$('#loginBtn').onclick=()=>{
+ const u=$('#liUser').value.trim().replace(/^@/,'').toLowerCase().replace(/\s+/g,'.')||'harshit.exe';
+ $('#loginBtn').disabled=true;$('#loginBtn').innerHTML='<span class="spin"></span> Logging in…';
+ setTimeout(()=>{doLogin(u,u.split('.')[0].replace(/^\w/,c=>c.toUpperCase()))},900)};
+function doLogin(u,n){
+ YOU.u=u;YOU.n=n||u;
+ try{localStorage.setItem('ig_user',JSON.stringify({u:YOU.u,n:YOU.n}))}catch(e){}
+ $('#loginBtn').disabled=false;$('#loginBtn').textContent=signupMode?'Sign up':'Log in';
+ enterApp()}
+function enterApp(){
+ $('#pfUser').textContent=YOU.u+' ⌄';$('#inboxUser').textContent=YOU.u+' ⌄';
+ $('#eUser').value=YOU.u;$('#eName').value=YOU.n;
+ buildFeed();renderHome();
+ openScreen('reels',false);$('#tabbar').hidden=false;showTab('reels');buzz(20)}
+/* auto-login runs at end of script (needs full init) */
+/* ================= NAV ================= */
+const TABS=['home','search','reels','activity','profile'];
+const HOMETABSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>';
+const HOMEFILL='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>';
+const REELFILL='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="m10 8.5 5 2.5-5 2.5z" fill="#000"/><path d="m4 3 1.8-1 1.8 1 1.8-1 1.8 1 1.8-1 1.8 1 1.8-1 1.8 1 1.8-1V5H4z"/></svg>';
+const REELLINE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="m10 8.5 5 2.5-5 2.5z" fill="currentColor"/><path d="m4 3 1.8-1 1.8 1 1.8-1 1.8 1 1.8-1 1.8 1 1.8-1 1.8 1 1.8-1V5H4z"/></svg>';
+function showTab(t){
+ ['home','search','reels','activity','profile'].forEach(x=>$('#screen-'+x).hidden=x!==t);
+ ['login','inbox','thread','story','audio','saved','user'].forEach(x=>$('#screen-'+x).hidden=true);
+ $('#tabbar').hidden=false;
+ $$('#tabbar .tab').forEach(b=>{b.classList.toggle('on',b.dataset.t===t);
+  if(b.dataset.t==='home')b.innerHTML=b.classList.contains('on')?HOMEFILL:HOMETABSVG;
+  if(b.dataset.t==='reels')b.innerHTML=b.classList.contains('on')?REELFILL:REELLINE});
+ if(t==='home')renderHome();if(t==='search')renderExplore();if(t==='activity')renderActivity();if(t==='profile')renderProfile();
+}
+$$('#tabbar .tab').forEach(b=>b.onclick=()=>{const t=b.dataset.t;
+ if(t==='create'){openSheet('create');return}
+ showTab(t);buzz(8)});
+function openScreen(id,hideTab){['login','home','search','reels','activity','profile','inbox','thread','story','audio','saved','user'].forEach(x=>$('#screen-'+x).hidden=x!==id);$('#tabbar').hidden=!!hideTab}
+$$('[data-back]').forEach(b=>b.onclick=()=>{stopStory();backTo()});
+let backStack=['reels'];
+function backTo(){const prev=backStack.length>1?backStack[backStack.length-2]:'reels';backStack=['reels'];if(TABS.includes(prev))showTab(prev);else openScreen(prev,false)}
+function pushScr(id,hideTab){backStack.push(id);openScreen(id,hideTab)}
+$('#friendPill').onclick=()=>showTab('activity');
+/* ================= REELS ================= */
+const feedEl=$('#feed');
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t}return a}
+function refillQueue(){
+ let base;
+ if(QUESTIONS.length>=100){base=QUESTIONS.map((q,i)=>questionToReel(q,i))}
+ else{base=REELS.slice()}
+ feedQueue=shuffle(base);
+ if(sessionDecoys.length&&feedQueue[0]&&feedQueue[0].cap===sessionDecoys[sessionDecoys.length-1].cap)feedQueue.push(feedQueue.shift());
+}
+function reelVisual(d){
+ let inner='';
+ if(d.q)return `<span class="q-topic">💼 ${d.topic} · campus interview</span><div class="q-text">${d.q}</div><div class="q-num">Q ${d.num} / 500 · save it for revision 📌</div>${d.a?`<button class="ans-btn" data-ans>👁 Show answer</button><div class="ans-text" hidden>✅ ${d.a}</div>`:''}`;
+ if(d.marq)return `<div class="big-emoji" style="font-size:80px">${d.emoji}</div><div class="marquee"><span>${d.marq.repeat(4)}</span><span>${d.marq.repeat(4)}</span></div>`;
+ if(d.orbit)return `<div class="orbit"><div class="ring"><div class="planet"></div></div><div class="sun"></div></div><div class="big-text" style="margin-top:14px">one lap.<br>then we move on.</div>`;
+ if(d.extra)return d.extra;
+ return `<div class="big-emoji" style="font-size:80px">${d.emoji}</div><div class="big-text">${(d.cap||'').split('#')[0].slice(0,60)}</div>`;
+}
+function reelHTML(d,i){
+ const p=P(d.u);
+ return `<article class="reel" data-i="${i}">
+  <div class="visual">${d.sc||''}${reelVisual(d)}<div class="grain"></div></div><div class="shade"></div>
+  <div class="bigheart"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+  <div class="rail">
+    <button class="rbtn like">${SVG.heart(false)}<span>${d.likes}</span></button>
+    <button class="rbtn cmt">${SVG.comment}<span>${fmtN(d.cm)}</span></button>
+    <button class="rbtn share">${SVG.send}<span>${d.vw}</span></button>
+    <button class="rbtn save">${SVG.save(false)}<span>Save</span></button>
+    <button class="rbtn more">${SVG.more}<span></span></button>
+    <div class="audio-cover" style="background:linear-gradient(135deg,${p.h||'#555,#999'})">${d.emoji}</div>
+  </div>
+  <div class="caption">
+    <div class="cap-user">${ava(p,30)}<span class="uname">${d.u}</span>${d.v?SVG.badge:''}<button class="follow-pill" data-u="${d.u}">${following.has(d.u)?'Following':'Follow'}</button></div>
+    <p class="cap-text">${d.cap}</p>
+    <div class="audio-row"><span class="cov" style="background:linear-gradient(135deg,${p.h||'#555,#999'})">${d.emoji}</span><span class="marq2"><span>♪ ${d.audio}&nbsp;&nbsp;&nbsp;· Original audio&nbsp;&nbsp;&nbsp;♪ ${d.audio}&nbsp;&nbsp;&nbsp;· Original audio&nbsp;&nbsp;&nbsp;</span></span></div>
+  </div>
+  <div class="progressbar"><i></i></div></article>`;
+}
+function appendCards(list){
+ const tmp=document.createElement('div');
+ tmp.innerHTML=list.map(d=>{const i=sessionDecoys.length;sessionDecoys.push(d);return reelHTML(d,i)}).join('');
+ [...tmp.children].forEach(c=>{feedEl.appendChild(c);wireCard(c);io.observe(c)});
+ POOL=sessionDecoys;
+}
+function buildFeed(){feedEl.innerHTML='';sessionDecoys=[];refillQueue();appendCards(feedQueue.splice(0,25));feedEl.scrollTo({top:0})}
+function appendMore(){if(feedQueue.length<6)refillQueue();appendCards(feedQueue.splice(0,25))}
+function wireCard(card){
+ if(card._wired)return;card._wired=true;
+ const d=sessionDecoys[+card.dataset.i];
+ const likeBtn=card.querySelector('.like'),heart=card.querySelector('.bigheart');
+ let liked=false,lastTap=0;
+ function popHeart(){heart.classList.add('show');setTimeout(()=>heart.classList.remove('show'),750)}
+ function setLiked(v){liked=v;likeBtn.classList.toggle('liked',v);likeBtn.innerHTML=SVG.heart(v)+`<span>${v?fmtN(d.lc+1):d.likes}</span>`}
+ likeBtn.onclick=e=>{e.stopPropagation();setLiked(!liked);buzz(15);if(liked)popHeart()};
+ card.querySelector('.visual').addEventListener('click',()=>{const now=Date.now();
+  if(now-lastTap<320){if(!liked)setLiked(true);popHeart();buzz(20)}else toggleMute();lastTap=now});
+ card.querySelector('.cmt').onclick=e=>{e.stopPropagation();curD=d;curPost=null;openComments('reel:'+d.u+':'+d.cap.slice(0,12),d.cm,d.u)};
+ card.querySelector('.share').onclick=e=>{e.stopPropagation();openSheet('share')};
+ const sv=card.querySelector('.save');
+ sv.onclick=e=>{e.stopPropagation();const on=sv.classList.toggle('saved');sv.innerHTML=SVG.save(on)+'<span>Save</span>';buzz(10);toggleSave('reel:'+d.u+':'+d.cap.slice(0,16),on)};
+ card.querySelector('.more').onclick=e=>{e.stopPropagation();curD=d;curPost=null;openSheet('more')};
+ card.querySelector('.audio-cover').onclick=e=>{e.stopPropagation();openAudio(d)};
+ card.querySelector('.audio-row').onclick=e=>{e.stopPropagation();openAudio(d)};
+ card.querySelector('.follow-pill').onclick=e=>{e.stopPropagation();toggleFollow(d.u)};
+ const ab=card.querySelector('[data-ans]');
+ if(ab)ab.onclick=e=>{e.stopPropagation();const t=card.querySelector('.ans-text');const show=t.hidden;t.hidden=!show;ab.textContent=show?'🙈 Hide answer':'👁 Show answer';buzz(8)};
+}
+function toggleMute(){muted=!muted;const f=$('#muteFlash');
+ f.innerHTML=muted?'<svg viewBox="0 0 24 24" fill="#fff"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="m16 9 6 6M22 9l-6 6" stroke="#fff" stroke-width="2"/></svg>':'<svg viewBox="0 0 24 24" fill="#fff"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="#fff" stroke-width="2" fill="none"/></svg>';
+ f.classList.add('show');clearTimeout(f._h);f._h=setTimeout(()=>f.classList.remove('show'),650)}
+const io=new IntersectionObserver(es=>{es.forEach(en=>{
+ if(!en.isIntersecting)return;const card=en.target,bar=card.querySelector('.progressbar i');
+ const i=+card.dataset.i;
+ if(i>=sessionDecoys.length-3)appendMore();
+ if(bar){bar.style.transition='none';bar.style.width='0';requestAnimationFrame(()=>requestAnimationFrame(()=>{bar.style.transition='width 12s linear';bar.style.width='100%'}))}
+ const st=card.querySelector('[data-steps]');
+ if(st){const seq=['🍞','🥬','🧀','🍞','🥪','😌'];let k=0;clearInterval(st._t);st._t=setInterval(()=>{st.textContent=seq[k++%seq.length]},900)}
+ const d=sessionDecoys[i];
+ if(d&&d.rain&&!card._rain){card._rain=true;for(let k=0;k<26;k++){const x=document.createElement('div');x.className='rain-drop';x.style.left=Math.random()*100+'%';x.style.animationDuration=(0.7+Math.random())+'s';x.style.animationDelay=(Math.random()*2)+'s';card.querySelector('.visual').appendChild(x)}}
+})},{root:feedEl,threshold:.6});
+/* ================= FOLLOW / SAVE ================= */
+function toggleFollow(u){const on=!following.has(u);if(on)following.add(u);else following.delete(u);
+ $$(`.follow-pill[data-u="${u}"]`).forEach(b=>{b.textContent=on?'Following':'Follow';b.classList.toggle('ing',on)});
+ $$('.fbtn[data-fu="'+u+'"]').forEach(b=>{b.textContent=on?'Following':(b.dataset.fb||'Follow');b.classList.toggle('ing',on)});
+ followingN+=on?1:-1;const cf=$('#cFollowing');if(cf)cf.textContent=followingN;buzz(10)}
+function toggleSave(key,on){const ix=savedItems.indexOf(key);if(on&&ix<0)savedItems.push(key);if(!on&&ix>=0)savedItems.splice(ix,1);
+ toast(on?'Saved':'Removed from Saved')}
+function renderSaved(){$('#savedGrid').innerHTML=savedItems.length?savedItems.map(k=>`<button class="tile" style="background:linear-gradient(135deg,#222,#444)">🔖</button>`).join(''):'<p style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 20px">Only you can see what you\'ve saved.<br>Nothing here yet.</p>'}
+/* ================= SHEETS ================= */
+function openSheet(w){$('#scrim').classList.add('on');if(w==='share')$('#shareSheet').classList.add('open');if(w==='more')$('#moreSheet').classList.add('open');if(w==='comments')$('#commentSheet').classList.add('open');if(w==='likes')$('#likesSheet').classList.add('open');if(w==='follow')$('#followSheet').classList.add('open');if(w==='menu')$('#menuSheet').classList.add('open');if(w==='settings')$('#settingsSheet').classList.add('open');if(w==='edit')$('#editSheet').classList.add('open');if(w==='create')$('#createSheet').classList.add('open');if(w==='composer')$('#composerSheet').classList.add('open')}
+function closeSheets(){$('#scrim').classList.remove('on');$$('.sheet').forEach(s=>s.classList.remove('open'))}
+$('#scrim').onclick=closeSheets;
+$$('[data-close]').forEach(b=>b.onclick=closeSheets);
+let commentKey='x',commentList=[];
+function seedComments(key,count,u){if(commentKey===key)return commentList;commentKey=key;
+ commentList=CPOOL.slice(0,Math.min(6,2+count%5)).map(c=>({u:c[0],t:c[1],time:c[2],likes:c[3]}));
+ if(u&&u!==YOU.u)commentList.unshift({u,t:'first 👀',time:'1h',likes:12});return commentList}
+function openComments(key,count,u){
+ const list=seedComments(key,count,u);
+ $('#csTitle').textContent=curPost?'Comments':'Comments';
+ renderComments(list);openSheet('comments')}
+function renderComments(list){
+ $('#csList').innerHTML=list.map((c,k)=>{const p=P(c.u);return `<div class="comment"><div class="cavatar" style="background:linear-gradient(135deg,${p.h||'#555,#999'})">${p.e||'🙂'}</div><div class="ctext"><b>${c.u}</b> ${c.t}<br><small>${c.time} · Reply</small></div><button class="clike ${likedComments.has(commentKey+k)?'on':''}" data-k="${k}">${SVG.heart(false)}${c.likes||''}</button></div>`}).join('')||'<p style="text-align:center;color:var(--muted);padding:20px">No comments yet.<br>Be the first to comment.</p>';
+ $$('#csList .clike').forEach(b=>b.onclick=()=>{const k=commentKey+b.dataset.k;const on=!likedComments.has(k);if(on)likedComments.add(k);else likedComments.delete(k);b.classList.toggle('on',on);const c=commentList[+b.dataset.k];c.likes+=on?1:-1;b.innerHTML=SVG.heart(false)+(c.likes||'');buzz(8)})}
+$('#csSend').onclick=()=>{const v=$('#csInput').value.trim();if(!v)return;commentList.unshift({u:YOU.u,t:v.replace(/</g,'&lt;'),time:'now',likes:0});$('#csInput').value='';renderComments(commentList);buzz(10)};
+$('#shareContacts').innerHTML=[{u:YOU.u,n:'Your story',e:'➕'}].concat(PEOPLE.slice(0,7)).map(c=>{const p=c.u===YOU.u?{u:'you',e:'➕',h:'#555,#999'}:P(c.u);return `<button class="contact" data-c="${c.u||c.n}"><span class="ring"><b${p.img?' style="background:url('+p.img+') center/cover"':''}>${p.img?'':p.e}</b></span>${(c.n||c.u).split(' ')[0].slice(0,9)}</button>`}).join('');
+$$('#shareContacts .contact').forEach(b=>b.onclick=()=>{toast('Sent ✓✓');pushToThread(b.dataset.c,'sent you a reel 📩');closeSheets()});
+$$('#shareSheet [data-s]').forEach(b=>b.onclick=()=>{const k=b.dataset.s;closeSheets();
+ if(k==='copy'){try{navigator.clipboard.writeText('https://instagram.com/reel/CxFake123')}catch(e){}toast('Link copied')}
+ if(k==='story')toast('Added to your story');
+ if(k==='dm'){pushToThread('aarav.mehta','sent you a reel 📩');toast('Sent ✓✓')}
+ if(k==='wa')toast('Opening WhatsApp…')});
+$$('#moreSheet [data-m]').forEach(b=>b.onclick=()=>{const k=b.dataset.m;closeSheets();
+ if(k==='save'){toast('Saved');if(curD)savedItems.push('reel:'+curD.u+curD.cap.slice(0,10))}
+ if(k==='remix')toast('Remix added to drafts');
+ if(k==='copy'){try{navigator.clipboard.writeText('https://instagram.com/reel/CxFake123')}catch(e){}toast('Link copied')}
+ if(k==='not'&&!curPost){toast('We\'ll show you fewer posts like this');const cards=[...feedEl.querySelectorAll('.reel')];const fr=feedEl.getBoundingClientRect();const cur=cards.findIndex(c=>Math.abs(c.getBoundingClientRect().top-fr.top)<60);if(cards[cur+1])cards[cur+1].scrollIntoView({behavior:'smooth'})}
+ if(k==='why')toast('You\'re seeing this post based on your activity');
+ if(k==='report')toast('Thanks — we\'ll review this post')});
+$$('#menuSheet [data-m]').forEach(b=>b.onclick=()=>{const k=b.dataset.m;closeSheets();
+ if(k==='saved'){renderSaved();pushScr('saved',true)}
+ if(k==='archive')toast('Your archive is empty');
+ if(k==='settings')openSheet('settings');
+ if(k==='logout'){try{localStorage.removeItem('ig_user')}catch(e){}$('#liPass').value='';checkLogin();openScreen('login',true);$('#tabbar').hidden=true}});
+$$('#settingsSheet [data-set]').forEach(b=>b.onclick=()=>{b.classList.toggle('on');try{localStorage.setItem('ig_set_'+b.dataset.set,b.classList.contains('on')?'1':'0')}catch(e){}});
+(function initSettings(){try{$$('#settingsSheet [data-set]').forEach(b=>{if(localStorage.getItem('ig_set_'+b.dataset.set)==='1')b.classList.add('on')})}catch(e){}});
+/* ================= LIKES SHEET ================= */
+function openLikes(count){const likers=shuffle(PEOPLE).slice(0,8);
+ $('#likesList').innerHTML=`<p style="padding:4px 16px 8px;color:var(--muted);font-size:13px">Liked by <b style="color:#fff">${likers[0].u}</b> and <b style="color:#fff">${fmtN(count||1000)} others</b></p>`+likers.map(p=>`<div class="likerow">${ava(p,44)}<div class="who"><b>${p.u}</b><small>${p.n}</small></div><button class="fbtn ${following.has(p.u)?'ing':''}" data-fu="${p.u}" data-fb="Follow">${following.has(p.u)?'Following':'Follow'}</button></div>`).join('');
+ $$('#likesList .fbtn').forEach(b=>b.onclick=()=>toggleFollow(b.dataset.fu));openSheet('likes')}
+/* ================= HOME ================= */
+function renderHome(){
+ $('#stories').innerHTML=[{u:YOU.u,n:'Your story',e:YOU.e,img:YOU.img,me:1}].concat(STORIES.map(s=>{const p=P(s.u);return{u:s.u,e:p.e,img:p.img,seen:s.seen}})).map(s=>`<button class="story ${s.seen?'seen':''}" data-u="${s.u}"><span class="ring"><b${s.img?' style="background:url('+s.img+') center/cover"':''}>${s.img?'':(s.e||'🙂')}</b></span>${s.me?'Your story':s.u.split('.')[0].slice(0,10)}</button>`).join('');
+ $$('#stories .story').forEach(b=>b.onclick=()=>{if(b.dataset.u===YOU.u){if(myStory.length)openStory({u:YOU.u,time:'now',segs:myStory});else{cpMode='story';openComposer()}return}openStory(STORIES.find(s=>s.u===b.dataset.u))});
+ const allPosts=myPosts.concat(POSTS);
+ $('#posts').innerHTML=allPosts.map((p,ix)=>{const u=P(p.u);const liked=p._liked;const saved=p._saved;
+  return `<div class="post" data-ix="${ix}">
+   <div class="post-head">${ava(u,34)}<div class="who"><b>${p.u}</b><small>${p.loc||'Original audio'}</small></div><button class="ibtn pmore">${SVG.more}</button></div>
+   <div class="post-img" style="background:radial-gradient(600px 400px at 30% 20%,${p.h[0]}66,transparent 60%),radial-gradient(600px 400px at 80% 85%,${p.h[1]}77,transparent 60%),#0b0b10"><span class="big-emoji" style="font-size:110px">${p.e}</span><div class="grain"></div><div class="bigheart"><svg viewBox="0 0 24 24" style="fill:#fff"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div></div>
+   <div class="post-actions"><button class="ibtn plike ${liked?'liked':''}">${SVG.heart(liked)}</button><button class="ibtn pcomment">${SVG.comment}</button><button class="ibtn psend">${SVG.send}</button><button class="ibtn save ${saved?'saved':''}">${SVG.save(saved)}</button></div>
+   <div class="post-likes">${fmtN(p.likes+(liked?1:0))} likes</div>
+   <div class="post-cap"><b>${p.u}</b> ${p.cap}</div>
+   <div class="post-comments">View all ${fmtN(120+p.cm.length*37)} comments</div>
+   <div class="post-time">${p.time}</div></div>`}).join('');
+ $$('#posts .post').forEach(card=>{const p=allPosts[+card.dataset.ix];let lastTap=0;
+  const pop=()=>{const h=card.querySelector('.bigheart');h.classList.add('show');setTimeout(()=>h.classList.remove('show'),750)};
+  const setL=v=>{p._liked=v;card.querySelector('.plike').classList.toggle('liked',v);card.querySelector('.plike').innerHTML=SVG.heart(v);card.querySelector('.post-likes').textContent=fmtN(p.likes+(v?1:0))+' likes'};
+  card.querySelector('.plike').onclick=()=>{setL(!p._liked);if(p._liked)pop();buzz(12)};
+  card.querySelector('.post-img').addEventListener('click',()=>{const n=Date.now();if(n-lastTap<320){if(!p._liked)setL(true);pop()}lastTap=n});
+  card.querySelector('.pcomment').onclick=()=>{curPost=p;curD=null;openComments('post:'+p.u+p.cap.slice(0,8),300,p.u)};
+  card.querySelector('.post-comments').onclick=()=>{curPost=p;curD=null;openComments('post:'+p.u+p.cap.slice(0,8),300,p.u)};
+  card.querySelector('.post-likes').onclick=()=>openLikes(p.likes);
+  card.querySelector('.psend').onclick=()=>openSheet('share');
+  card.querySelector('.pmore').onclick=()=>{curPost=p;curD=null;openSheet('more')};
+  const sv=card.querySelector('.save');sv.onclick=()=>{p._saved=!p._saved;sv.classList.toggle('saved',p._saved);sv.innerHTML=SVG.save(p._saved);toggleSave('post:'+p.u+p.cap.slice(0,8),p._saved)};
+ });
+}
+$$('#screen-home [data-act]').forEach(b=>b.onclick=()=>{const a=b.dataset.act;
+ if(a==='likes')showTab('activity');
+ if(a==='inbox'){renderInbox();pushScr('inbox',true)}});
+/* ================= EXPLORE ================= */
+function tileFor(d,vw,qq){const bg=(d.sc||'').match(/#[0-9a-f]{3,6}/gi);const c1=bg?bg[0]:'#555';
+ return `<button class="tile" data-cap="${(d.cap||'').replace(/"/g,'&quot;').slice(0,80)}" style="background:linear-gradient(135deg,#14141c,#000)"><span style="position:absolute;inset:0;background:radial-gradient(300px 260px at 30% 20%,${c1}88,transparent 65%)"></span>${qq?`<span class="qq">${(d.q||d.cap||'').slice(0,90)}</span>`:`<span style="z-index:1">${d.emoji||'✨'}</span>`}<span class="vw">▶ ${vw||d.vw||'12.4K'}</span></button>`}
+function jumpToReel(d){showTab('reels');sessionDecoys=[];feedEl.innerHTML='';feedQueue=shuffle(POOL.filter(x=>x.cap!==d.cap));appendCards([d].concat(feedQueue.splice(0,24)));feedEl.scrollTo({top:0})}
+function renderExplore(q){
+ q=(q||'').toLowerCase();
+ const pq=q?POOL.filter(d=>(d.cap+' '+d.u+' '+(d.tag||'')).toLowerCase().includes(q)):POOL;
+ const people=q?PEOPLE.filter(p=>(p.u+p.n).toLowerCase().includes(q)).slice(0,5):[];
+ $('#peopleRes').innerHTML=people.map(p=>`<button class="person-row" data-u="${p.u}">${ava(p,48)}<div class="who"><b>${p.u} ${p.v?SVG.badge:''}</b><small>${p.n}</small></div></button>`).join('');
+ $$('#peopleRes .person-row').forEach(b=>b.onclick=()=>openUser(b.dataset.u));
+ const tiles=[];const src=pq.length?pq:POOL;
+ for(let k=0;k<21&&src.length;k++)tiles.push(src[k%src.length]);
+ $('#expGrid').innerHTML=tiles.map(d=>tileFor(d,null,!!d.q)).join('');
+ $$('#expGrid .tile').forEach((b,k)=>b.onclick=()=>jumpToReel(tiles[k]));
+}
+$('#searchInput').addEventListener('input',e=>renderExplore(e.target.value));
+/* ================= USER PROFILE ================= */
+let upUser=null;
+function hashN(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h}
+function openUser(u){if(u===YOU.u){showTab('profile');return}
+ const p=P(u);upUser=u;const h=hashN(u);
+ $('#upUser').textContent=u;$('#upAva').innerHTML=p.img?'<b style="background:url('+p.img+') center/cover"></b>':'<b>'+p.e+'</b>';$('#upAva').style.background=`linear-gradient(135deg,${p.h})`;
+ $('#upPosts').textContent=8+h%40;$('#upFollowers').textContent=fmtN(1200+(h%88000));$('#upFollowing').textContent=180+h%400;
+ $('#upBio').innerHTML=`<b>${p.n}</b><br>🎓 placements '26<br>📍 india<br><small style="color:#e0f1ff">🔗 linktr.ee/${u.split('.')[0]}</small>`;
+ const fb=$('#upFollow');const ing=following.has(u);fb.textContent=ing?'Following':'Follow';fb.className=ing?'fbtn ing':'fbtn';fb.style.flex='1';
+ fb.onclick=()=>toggleFollow(u);
+ $('#upMsg').onclick=()=>{let t=THREADS.find(t=>t.u===u);if(!t){t={u,unread:0,msgs:[{m:0,t:'hey! 👋'}]};THREADS.unshift(t)}openThread(u)};
+ const mine=POOL.filter(d=>d.u===u);const grid=mine.length?mine:POOL.slice(h%20,h%20+9);
+ $('#upGrid').innerHTML=grid.map(d=>tileFor(d)).join('');
+ $$('#upGrid .tile').forEach((b,k)=>b.onclick=()=>jumpToReel(grid[k]));
+ pushScr('user',true)}
+/* ================= ACTIVITY ================= */
+function renderActivity(){
+ const row=n=>{const p=P(n.u);return `<div class="act-row">${ava(p,44)}<div class="tx"><b>${n.u}</b> ${n.t} <small>${n.time}</small></div>${n.thumb?`<span class="act-thumb" style="background:linear-gradient(135deg,#222,#444)">${POOL.length?POOL[n.u.length%POOL.length].emoji:'✨'}</span>`:n.follow?`<button class="fbtn ${following.has(n.u)?'ing':''}" data-fu="${n.u}" data-fb="Follow back">${following.has(n.u)?'Following':'Follow back'}</button>`:''}</div>`};
+ $('#actScroll').innerHTML=`<div class="act-sec">New</div>`+NOTIFS.today.map(row).join('')+
+  `<div class="act-sec">Follow requests</div>`+NOTIFS.requests.map(n=>{const p=P(n.u);return `<div class="act-row">${ava(p,44)}<div class="tx"><b>${n.u}</b> ${n.t} <small>${n.time}</small></div><button class="fbtn" data-ok="${n.u}">Confirm</button><button class="fbtn ing" data-del="${n.u}">Delete</button></div>`}).join('')+
+  `<div class="act-sec">This week</div>`+NOTIFS.week.map(row).join('')+
+  `<div class="act-sec">Suggested for you</div>`+NOTIFS.suggested.map(u=>{const p=P(u);return `<div class="act-row">${ava(p,44)}<div class="tx"><b>${u}</b> <small>Follows you</small></div><button class="fbtn" data-fu="${u}" data-fb="Follow">Follow</button></div>`}).join('');
+ $$('#actScroll .fbtn[data-fu]').forEach(b=>b.onclick=()=>toggleFollow(b.dataset.fu));
+ $$('#actScroll [data-ok]').forEach(b=>b.onclick=()=>{following.add(b.dataset.ok);b.outerHTML='<span style="color:var(--muted);font-size:13px">Following</span>'});
+ $$('#actScroll [data-del]').forEach(b=>b.onclick=()=>b.closest('.act-row').remove());
+ const nb=$('#notifBadge');if(nb)nb.hidden=true;
+}
+/* ================= PROFILE ================= */
+let pfTab='posts';
+function renderProfile(){
+ $('#pfUser').textContent=YOU.u+' ⌄';
+ $('#cPosts').textContent=12+myPosts.length+myReels.length;$('#cFollowers').textContent=followersN;$('#cFollowing').textContent=followingN;
+ let bio,name;try{bio=localStorage.getItem('ig_bio');name=localStorage.getItem('ig_name')}catch(e){}
+ $('#pfBio').innerHTML='<b>'+(name||YOU.n||'Harshit')+'</b><br>'+((bio||"🎓 BTech CSE '26 | placements\n📚 revising 500 interview Qs\n📍 delhi").replace(/\n/g,'<br>'))+'<br><small style="color:#e0f1ff">🔗 linktr.ee/'+YOU.u.split('.')[0]+'</small>';
+ $('#highlights').innerHTML=HLS.map(h=>`<button class="hl" data-h="${h.t}"><span class="c">${h.e}</span>${h.t}</button>`).join('')+`<button class="hl" id="hlNew"><span class="c" style="font-size:22px;color:var(--muted)">＋</span>New</button>`;
+ $$('#highlights .hl').forEach(b=>b.onclick=()=>{if(b.id==='hlNew'){toast('Create a highlight from your story archive');return}openStory({u:YOU.u,time:'highlight',segs:HLTIPS[b.dataset.h]||[{e:'✨',h:['#ee2a7b','#6228d7'],t:b.dataset.h}]})});
+ $$('.pf-tabs button').forEach(b=>b.onclick=()=>{pfTab=b.dataset.pt;$$('.pf-tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderPfGrid()});
+ renderPfGrid();
+}
+function renderPfGrid(){
+ let html='';
+ const gridReels=myReels.concat(POOL.slice(0,12));
+ if(pfTab==='posts'){for(let k=0;k<myPosts.length;k++)html+=`<button class="tile" style="background:linear-gradient(135deg,${myPosts[k].h[0]},${myPosts[k].h[1]})"><span style="z-index:1">${myPosts[k].e}</span></button>`;
+  for(let k=0;k<12;k++)html+=tileFor(POOL.length?POOL[k%POOL.length]:REELS[k%REELS.length])}
+ if(pfTab==='reels'){gridReels.slice(0,15).forEach(d=>html+=tileFor(d))}
+ if(pfTab==='tagged'){POOL.slice(3,12).forEach(d=>html+=tileFor(d))}
+ $('#pfGrid').innerHTML=html||'<p style="grid-column:1/-1;text-align:center;color:var(--muted);padding:30px">No posts yet</p>';
+ const items=pfTab==='posts'?myPosts.concat(POOL):gridReels;
+ $$('#pfGrid .tile').forEach((b,k)=>{const d=items[k%Math.max(1,items.length)];if(d&&d.cap)b.onclick=()=>jumpToReel(d)});
+}
+$('#statFollowers').onclick=()=>openFollow('Followers');
+$('#statFollowing').onclick=()=>openFollow('Following');
+function openFollow(which){
+ const list=which==='Followers'?['aarav.mehta','meera.kapoor','kabir.jpeg','zoya.exe','arjun.wav','ira.jpg','dev.builds','noor.jpg','rohan.jpeg','sneha.jpg','chai.sutta','aditya.wav']: [...following];
+ $('#fsTitle').textContent=which;
+ const draw=q=>{$('#fsList').innerHTML=list.filter(u=>!q||u.includes(q)).map(u=>{const p=P(u);const isF=following.has(u);
+  return `<div class="likerow">${ava(p,44)}<div class="who"><b>${u}</b><small>${p.n}</small></div>${which==='Followers'?`<button class="fbtn ing" data-rm="${u}">Remove</button>`:`<button class="fbtn ${isF?'ing':''}" data-fu="${u}" data-fb="Follow">${isF?'Following':'Follow'}</button>`}</div>`}).join('');
+  $$('#fsList [data-fu]').forEach(b=>b.onclick=()=>{toggleFollow(b.dataset.fu);draw($('#fsSearch').value)});
+  $$('#fsList [data-rm]').forEach(b=>b.onclick=()=>{followersN--;$('#cFollowers').textContent=followersN;b.closest('.likerow').remove()})};
+ draw('');$('#fsSearch').value='';$('#fsSearch').oninput=e=>draw(e.target.value.toLowerCase());openSheet('follow')}
+$('#pfEdit').onclick=()=>{$('#eName').value=YOU.n||'Harshit';$('#eUser').value=YOU.u;openSheet('edit')};
+$('#eSave').onclick=()=>{YOU.u=$('#eUser').value.trim()||YOU.u;YOU.n=$('#eName').value.trim()||YOU.n;
+ try{localStorage.setItem('ig_name',YOU.n);localStorage.setItem('ig_bio',$('#eBio').value);localStorage.setItem('ig_user',JSON.stringify({u:YOU.u,n:YOU.n}))}catch(e){}
+ closeSheets();renderProfile();$('#inboxUser').textContent=YOU.u+' ⌄';toast('Profile saved')};
+$('#pfShareBtn').onclick=()=>{try{navigator.clipboard.writeText('https://instagram.com/'+YOU.u)}catch(e){}toast('Profile link copied')};
+$('#pfMenu').onclick=()=>openSheet('menu');
+$('#pfCreate').onclick=()=>openSheet('create');
+$('#myStoryBtn').onclick=()=>{if(myStory.length)openStory({u:YOU.u,time:'now',segs:myStory});else{cpMode='story';openComposer()}};
+/* ================= CREATE / COMPOSER ================= */
+$$('#createSheet [data-c]').forEach(b=>b.onclick=()=>{const k=b.dataset.c;closeSheets();
+ if(k==='live'){toast('Couldn\'t start live video. Check your connection and try again.');return}
+ cpMode=k;openComposer()});
+$('#composerBg').innerHTML=CPBGS.map((g,i)=>`<button data-i="${i}" class="${i===0?'on':''}" style="background:linear-gradient(135deg,${g[0]},${g[1]})">✨</button>`).join('');
+$$('#composerBg button').forEach(b=>b.onclick=()=>{cpBg=+b.dataset.i;$$('#composerBg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');drawComposerPrev()});
+$('#cpText').addEventListener('input',drawComposerPrev);
+function drawComposerPrev(){const g=CPBGS[cpBg];$('#composerPrev').style.background=`linear-gradient(135deg,${g[0]},${g[1]})`;$('#composerPrev').textContent=$('#cpText').value.trim()||'preview ✨'}
+function openComposer(){$('#cpTitle').textContent='New '+cpMode;$('#cpText').value='';drawComposerPrev();openSheet('composer')}
+$('#cpShare').onclick=()=>{const t=$('#cpText').value.trim()||'😌';const g=CPBGS[cpBg];
+ if(cpMode==='post'){myPosts.unshift({u:YOU.u,h:g,e:'✨',likes:0,cap:t,cm:[],time:'JUST NOW'});toast('Shared')}
+ if(cpMode==='story'){myStory.unshift({e:'✨',h:g,t});toast('Added to your story')}
+ if(cpMode==='reel'){const d={u:YOU.u,n:YOU.n,e:'✨',v:0,cap:t,audio:'original audio - '+YOU.u,likes:'0',lc:0,cm:3,vw:'1',emoji:'✨',sc:scene(g[0],g[1]),tag:'fresh'};myReels.unshift(d);POOL.unshift(d);sessionDecoys=[];feedEl.innerHTML='';feedQueue=[];appendCards([d].concat(shuffle(POOL.slice(1)).slice(0,24)));feedEl.scrollTo({top:0});showTab('reels');toast('Reel shared')}
+ closeSheets();renderHome();renderProfile();$('#cPosts').textContent=12+myPosts.length+myReels.length};
+/* ================= AUDIO ================= */
+function openAudio(d){const p=P(d.u);$('#apCover').style.background=`linear-gradient(135deg,${p.h||'#555,#999'})`;$('#apCover').textContent=d.emoji;
+ $('#apTitle').textContent=d.audio;$('#apArtist').textContent=d.u+' · Original audio';
+ $('#apCount').textContent=fmtN(d.lc*3+1200)+' reels';
+ const grid=POOL.filter(x=>x.audio===d.audio).concat(POOL).slice(0,12);
+ $('#apGrid').innerHTML=grid.map(x=>tileFor(x)).join('');
+ $$('#apGrid .tile').forEach((b,k)=>b.onclick=()=>jumpToReel(grid[k]));
+ pushScr('audio',false);$('#tabbar').hidden=false}
+$('#apUse').onclick=()=>{cpMode='reel';openComposer()};
+$('#apSave').onclick=e=>{const b=e.target,s=b.textContent==='Save audio';b.textContent=s?'Saved':'Save audio';toast(s?'Audio saved':'Removed from saved audios')};
+/* ================= INBOX ================= */
+function renderInbox(){
+ $('#notesRow').innerHTML=NOTES.map(n=>{const p=P(n.u);return `<button class="note" data-u="${n.u}">${ava(p,52)}<span class="bub">${n.t}</span>${p.u.split('.')[0].slice(0,8)}</button>`}).join('');
+ $$('#notesRow .note').forEach(b=>b.onclick=()=>openThread(b.dataset.u));
+ const total=THREADS.reduce((a,t)=>a+t.unread,0);const db=$('#dmBadge');if(db){db.hidden=total===0;db.textContent=total}
+ $('#threadList').innerHTML=THREADS.map(t=>{const p=P(t.u);const last=t.msgs[t.msgs.length-1];
+  return `<button class="threadRow ${t.unread?'unread':''}" data-u="${t.u}">${ava(p,54)}<div class="who"><b>${t.u}</b><small>${last.m===1?'You: ':''}${last.t}</small></div>${t.unread?`<span style="background:var(--blue);border-radius:99px;min-width:20px;height:20px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">${t.unread}</span>`:''}</button>`}).join('');
+ $$('#threadList .threadRow').forEach(b=>b.onclick=()=>openThread(b.dataset.u));
+}
+$$('#screen-inbox [data-act]').forEach(b=>{if(b.dataset.act==='compose')b.onclick=()=>toast('No new message requests')});
+function pushToThread(u,txt){let t=THREADS.find(t=>t.u===u);if(!t){t={u,unread:0,msgs:[]};THREADS.unshift(t)}t.msgs.push({m:1,t:txt});setTimeout(()=>{t.msgs.push({m:0,t:REPLIES[Math.floor(Math.random()*REPLIES.length)]});if(curThread===u)drawChat(t);buzz(8)},1400)}
+function openThread(u){curThread=u;const t=THREADS.find(t=>t.u===u);const p=P(u);
+ if(p.img){$('#thAva').style.background='url('+p.img+') center/cover';$('#thAva').textContent=''}else{$('#thAva').style.background=`linear-gradient(135deg,${p.h})`;$('#thAva').textContent=p.e}$('#thName').textContent=u;
+ t.unread=0;drawChat(t);pushScr('thread',true)}
+function drawChat(t){$('#chatScroll').innerHTML=t.msgs.map(m=>`<div class="msg ${m.m?'me':'them'}">${m.t}</div>`).join('');
+ $('#chatScroll').scrollTop=1e6;renderInbox()}
+$('#chatText').addEventListener('input',e=>{$('#chatSend').hidden=!e.target.value.trim();$('#chatHeart').style.display=e.target.value.trim()?'none':''});
+$('#chatSend').onclick=sendChat;$('#chatText').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
+function sendChat(){const v=$('#chatText').value.trim();if(!v||!curThread)return;const t=THREADS.find(t=>t.u===curThread);
+ t.msgs.push({m:1,t:v.replace(/</g,'&lt;')});$('#chatText').value='';$('#chatSend').hidden=true;$('#chatHeart').style.display='';drawChat(t);
+ const ch=$('#chatScroll');ch.insertAdjacentHTML('beforeend','<div class="typing" id="typing">typing…</div>');ch.scrollTop=1e6;
+ setTimeout(()=>{const tp=$('#typing');if(tp)tp.remove();t.msgs.push({m:0,t:REPLIES[Math.floor(Math.random()*REPLIES.length)]});if(curThread===t.u)drawChat(t);else renderInbox();buzz(8)},1500)}
+$('#chatHeart').onclick=()=>{if(!curThread)return;const t=THREADS.find(t=>t.u===curThread);t.msgs.push({m:1,t:'❤️'});drawChat(t);setTimeout(()=>{t.msgs.push({m:0,t:'❤️'});if(curThread===t.u)drawChat(t)},1200)};
+$$('#screen-thread [data-act]').forEach(b=>{if(b.dataset.act==='call')b.onclick=()=>{toast('Calling…');setTimeout(()=>toast('No answer'),2500)}});
+/* ================= STORIES ================= */
+function openStory(s){curStory=s;curSeg=0;pushScr('story',true);drawSeg()}
+function drawSeg(){const s=curStory,g=s.segs[curSeg];const p=P(s.u);
+ const ap=s.u===YOU.u?YOU:p;const sa=$('#stAva');if(ap.img){sa.style.background='url('+ap.img+') center/cover';sa.textContent=''}else{sa.style.background=`linear-gradient(135deg,${ap.h||'#555,#999'})`;sa.textContent=ap.e}$('#stUser').textContent=s.u;$('#stTime').textContent=s.time||'2h';
+ $('#storyArt').style.background=`linear-gradient(180deg,${g.h[0]},${g.h[1]})`;
+ $('#storyArt').innerHTML=`<div class="big-emoji">${g.e}</div><div class="big-text" style="position:absolute;bottom:26px;font-size:24px">${g.t||''}</div><div class="grain"></div>`;
+ $('#storyBars').innerHTML=s.segs.map((_,k)=>`<i><b id="seg${k}"></b></i>`).join('');
+ clearInterval(storyTimer);let w=0;const bar=$('#seg'+curSeg);
+ storyTimer=setInterval(()=>{w+=4;if(bar)bar.style.width=Math.min(100,w)+'%';if(w>=100){clearInterval(storyTimer);nextSeg()}},200)}
+function nextSeg(){if(curSeg<curStory.segs.length-1){curSeg++;drawSeg()}else{if(curStory.u!==YOU.u){const st=STORIES.find(s=>s.u===curStory.u);if(st)st.seen=true}stopStory();backTo()}}
+function stopStory(){clearInterval(storyTimer)}
+$('#storyArt').onclick=e=>{const r=e.currentTarget.getBoundingClientRect();if(e.clientX-r.left>r.width/2)nextSeg();else if(curSeg>0){curSeg--;drawSeg()}else drawSeg()};
+$('#storyLike').onclick=()=>{pushToThread(curStory.u,'❤️');toast('Liked')};
+$('#storySend').onclick=()=>{pushToThread(curStory.u,'sent you a story');toast('Sent')};
+$('#storyReply').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value.trim()){pushToThread(curStory.u,e.target.value.trim());toast('Reply sent');e.target.value=''}});
+$$('#screen-story [data-act]').forEach(b=>{if(b.dataset.act==='storymore')b.onclick=()=>openSheet('more')});
+(function boot(){
+ try{if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js')}catch(e){}
+ try{
+  const s=JSON.parse(localStorage.getItem('ig_user')||'null');
+  if(s&&s.u){YOU.u=s.u;YOU.n=s.n||s.u;$('#liUser').value=s.u;enterApp();return}
+ }catch(e){}
+ try{const s2=JSON.parse(localStorage.getItem('ig_user')||'null');if(s2&&s2.u)$('#liUser').value=s2.u}catch(e){}
+})();
+</script>
+</body>
+</html>
