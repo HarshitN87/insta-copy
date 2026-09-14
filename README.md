@@ -1,9 +1,10 @@
-# Insta Copy — interview reels in an Instagram skin
+# Insta Copy — Kannada vocab reels in an Instagram skin
 
-A mobile-first Instagram clone where every reel is a **campus placement interview
-question + one-line answer**: 500 questions across OS, OOP, DBMS, Computer
-Networks, ML and System Design. Scroll randomly, tap to reveal answers, save
-for revision.
+A mobile-first Instagram clone where every reel is a **spoken Kannada word
++ meaning + example**: 800 high-frequency words for understanding Kannada
+movies and everyday conversation (300 verbs & verb forms, 200 nouns,
+100 adjectives, 50 pronouns, 50 adverbs, 50 fillers, 50 phrases).
+Scroll randomly, tap to reveal the meaning + example, save for revision.
 
 Everything works offline once loaded (service worker + local assets).
 
@@ -27,7 +28,7 @@ No build step, no dependencies, no backend.
 
 | File | What |
 | ---- | ---- |
-| `index.html` | The whole app (all screens, all logic, 500 Q&As inline) |
+| `index.html` | The whole app (all screens, all logic, 800 Kannada Q&As inline) |
 | `portraits/` | 19 public-domain painting avatars (Rembrandt, Van Gogh, Vermeer…) |
 | `manifest.webmanifest` | PWA install metadata |
 | `sw.js` | Offline service worker |
@@ -48,5 +49,8 @@ replies → composer (post / story / reel).
   Van Gogh, Rembrandt, Vermeer, Goya, Modigliani, Dürer, Klimt, Caravaggio,
   Friedrich, Arcimboldo, Munch, Bruegel, Da Vinci, Mondrian, Hokusai,
   Michelangelo (+ others).
-- Interview Q&A: generated for on-campus placement prep (service + product
-  company pattern).
+- Kannada reels: 800 most useful spoken-Kannada words (Roman script) with
+  natural movie-style examples — verbs, nouns, adjectives, pronouns, adverbs,
+  fillers and everyday phrases. Generated from `kannada-800-movie-vocabulary.md`
+  via `source-data/generators/generate-kannada-reels.js` (re-run it after editing
+  the vocab to rebuild the reels).
