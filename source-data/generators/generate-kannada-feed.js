@@ -36,7 +36,7 @@ console.log('stale comment removed');
 // 1. POSTS -> Kannada word-spotlight + tips posts
 const P = (u, cap, e, h, likes, time) => ({ u, cap, e, h, likes, time, cm: [] });
 const POSTS = [
-  P('aarav.mehta', 'Word #1: iru = to be, exist 🗣️ naanu mane alli iddini = I am at home. Day 1 of 800, lets gooo #kannada #learnkannada', '🗣️', ['#ee2a7b', '#6228d7'], 5421, '3 HOURS AGO'),
+  P('aarav.mehta', 'Word spotlight: iru = to be, exist 🗣️ naanu mane alli iddini = I am at home. Day 1 of 800, lets gooo #kannada #learnkannada', '🗣️', ['#ee2a7b', '#6228d7'], 5421, '3 HOURS AGO'),
   P('meera.kapoor', 'baa = come! banni = come (polite) 🙏 One word, two vibes. Movies use baa 10x more #kannada #spokenkannada', '🙏', ['#0f2027', '#203a43'], 7834, '5 HOURS AGO'),
   P('kabir.jpeg', 'oota aayta? = had food? 🍛 In Karnataka this MEANS how are you. Correct answer: aaytu! #kannadavibes', '🍛', ['#141e30', '#243b55'], 3210, '7 HOURS AGO'),
   P('zoya.exe', 'maadbeda = dont do ❌ jaasti maathaadbeda = dont talk too much. Every mom ever 😭 #kannada', '❌', ['#232526', '#414345'], 1876, '9 HOURS AGO'),
@@ -103,7 +103,7 @@ const THREADS = [
 html = replaceConst(html, 'THREADS', 'const THREADS=' + JSON.stringify(THREADS) + ';');
 console.log('THREADS replaced');
 html = replaceConst(html, 'NOTES',
-  "const NOTES=[{u:'aarav.mehta',t:'movie night sat? 🍿'},{u:'meera.kapoor',t:'word #300 done!!'},{u:'kabir.jpeg',t:'kannada-only sunday 🤫'}];");
+  "const NOTES=[{u:'aarav.mehta',t:'movie night sat? 🍿'},{u:'meera.kapoor',t:'400 words done!!'},{u:'kabir.jpeg',t:'kannada-only sunday 🤫'}];");
 console.log('NOTES replaced');
 
 fs.writeFileSync(INDEX, html);

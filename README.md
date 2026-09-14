@@ -2,8 +2,9 @@
 
 A mobile-first Instagram clone where every reel is a **spoken Kannada word
 + meaning + example**: 800 high-frequency words for understanding Kannada
-movies and everyday conversation (300 verbs & verb forms, 200 nouns,
-100 adjectives, 50 pronouns, 50 adverbs, 50 fillers, 50 phrases).
+movies and everyday conversation (65 verb roots + 8 suffix patterns,
+300 nouns, 140 adjectives, 50 pronouns, 70 adverbs, 65 fillers,
+110 everyday phrases).
 Scroll randomly, tap to reveal the meaning + example, save for revision.
 
 Everything works offline once loaded (service worker + local assets).

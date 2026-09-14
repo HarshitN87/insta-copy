@@ -8,12 +8,12 @@ const VOCAB = 'C:/Users/negih/kannada-800-movie-vocabulary.md';
 const INDEX = path.join(DIR, 'index.html');
 
 function topicFor(n) {
-  if (n <= 300) return 'vb';
-  if (n <= 500) return 'nn';
-  if (n <= 600) return 'aj';
-  if (n <= 650) return 'pr';
-  if (n <= 700) return 'av';
-  if (n <= 750) return 'fl';
+  if (n <= 65) return 'vb';
+  if (n <= 365) return 'nn';
+  if (n <= 505) return 'aj';
+  if (n <= 555) return 'pr';
+  if (n <= 625) return 'av';
+  if (n <= 690) return 'fl';
   return 'ex';
 }
 
@@ -66,7 +66,7 @@ const qOpen = qi + qKey.length - 1;
 const qClose = matchBracket(html, qOpen);
 if (html[qClose + 1] !== ';') throw new Error('QUESTIONS not followed by ;');
 const arr = entries.map(e => JSON.stringify({ t: e.t, q: e.q, m: e.m, a: e.a })).join(',');
-html = html.slice(0, qi) + '/* ---- 800 Kannada movie-vocabulary reels (1-300 verbs, 301-500 nouns, 501-600 adjectives, 601-650 pronouns, 651-700 adverbs, 701-750 fillers, 751-800 phrases) ---- */\nconst QUESTIONS=[' + arr + '];' + html.slice(qClose + 2);
+html = html.slice(0, qi) + '/* ---- 800 Kannada movie-vocabulary reels (1-65 verb roots+suffixes, 66-365 nouns, 366-505 adjectives, 506-555 pronouns, 556-625 adverbs, 626-690 fillers, 691-800 phrases) ---- */\nconst QUESTIONS=[' + arr + '];' + html.slice(qClose + 2);
 console.log('QUESTIONS replaced');
 
 // 2. Replace TOPICS object
@@ -86,7 +86,9 @@ const NEW_TOPICS = "const TOPICS={\n" +
 html = html.slice(0, ti) + NEW_TOPICS + html.slice(tClose + 2);
 console.log('TOPICS replaced');
 
-// 3. Add Kannada personas
+// 3. Add Kannada personas (idempotent: skip if already present)
+if (html.includes("'kannada.verbs':")) { console.log('PERSONA already extended, skipping'); }
+else {
 const anchor = "img:'portraits/sd.jpg'}};";
 if (!html.includes(anchor)) throw new Error('PERSONA anchor not found');
 const NEW_PERSONAS =
@@ -100,8 +102,11 @@ const NEW_PERSONAS =
 " 'kannada.phrases':{u:'kannada.phrases',n:'Kannada Phrases',e:'\\uD83D\\uDD25',v:1,h:'#f9ce34,#ee2a7b',img:'portraits/aarav.jpg'}};";
 html = html.replace(anchor, NEW_PERSONAS);
 console.log('PERSONA extended');
+}
 
-// 4. Replace questionToReel
+// 4. Replace questionToReel (idempotent: skip if already new)
+if (html.includes('TOPICS[qo.t]||TOPICS.vb')) { console.log('questionToReel already new, skipping'); }
+else {
 const fKey = 'function questionToReel(qo,i){';
 let fi = html.indexOf(fKey);
 if (fi < 0) throw new Error('questionToReel not found');
@@ -116,6 +121,7 @@ const NEW_FN = "function questionToReel(qo,i){\n" +
 "}";
 html = html.slice(0, fi) + NEW_FN + html.slice(fClose + 1);
 console.log('questionToReel replaced');
+}
 
 // 5. Fix stale comment about aesthetic fallback (no longer the source)
 html = html.replace('/* ---- aesthetic fallback reels (used until questions land) ---- */',
