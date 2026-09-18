@@ -1,11 +1,11 @@
 # Insta Copy — Kannada vocab reels in an Instagram skin
 
 A mobile-first Instagram clone where every reel is a **spoken Kannada word
-+ meaning + example**: 500 most-useful words for understanding Kannada
-movies and everyday conversation (65 verbs: 8 suffix patterns + 57 roots,
-160 nouns, 75 adjectives, 35 pronouns, 45 adverbs, 45 fillers,
-75 everyday phrases). Every example is a long conversational sentence
-(~15 words) in pure Kannada with no English loanwords.
++ meaning + example**: 500 most-used Kannada words for speaking (Roman
+script), each with a Hindi meaning and one long example sentence with
+Hindi translation. 30 categories mapped onto 7 reel topics — 95 verbs,
+238 nouns, 40 adjectives, 21 pronouns, 76 adverbs/connectives of time,
+13 fillers, 17 everyday phrases.
 Scroll randomly, tap to reveal the meaning + example, save for revision.
 
 Everything works offline once loaded (service worker + local assets).
@@ -51,9 +51,8 @@ replies → composer (post / story / reel).
   Van Gogh, Rembrandt, Vermeer, Goya, Modigliani, Dürer, Klimt, Caravaggio,
   Friedrich, Arcimboldo, Munch, Bruegel, Da Vinci, Mondrian, Hokusai,
   Michelangelo (+ others).
-- Kannada reels: 500 most useful spoken-Kannada words (Roman script) with
-  long conversational examples in pure Kannada (no English loanwords) —
-  verbs, nouns, adjectives, pronouns, adverbs, fillers and everyday phrases.
-  Source: `source-data/kannada-500-pure-conversation.md`, built via
-  `source-data/generators/build-500-pure.js` (re-run it after editing
-  the vocab to rebuild the reels).
+- Kannada reels: 500 most-used spoken-Kannada words (Roman script), each
+  with a Hindi meaning + long example sentence + Hindi translation.
+  Source of truth: `kannada_500_words_hindi.json` (repo root), built via
+  `source-data/generators/build-from-json.js` (re-run it after editing
+  the JSON to rebuild the reels).

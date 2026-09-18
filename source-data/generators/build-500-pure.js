@@ -1,6 +1,7 @@
-// Builds 500 pure-Kannada long-sentence reels from kannada-800-movie-vocabulary.md
-// and patches them into index.html (QUESTIONS + comment). No English loanwords in
-// Kannada example sentences; examples are long conversational sentences (10+ words).
+// SUPERSEDED by build-from-json.js (app now uses kannada_500_words_hindi.json).
+// Kept for history only.
+// (Original: built 500 pure-Kannada long-sentence reels from kannada-800-movie-vocabulary.md
+// and patched them into index.html (QUESTIONS + comment).)
 const fs = require('fs');
 const path = require('path');
 
