@@ -1,5 +1,7 @@
-// Generates 800 Kannada movie-vocabulary reels from kannada-800-movie-vocabulary.md
-// and patches them into index.html (QUESTIONS + TOPICS + PERSONA + questionToReel).
+// DEPRECATED: the app now uses 500 pure-Kannada reels built by build-500-pure.js
+// from source-data/kannada-500-pure-conversation.md. Kept for history only.
+// (Original: generated 800 Kannada movie-vocabulary reels from kannada-800-movie-vocabulary.md
+// and patched them into index.html (QUESTIONS + TOPICS + PERSONA + questionToReel).)
 const fs = require('fs');
 const path = require('path');
 
