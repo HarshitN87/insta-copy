@@ -347,7 +347,7 @@ svg{display:block}
 
   <!-- REELS -->
   <section id="screen-reels" class="screen" hidden>
-    <div id="reelHeader"><h2>Reels</h2><button id="friendPill"><span class="pa" style="background:#7b2ff7">A</span><span class="pa" style="background:#0095F6">M</span><span class="pa" style="background:#ee2a7b">K</span><span class="chev">›</span></button></div>
+    <div id="reelHeader"><h2>Reels</h2><button id="friendPill"><span class="pa" style="background:#7b2ff7">A</span><span class="pa" style="background:#0095F6">M</span><span class="pa" style="background:#ee2a7b">K</span><span class="chev">›</span></button><button id="shuffleReels" title="Shuffle reels" style="background:rgba(255,255,255,.16);border:0;border-radius:99px;padding:5px 10px;font-size:15px;cursor:pointer;backdrop-filter:blur(6px)">🔀</button></div>
     <div id="feed" style="flex:1;height:100%;overflow-y:auto"></div>
     <div id="muteFlash"></div>
   </section>
@@ -703,14 +703,18 @@ let backStack=['reels'];
 function backTo(){const prev=backStack.length>1?backStack[backStack.length-2]:'reels';backStack=['reels'];if(TABS.includes(prev))showTab(prev);else openScreen(prev,false)}
 function pushScr(id,hideTab){backStack.push(id);openScreen(id,hideTab)}
 $('#friendPill').onclick=()=>showTab('activity');
+$('#shuffleReels').onclick=()=>{buzz(8);buildFeed();toast('Reels reshuffled 🔀')};
 /* ================= REELS ================= */
 const feedEl=$('#feed');
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t}return a}
+let shownNums=new Set();
 function refillQueue(){
  let base;
  if(QUESTIONS.length>=100){base=QUESTIONS.map((q,i)=>questionToReel(q,i))}
  else{base=REELS.slice()}
- feedQueue=shuffle(base);
+ let unseen=base.filter(d=>d.num==null||!shownNums.has(d.num));
+ if(!unseen.length&&base.length){shownNums.clear();unseen=base}
+ feedQueue=shuffle(unseen);
  if(sessionDecoys.length&&feedQueue[0]&&feedQueue[0].cap===sessionDecoys[sessionDecoys.length-1].cap)feedQueue.push(feedQueue.shift());
 }
 function reelVisual(d){
@@ -744,11 +748,11 @@ function reelHTML(d,i){
 }
 function appendCards(list){
  const tmp=document.createElement('div');
- tmp.innerHTML=list.map(d=>{const i=sessionDecoys.length;sessionDecoys.push(d);return reelHTML(d,i)}).join('');
+ tmp.innerHTML=list.map(d=>{const i=sessionDecoys.length;sessionDecoys.push(d);if(d.num!=null)shownNums.add(d.num);return reelHTML(d,i)}).join('');
  [...tmp.children].forEach(c=>{feedEl.appendChild(c);wireCard(c);io.observe(c)});
  POOL=sessionDecoys;
 }
-function buildFeed(){feedEl.innerHTML='';sessionDecoys=[];refillQueue();appendCards(feedQueue.splice(0,25));feedEl.scrollTo({top:0})}
+function buildFeed(){feedEl.innerHTML='';sessionDecoys=[];shownNums.clear();refillQueue();appendCards(feedQueue.splice(0,25));feedEl.scrollTo({top:0})}
 function appendMore(){if(feedQueue.length<6)refillQueue();appendCards(feedQueue.splice(0,25))}
 function wireCard(card){
  if(card._wired)return;card._wired=true;
